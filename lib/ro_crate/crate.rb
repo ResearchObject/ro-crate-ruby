@@ -1,40 +1,33 @@
-require_relative './entry'
-require_relative './metadata'
-require 'json/ld'
-require 'zip'
-
 module ROCrate
-  class Crate
+  class Crate < Directory
+    properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
+
     attr_reader :entries
 
     def initialize
       @entries = []
+      super('./')
     end
 
-    def add(file, opts = {})
-      @entries << Entry.new(file, opts)
+    def add_file(file, path: nil)
+      path ||= file.respond_to?(:path) ? file.path : nil
+      @entries << ROCrate::File.new(file, path)
     end
 
-    def write(dir)
-      # Write metadata
-      ROCrate::Metadata.new(self).write(File.join(dir, 'ro-crate-metadata.jsonld'))
-
-      # Write entries
-      @entries.each do |entry|
-        entry.write(File.join(dir, entry.filepath))
-      end
+    def metadata
+      @metadata ||= ROCrate::Metadata.new(self)
     end
 
-    def write_zip(io)
-      Zip::File.open(io, Zip::File::CREATE) do |zip|
-        # Write metadata
-        zip.get_output_stream('ro-crate-metadata.jsonld') { |s| ROCrate::Metadata.new(self).write(s) }
+    def metadata=(metadata)
+      @metadata = metadata
+    end
 
-        # Write entries
-        @entries.each do |entry|
-          zip.get_output_stream(entry.filepath) { |s| entry.write(s) }
-        end
-      end
+    def contents
+      [metadata, self] + entries
+    end
+
+    def properties
+      super.merge('hasPart' => @entries.map(&:reference))
     end
   end
 end
