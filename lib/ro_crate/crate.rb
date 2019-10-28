@@ -1,7 +1,6 @@
 module ROCrate
   class Crate < Directory
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
-
     attr_reader :entries
 
     def initialize

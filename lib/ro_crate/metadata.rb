@@ -1,6 +1,8 @@
 module ROCrate
   class Metadata < File
-    PROPERTIES = %i[name datePublished author license identifier distribution contactPoint publisher description url hasPart]
+    CONTEXT = 'https://w3id.org/ro/crate/0.2/context'.freeze
+    FILENAME = 'ro-crate-metadata.jsonld'.freeze
+    properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
     def initialize(ro_crate)
       @ro_crate = ro_crate
@@ -10,20 +12,16 @@ module ROCrate
     def content
       graph = @ro_crate.contents.map(&:properties).reject(&:empty?)
 
-      compacted = { '@context' => context, '@graph' => graph }
+      compacted = { '@context' => CONTEXT, '@graph' => graph }
 
       JSON.pretty_generate(compacted)
     end
 
     private
 
-    def context
-      'https://w3id.org/ro/crate/0.2/context'
-    end
-
     def default_properties
       {
-          '@id' => 'ro-crate-metadata.json',
+          '@id' => FILENAME,
           '@type' => 'CreativeWork',
           'about' => { '@id' => './' }
       }

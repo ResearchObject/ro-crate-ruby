@@ -6,6 +6,7 @@ module ROCrate
 
     def initialize(content, path = nil)
       @content = content
+      path = "./#{path}" if path && !path.start_with?('./') # TODO: Find a better way of doing this...
       super(path)
     end
 

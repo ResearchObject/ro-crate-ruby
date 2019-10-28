@@ -49,6 +49,10 @@ module ROCrate
       @properties
     end
 
+    def properties= props
+      @properties = props
+    end
+
     private
 
     def default_properties

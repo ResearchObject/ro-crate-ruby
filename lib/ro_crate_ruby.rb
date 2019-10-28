@@ -1,5 +1,6 @@
 require 'json/ld'
 require 'zip'
+require 'zip/filesystem'
 require_relative './ro_crate/node'
 require_relative './ro_crate/file'
 require_relative './ro_crate/directory'
