@@ -15,7 +15,7 @@ module ROCrate
     private
 
     def content
-      graph = @crate.contents.map(&:properties).reject(&:empty?)
+      graph = @crate.entities.map(&:properties).reject(&:empty?)
 
       compacted = { '@context' => CONTEXT, '@graph' => graph }
 

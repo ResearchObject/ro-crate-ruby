@@ -53,7 +53,7 @@ module ROCrate
             crate_info['hasPart'].each do |ref|
               part = graph.detect { |entry| entry['@id'] == ref['@id'] }
               next unless part
-              if part['@type'] == 'Directory'
+              if part['@type'] == 'Dataset'
                 thing = ROCrate::Directory.new(crate)
               else
                 file = yield(part['@id'])
@@ -64,7 +64,7 @@ module ROCrate
                 end
               end
               thing.properties = part
-              crate.entries << thing
+              crate.parts << thing
             end
           end
         else

@@ -1,16 +1,16 @@
 module ROCrate
   class Crate < Directory
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
-    attr_reader :entries
+    attr_reader :parts
 
     def initialize
-      @entries = []
+      @parts = []
       super(self, './')
     end
 
     def add_file(file, path: nil)
       path ||= file.respond_to?(:path) ? ::File.basename(file.path) : nil
-      @entries << ROCrate::File.new(self, file, path)
+      ROCrate::File.new(self, file, path).tap { |f| @parts << f }
     end
 
     def metadata
@@ -21,12 +21,12 @@ module ROCrate
       @metadata = metadata
     end
 
-    def contents
-      [metadata, self] + entries
+    def entities
+      [metadata, self] + @parts
     end
 
     def properties
-      super.merge('hasPart' => @entries.map(&:reference))
+      super.merge('hasPart' => @parts.map(&:reference))
     end
   end
 end
