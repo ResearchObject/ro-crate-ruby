@@ -47,9 +47,11 @@ module ROCrate
 
       if graph
         crate_info = graph.detect { |entry| entry['@id'] == './' || entry['@id'] == '.' }
+        crate_metadata_info = graph.detect { |entry| entry['@id'] == './ro-crate-metadata.jsonld' || entry['@id'] == 'ro-crate-metadata.jsonld' }
         if crate_info
           ROCrate::Crate.new.tap do |crate|
             crate.properties = crate_info
+            crate.metadata.properties = crate_metadata_info
             crate_info['hasPart'].each do |ref|
               part = graph.detect { |entry| entry['@id'] == ref['@id'] }
               next unless part
@@ -65,6 +67,24 @@ module ROCrate
               end
               thing.properties = part
               crate.parts << thing
+            end
+
+            graph.each do |entity|
+              id = entity['@id']
+              unless crate.dereference(id)
+                thing = case entity['@type']
+                        when 'Person'
+                          ROCrate::Person.new(crate)
+                        when 'Organization'
+                          ROCrate::Organization.new(crate)
+                        when 'ContactPoint'
+                          ROCrate::ContactPoint.new(crate)
+                        else
+                          ROCrate::Entity.new(crate)
+                        end
+                thing.properties = entity
+                crate.contextual_entities << thing
+              end
             end
           end
         else

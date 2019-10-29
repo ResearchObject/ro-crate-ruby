@@ -1,4 +1,4 @@
-# require 'json/ld'
+require 'json'
 require 'zip'
 require 'zip/filesystem'
 require_relative './ro_crate/entity'

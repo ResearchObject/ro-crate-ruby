@@ -23,13 +23,7 @@ module ROCrate
     end
 
     def dereference(id)
-      ids = [id]
-      if id == './'
-        ids << '.'
-      elsif id.start_with?('./')
-        ids << id.sub(/\A.\//, '')
-      end
-      @crate.entities.detect { |entry| ids.any? { |id| entry.id == id } }
+      @crate.entities.detect { |entity| entity.absolute_id == @crate.absolute(id) }
     end
 
     def id
@@ -66,6 +60,22 @@ module ROCrate
 
     def inspect
       "<##{self.class.name}: id='#{self.id}' @properties='#{self.properties.inspect[0...128]}'>"
+    end
+
+    def hash
+      self.absolute_id.hash
+    end
+
+    def ==(other)
+      self.absolute_id == other.absolute_id
+    end
+
+    def eql?(other)
+      self.absolute_id == other.absolute_id
+    end
+
+    def absolute_id
+      @crate.absolute(id)
     end
 
     private
