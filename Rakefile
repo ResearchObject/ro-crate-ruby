@@ -23,7 +23,7 @@ end
 task :console do
   require 'irb'
   require 'irb/completion'
-  require 'crate'
+  require 'ro_crate_ruby'
   ARGV.clear
   IRB.start
 end
