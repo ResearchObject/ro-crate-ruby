@@ -1,5 +1,3 @@
-require 'securerandom'
-
 module ROCrate
   class Entity
     def self.properties(props)
@@ -18,12 +16,16 @@ module ROCrate
 
     def initialize(crate, id = nil)
       @crate = crate
-      @properties = default_properties
+      self.properties = default_properties
       self.id = id if id
     end
 
+    def reference
+      ROCrate::JSONLDHash.new(@crate, '@id' => id)
+    end
+
     def dereference(id)
-      @crate.entities.detect { |entity| entity.absolute_id == @crate.absolute(id) }
+      @crate.entities.detect { |entity| entity.absolute_id == @crate.absolute(id) } if id
     end
 
     def id
@@ -46,20 +48,18 @@ module ROCrate
       @properties.to_json
     end
 
-    def reference
-      { '@id' => id }
-    end
-
     def properties
       @properties
     end
 
     def properties= props
-      @properties = props
+      @properties = ROCrate::JSONLDHash.new(@crate, props)
     end
 
     def inspect
-      "<##{self.class.name}: id='#{self.id}' @properties='#{self.properties.inspect[0...128]}'>"
+      prop_string = self.properties.inspect
+      prop_string = prop_string[0...512] + '...' if prop_string.length > 512
+      "<##{self.class.name}:#{self.absolute_id} @properties=#{prop_string}>"
     end
 
     def hash

@@ -44,4 +44,18 @@ class CrateTest < Test::Unit::TestCase
     assert_equal 1, ([entity] | [entity2]).length
     assert_equal 2, ([entity, entity4] | [entity2, entity4]).length
   end
+
+  def test_dereferencing_properties
+    crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
+    workflow = crate.parts.first
+    person = crate.dereference('#thomas')
+    assert_equal 'RetroPath 2.0 Knime workflow', workflow.name
+    assert_equal 'Thomas Duigou', person.name
+
+    assert crate.properties.is_a?(ROCrate::JSONLDHash)
+    assert_equal workflow.id, crate.properties['hasPart'].first['@id']
+    assert crate.properties['hasPart'].first.is_a?(ROCrate::JSONLDHash)
+    assert_equal workflow, crate.properties['hasPart'].first.dereference
+    assert_equal person, crate.properties['hasPart'].first.dereference.properties['creator'].dereference
+  end
 end
