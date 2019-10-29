@@ -1,5 +1,5 @@
 module ROCrate
-  class ContactPoint < Node
+  class ContactPoint < Entity
     properties(%w[name email])
 
     private

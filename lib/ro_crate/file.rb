@@ -1,13 +1,13 @@
 module ROCrate
-  class File < Node
+  class File < Entity
     attr_accessor :content
 
     properties(%w[name contentSize dateModified fileFormat encodingFormat givenName identifier sameAs])
 
-    def initialize(content, path = nil)
+    def initialize(crate, content, path = nil)
       @content = content
       path = "./#{path}" if path && !path.start_with?('./') # TODO: Find a better way of doing this...
-      super(path)
+      super(crate, path)
     end
 
     def filename

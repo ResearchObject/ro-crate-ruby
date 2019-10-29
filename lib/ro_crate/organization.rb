@@ -1,5 +1,5 @@
 module ROCrate
-  class Organization < Node
+  class Organization < Entity
     properties(['name'])
 
     private

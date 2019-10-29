@@ -1,0 +1,282 @@
+{
+    "@context": "https://w3id.org/ro/crate/0.2-DRAFT/context",
+    "@graph": [
+        {
+            "@id": "ro-crate-metadata.jsonld",
+            "about": {
+                "@id": "."
+            },
+            "additionalType": {
+                "@id": "https://w3id.org/ro/crate/0.2-DRAFT/"
+            },
+            "creator": {
+                "@id": "https://orcid.org/0000-0001-9842-9718"
+            }
+        },
+        {
+            "@type": [
+                "Dataset"
+            ],
+            "@id": ".",
+            "path": "./",
+            "name": "RetroPath2.0 IBISBA workflow node",
+            "datePublished": "2019-02-14",
+            "contactPoint": {
+                "@id": "#contact"
+            },
+            "creator": [
+                {
+                    "@id": "#thomas"
+                },
+                {
+                    "@id": "#stefan"
+                }
+            ],
+            "license": {
+                "@id": "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+            },
+            "cite-as": {
+                "@id": "https://doi.org/10.1016/j.ymben.2017.12.002"
+            },
+            "distribution": {
+                "@id": "https://github.com/ibisba/RetroPath2-cwl/archive/master.zip"
+            },
+            "publisher": {
+                "@id": "https://www.ibisba.eu/"
+            },
+            "description": "RetroPath2.0 builds a reaction network from a set of source compounds to a set of sink compounds. When applied in a retrosynthetic fashion, the source is composed of the target compounds and the sink is composed of the available reactants (for instance in the context of metabolic engineering the sink is the set of native metabolites of a chassis strain). From amongst all the chemical reactions generated using RetroPath2.0 (in the retrosynthetic way), only a subset may effectively link a source to a subset of sink compounds. This sub-network is considered as a scope and is output in dedicated files.",
+            "keywords": "workflow, knime, CWL, reaction",
+            "sdPublisher": {
+                "@id": "http://researchobject.org/",
+                "name": "Research Object community"
+            },
+            "sdLicense": {
+                "@id": "https://www.apache.org/licenses/LICENSE-2.0"
+            },
+            "subjectOf": {
+                "@id": "README.md"
+            },
+            "hasPart": [
+                {
+                    "@id": "workflow/workflow.knime"
+                },
+                {
+                    "@id": "workflow/"
+                },
+                {
+                    "@id": "tools/RetroPath2.cwl"
+                },
+                {
+                    "@id": "workflow/workflow.svg"
+                },
+                {
+                    "@id": "Dockerfile"
+                },
+                {
+                    "@id": "test/test.sh"
+                },
+                {
+                    "@id": "README.md"
+                }
+            ]
+        },
+        {
+            "@id": "#contact",
+            "@type": "ContactPoint",
+            "email": "support@esciencelab.org.uk"
+        },
+        {
+            "@id": "#thomas",
+            "@type": "Person",
+            "name": "Thomas Duigou",
+            "email": "thomas.duigou@inra.fr"
+        },
+        {
+            "@id": "#stefan",
+            "@type": "Person",
+            "name": "Stefan Helfrich",
+            "url": {
+                "@id": "https://github.com/stelfrich"
+            }
+        },
+        {
+            "@id": "https://orcid.org/0000-0001-9842-9718",
+            "@type": "Person",
+            "name": "Stian Soiland-Reyes",
+            "url": {
+                "@id": "https://orcid.org/0000-0001-9842-9718"
+            }
+        },
+        {
+            "@id": "https://github.com/ibisba/RetroPath2-cwl/archive/master.zip",
+            "@type": "DataDownload",
+            "contentUrl": "https://github.com/ibisba/RetroPath2-cwl/archive/master.zip",
+            "encodingFormat": "application/zip"
+        },
+        {
+            "@id": "https://www.ibisba.eu/",
+            "@type": "Organization",
+            "name": "IBISBA",
+            "url": {
+                "@id": "https://www.ibisba.eu/"
+            }
+        },
+        {
+            "@id": "workflow/workflow.knime",
+            "@type": "SoftwareSourceCode",
+            "additionalType": {
+                "@id": "wfdesc:Workflow"
+            },
+            "name": "RetroPath 2.0 Knime workflow",
+            "description": "KNIME implementation of RetroPath2.0 workflow",
+            "creator": {
+                "@id": "#thomas"
+            },
+            "programmingLanguage": {
+                "@id": "#knime"
+            },
+            "potentialAction": {
+                "@type": "ActivateAction",
+                "instrument": {
+                    "@id": "#knime"
+                }
+            }
+        },
+        {
+            "@id": "workflow/",
+            "@type": "Dataset",
+            "additionalType": {
+                "@id": "roterms:ExampleRun"
+            },
+            "description": "Example of KNIME workspace after executing RetroPath2.0 workflow",
+            "exampleOfWork": {
+                "@id": "workflow/workflow.knime"
+            },
+            "potentialAction": {
+                "@type": "ViewAction",
+                "instrument": {
+                    "@id": "#knime"
+                }
+            }
+        },
+        {
+            "@id": "tools/RetroPath2.cwl",
+            "@type": "SoftwareSourceCode",
+            "additionalType": {
+                "@id": "wfdesc:Workflow"
+            },
+            "name": "RetroPath 2.0 CWL workflow",
+            "programmingLanguage": {
+                "@id": "https://w3id.org/cwl/v1.0/"
+            },
+            "description": "CWL tool wrapper that execute KNIME workflow using its Docker image",
+            "creator": {
+                "@id": "#stefan"
+            },
+            "potentialAction": {
+                "@type": "ActivateAction",
+                "instrument": {
+                    "@id": "#cwltool"
+                }
+            },
+            "codeRepository": {
+                "@id": "https://github.com/ibisba/RetroPath2-cwl/"
+            },
+            "wasDerivedFrom": {
+                "@id": "workflow/workflow.knime"
+            }
+        },
+        {
+            "@id": "workflow/workflow.svg",
+            "@type": "ImageObject",
+            "additionalType": {"@id": "roterms:Sketch"},
+            "encodingFormat": "image/svg+xml",
+            "description": "Diagram of RetroPath2.0 workflow",
+            "about": {
+                "@id": "workflow/workflow.knime"
+            },
+            "wasDerivedFrom": {
+                "@id": "workflow/workflow.knime"
+            }
+        },
+        {
+            "@id": "Dockerfile",
+            "@type": "SoftwareSourceCode",
+            "url": {
+                "@id": "https://hub.docker.com/r/ibisba/retropath2/"
+            },
+            "description": "Docker image of KNIME workflow (including KNIME runtime)",
+            "creator": {
+                "@id": "#stefan"
+            },
+            "importedFrom": [
+                {
+                    "@id": "workflow/workflow.knime"
+                },
+                {
+                    "@id": "#knime-docker"
+                }
+            ]
+        },
+        {
+            "@id": "test/test.sh",
+            "@type": "SoftwareSourceCode",
+            "additionalType": {
+                "@id": "wf4ever:Script"
+            },
+            "description": "Test script that validate the CWL description (should ideally execute workflow with test inputs)"
+        },
+        {
+            "@id": "#knime-docker",
+            "@type": "SoftwareApplication",
+            "name": "ibisba/knime-workflow-base:3.6.2-1",
+            "url": {
+                "@id": "https://hub.docker.com/r/ibisba/knime-workflow-base/"
+            },
+            "description": "KNIME workflow base Docker image",
+            "version": "3.6.2-1"
+        },
+        {
+            "@id": "#knime",
+            "@type": [
+                "ComputerLanguage",
+                "SoftwareApplication"
+            ],
+            "name": "KNIME Analytics Platform",
+            "alternateName": "KNIME",
+            "url": {
+                "@id": "https://www.knime.com/knime-software/knime-analytics-platform"
+            },
+            "version": "3.6"
+        },
+        {
+            "@id": "#cwltool",
+            "@type": "SoftwareApplication",
+            "name": "cwltool",
+            "description": "Common Workflow Language reference implementation",
+            "url": {
+                "@id": "https://github.com/common-workflow-language/cwltool/"
+            },
+            "version": "1.0.20190618201008",
+            "cite-as": {
+                "@id": "https://doi.org/10.5281/zenodo.3250191"
+            }
+        },
+        {
+            "@id": "https://w3id.org/cwl/v1.0/",
+            "@type": "ComputerLanguage",
+            "name": "Common Workflow Language",
+            "alternateName": "CWL",
+            "identifier": {
+                "@id": "https://w3id.org/cwl/v1.0/"
+            },
+            "url": {
+                "@id": "https://www.commonwl.org/"
+            },
+            "version": "1.0",
+            "cite-as": {
+                "@id": "https://doi.org/10.6084/m9.figshare.3115156.v2"
+            }
+        }
+    ]
+}

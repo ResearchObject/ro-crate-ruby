@@ -18,11 +18,7 @@ module ROCrate
           metadata_file = zipfile.file.open(ROCrate::Metadata::FILENAME)
           read_from_metadata(metadata_file.read) do |filepath|
             filepath = filepath[2..-1] if filepath.start_with?('./')
-            if zipfile.file.exist?(filepath)
-              zipfile.file.open(filepath)
-            else
-              puts "Warning! Referenced file: #{filepath} not found."
-            end
+            zipfile.file.open(filepath) if zipfile.file.exist?(filepath)
           end
         else
           raise "No metadata found!"
@@ -35,7 +31,8 @@ module ROCrate
 
       if metadata_file
         read_from_metadata(::File.open(::File.join(path, metadata_file)).read) do |filepath|
-          ::File.open(::File.join(path, filepath))
+          fullpath = ::File.join(path, filepath)
+          ::File.open(fullpath) if ::File.exist?(fullpath)
         end
       else
         raise "No metadata found!"
@@ -49,30 +46,27 @@ module ROCrate
       graph = metadata['@graph']
 
       if graph
-        crate = graph.detect { |entry| entry['@id'] == './' || entry['@id'] == '.' }
-        if crate
-          ro_crate = ROCrate::Crate.new
-          ro_crate.properties = crate
-          crate['hasPart'].each do |ref|
-            part = graph.detect { |entry| entry['@id'] == ref['@id'] }
-            if part
-              if part['@type'] == 'File' # TODO: This is not enough! Need to check subclasses
-                file = ROCrate::File.new(yield(part['@id']))
-                file.properties = part
-                ro_crate.entries << file
-              elsif part['@type'] == 'Directory'
-                dir = ROCrate::Directory.new
-                dir.properties = part
-                ro_crate.entries << dir
+        crate_info = graph.detect { |entry| entry['@id'] == './' || entry['@id'] == '.' }
+        if crate_info
+          ROCrate::Crate.new.tap do |crate|
+            crate.properties = crate_info
+            crate_info['hasPart'].each do |ref|
+              part = graph.detect { |entry| entry['@id'] == ref['@id'] }
+              next unless part
+              if part['@type'] == 'Directory'
+                thing = ROCrate::Directory.new(crate)
               else
-                thing = ROCrate::Node.new
-                thing.properties = part
-                ro_crate.entries << thing
+                file = yield(part['@id'])
+                if file
+                  thing = ROCrate::File.new(crate, file)
+                else
+                  thing = ROCrate::Entity.new(crate)
+                end
               end
+              thing.properties = part
+              crate.entries << thing
             end
           end
-
-          return ro_crate
         else
           raise "No { @id : './' } found in @graph!"
         end

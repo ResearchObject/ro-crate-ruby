@@ -5,12 +5,12 @@ module ROCrate
 
     def initialize
       @entries = []
-      super('./')
+      super(self, './')
     end
 
     def add_file(file, path: nil)
-      path ||= file.respond_to?(:path) ? file.path : nil
-      @entries << ROCrate::File.new(file, path)
+      path ||= file.respond_to?(:path) ? ::File.basename(file.path) : nil
+      @entries << ROCrate::File.new(self, file, path)
     end
 
     def metadata

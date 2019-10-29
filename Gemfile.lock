@@ -19,6 +19,7 @@ GEM
     link_header (0.0.8)
     multi_json (1.14.1)
     power_assert (0.4.1)
+    rake (13.0.0)
     rdf (3.0.12)
       hamster (~> 3.0)
       link_header (~> 0.0, >= 0.0.8)
@@ -35,6 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rake
   ro-crate-ruby!
   simplecov
   test-unit

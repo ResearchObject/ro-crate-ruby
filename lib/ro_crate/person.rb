@@ -1,5 +1,5 @@
 module ROCrate
-  class Person < Node
+  class Person < Entity
     properties(%w[name familyName givenName identifier sameAs])
 
     private

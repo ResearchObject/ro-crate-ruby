@@ -1,23 +1,26 @@
 module ROCrate
-  class Metadata < File
+  class Metadata < Entity
     CONTEXT = 'https://w3id.org/ro/crate/0.2/context'.freeze
     FILENAME = 'ro-crate-metadata.jsonld'.freeze
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
-    def initialize(ro_crate)
-      @ro_crate = ro_crate
-      super(nil)
+    def filepath
+      id.sub(/\A.\//, '')
     end
 
+    def write(io)
+      io.write(content)
+    end
+
+    private
+
     def content
-      graph = @ro_crate.contents.map(&:properties).reject(&:empty?)
+      graph = @crate.contents.map(&:properties).reject(&:empty?)
 
       compacted = { '@context' => CONTEXT, '@graph' => graph }
 
       JSON.pretty_generate(compacted)
     end
-
-    private
 
     def default_properties
       {

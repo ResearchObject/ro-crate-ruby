@@ -1,5 +1,5 @@
 module ROCrate
-  class Directory < Node
+  class Directory < Entity
 
     private
 
