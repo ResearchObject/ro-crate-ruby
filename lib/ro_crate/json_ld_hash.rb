@@ -8,7 +8,7 @@ module ROCrate
 
     def [](key)
       val = super
-      if val.is_a?(::Hash)
+      if val.instance_of?(::Hash)
         self.class.new(@graph, val)
       else
         val

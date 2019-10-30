@@ -9,7 +9,7 @@ module ROCrate
     private
 
     def content
-      graph = @crate.entities.map(&:properties).reject(&:empty?)
+      graph = crate.entities.map(&:properties).reject(&:empty?)
 
       StringIO.new(JSON.pretty_generate('@context' => CONTEXT, '@graph' => graph))
     end

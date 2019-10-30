@@ -1,8 +1,20 @@
+require 'forwardable'
+
 module ROCrate
   class Entity
+    extend Forwardable
+    def_delegators :@properties, :[], :[]=, :to_json
+    attr_reader :crate
+    attr_reader :properties
+
+    # Define Ruby-style getters/setters for the given list of properties.
     def self.properties(props)
       props.each do |prop|
-        underscored = prop.gsub(/([[:upper:]]*)([[:upper:]])([[:lower:]])/) { "#{$1.downcase}_#{$2.downcase}#{$3}" }
+        # Convert camelCase to under_score
+        underscored = prop.gsub(/([[:upper:]]*)([[:upper:]])([[:lower:]])/) do
+          m = Regexp.last_match
+          "#{m[1].downcase}_#{m[2].downcase}#{m[3]}"
+        end
 
         define_method(underscored) do
           @properties[prop]
@@ -21,11 +33,11 @@ module ROCrate
     end
 
     def reference
-      ROCrate::JSONLDHash.new(@crate, '@id' => id)
+      ROCrate::JSONLDHash.new(crate, '@id' => id)
     end
 
     def dereference(id)
-      @crate.entities.detect { |entity| entity.absolute_id == @crate.absolute(id) } if id
+      crate.entities.detect { |e| e.canonical_id == crate.resolve_id(id) } if id
     end
 
     def id
@@ -44,46 +56,38 @@ module ROCrate
       @properties['@type'] = type
     end
 
-    def to_json
-      @properties.to_json
-    end
-
-    def properties
-      @properties
-    end
-
-    def properties= props
-      @properties = ROCrate::JSONLDHash.new(@crate, props)
+    def properties=(props)
+      @properties = ROCrate::JSONLDHash.new(crate, props)
     end
 
     def inspect
-      prop_string = self.properties.inspect
-      prop_string = prop_string[0...512] + '...' if prop_string.length > 512
-      "<##{self.class.name}:#{self.absolute_id} @properties=#{prop_string}>"
+      prop_string = properties.inspect
+      prop_string = prop_string[0...509] + '...' if prop_string.length > 509
+      "<##{self.class.name} #{canonical_id} @properties=#{prop_string}>"
     end
 
     def hash
-      self.absolute_id.hash
+      canonical_id.hash
     end
 
     def ==(other)
-      self.absolute_id == other.absolute_id
+      canonical_id == other.canonical_id
     end
 
     def eql?(other)
-      self.absolute_id == other.absolute_id
+      canonical_id == other.canonical_id
     end
 
-    def absolute_id
-      @crate.absolute(id)
+    def canonical_id
+      crate.resolve_id(id)
     end
 
     private
 
     def default_properties
       {
-          '@id' => "./#{SecureRandom.uuid}",
-          '@type' => 'Thing'
+        '@id' => "./#{SecureRandom.uuid}",
+        '@type' => 'Thing'
       }
     end
   end

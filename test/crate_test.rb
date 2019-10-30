@@ -16,7 +16,7 @@ class CrateTest < Test::Unit::TestCase
 
   def test_dereferencing_equivalent_ids
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
-    workflow = crate.parts.first
+    workflow = crate.data_entities.first
 
     assert_equal crate, crate.dereference('./')
     assert_equal crate, crate.dereference('.')
@@ -39,15 +39,15 @@ class CrateTest < Test::Unit::TestCase
 
     assert_equal entity.hash, entity2.hash
     assert_not_equal entity3.hash, entity4.hash
-    assert_equal entity.absolute_id, entity2.absolute_id
-    assert_not_equal entity.absolute_id, entity4.absolute_id
+    assert_equal entity.canonical_id, entity2.canonical_id
+    assert_not_equal entity.canonical_id, entity4.canonical_id
     assert_equal 1, ([entity] | [entity2]).length
     assert_equal 2, ([entity, entity4] | [entity2, entity4]).length
   end
 
   def test_dereferencing_properties
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
-    workflow = crate.parts.first
+    workflow = crate.data_entities.first
     person = crate.dereference('#thomas')
     assert_equal 'RetroPath 2.0 Knime workflow', workflow.name
     assert_equal 'Thomas Duigou', person.name

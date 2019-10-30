@@ -66,7 +66,7 @@ module ROCrate
                 end
               end
               thing.properties = part
-              crate.parts << thing
+              crate.data_entities << thing
             end
 
             graph.each do |entity|
