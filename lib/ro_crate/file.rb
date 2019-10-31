@@ -13,7 +13,10 @@ module ROCrate
     private
 
     def default_properties
-      super.merge('@type' => 'File')
+      super.merge(
+        '@id' => "./#{SecureRandom.uuid}",
+        '@type' => 'File'
+      )
     end
   end
 end

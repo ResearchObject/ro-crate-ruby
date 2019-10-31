@@ -17,13 +17,26 @@ module ROCrate
         end
 
         define_method(underscored) do
-          @properties[prop]
+          auto_dereference(@properties[prop])
         end
 
         define_method("#{underscored}=") do |value|
           @properties[prop] = value
         end
       end
+    end
+
+    def auto_dereference(value)
+      if value.is_a?(Array)
+        return value.map { |v| auto_dereference(v) }
+      end
+
+      if value.is_a?(Hash) && value['@id']
+        obj = dereference(value['@id'])
+        return obj if obj
+      end
+
+      value
     end
 
     def initialize(crate, id = nil)
@@ -71,10 +84,12 @@ module ROCrate
     end
 
     def ==(other)
+      return super unless other.is_a?(Entity)
       canonical_id == other.canonical_id
     end
 
     def eql?(other)
+      return super unless other.is_a?(Entity)
       canonical_id == other.canonical_id
     end
 
@@ -86,7 +101,7 @@ module ROCrate
 
     def default_properties
       {
-        '@id' => "./#{SecureRandom.uuid}",
+        '@id' => "##{SecureRandom.uuid}",
         '@type' => 'Thing'
       }
     end
