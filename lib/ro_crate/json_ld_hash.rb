@@ -3,7 +3,7 @@ module ROCrate
     def initialize(graph, content = {})
       @graph = graph
       super()
-      update(content)
+      update(stringified(content))
     end
 
     def [](key)
@@ -24,6 +24,11 @@ module ROCrate
       else
         val
       end
+    end
+
+    # A slow and stupid way of making sure all hash keys are strings.
+    def stringified(hash)
+      JSON.parse(hash.to_json)
     end
   end
 end
