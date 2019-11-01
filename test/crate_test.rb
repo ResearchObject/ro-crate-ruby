@@ -58,6 +58,29 @@ class CrateTest < Test::Unit::TestCase
     assert_equal person, crate.properties['hasPart'].first.dereference.properties['creator'].dereference
   end
 
+  def test_auto_dereferencing_properties
+    crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
+    person = crate.dereference('#thomas')
+    person2 = crate.dereference('#stefan')
+
+    crate.author = { '@id' => '#thomas' }
+    assert_equal person, crate.author
+
+    crate.author = [{ '@id' => '#thomas' }, { '@id' => '#stefan' }]
+    assert_equal 2, crate.author.length
+    assert_includes crate.author, person
+    assert_includes crate.author, person2
+
+    crate.author = [{ '@id' => '#thomas' },
+                    { '@id' => '#stefan' },
+                    'Bob',
+                    { '@id' => 'http://external-person.example.com/about' }]
+    assert_equal 4, crate.author.length
+    assert_includes crate.author, person
+    assert_includes crate.author, person2
+    assert_includes crate.author, 'Bob'
+  end
+
   def test_encoding_and_decoding_ids
     crate = ROCrate::Crate.new
     info = crate.add_file(fixture_file('info.txt'), path: 'awkward path with spaces [] etc.txt')

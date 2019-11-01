@@ -7,16 +7,23 @@ module ROCrate
     end
 
     def [](key)
-      val = super
-      if val.instance_of?(::Hash)
-        self.class.new(@graph, val)
-      else
-        val
-      end
+      jsonld_wrap(super)
     end
 
     def dereference
       @graph.dereference(self['@id']) if self['@id']
+    end
+
+    private
+
+    def jsonld_wrap(val)
+      if val.is_a?(Array)
+        val.map { |v| jsonld_wrap(v) }
+      elsif val.instance_of?(::Hash)
+        self.class.new(@graph, val)
+      else
+        val
+      end
     end
   end
 end
