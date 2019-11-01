@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CrateTest < Test::Unit::TestCase
-
   def test_dereferencing
     crate = ROCrate::Crate.new
     info = crate.add_file(fixture_file('info.txt'), path: 'the_info.txt')
@@ -57,5 +56,12 @@ class CrateTest < Test::Unit::TestCase
     assert crate.properties['hasPart'].first.is_a?(ROCrate::JSONLDHash)
     assert_equal workflow, crate.properties['hasPart'].first.dereference
     assert_equal person, crate.properties['hasPart'].first.dereference.properties['creator'].dereference
+  end
+
+  def test_encoding_and_decoding_ids
+    crate = ROCrate::Crate.new
+    info = crate.add_file(fixture_file('info.txt'), path: 'awkward path with spaces [] etc.txt')
+    assert_equal 'awkward%20path%20with%20spaces%20%5B%5D%20etc.txt', info.id
+    assert_equal 'awkward path with spaces [] etc.txt', info.filepath
   end
 end

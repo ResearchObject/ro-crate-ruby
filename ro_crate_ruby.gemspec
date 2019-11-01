@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/fbacall/ro-crate-ruby'
   s.require_paths = ['lib']
   # s.add_runtime_dependency 'json-ld'
+  s.add_runtime_dependency 'addressable'
   s.add_runtime_dependency 'rubyzip'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'test-unit'

@@ -6,7 +6,7 @@ module ROCrate
     ##
     # The path of the file, relative to the root of the RO crate.
     def filepath
-      canonical_id.path.sub(/\A\//, '') # Remove initial /
+      Addressable::URI.unescape(canonical_id.path.sub(/\A\//, '')) # Remove initial / and decode %20 etc.
     end
 
     ##

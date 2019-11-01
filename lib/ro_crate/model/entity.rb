@@ -26,9 +26,9 @@ module ROCrate
       end
     end
 
-    def initialize(crate, id = nil)
+    def initialize(crate, id = nil, properties = {})
       @crate = crate
-      self.properties = default_properties
+      self.properties = default_properties.merge(properties)
       self.id = id if id
     end
 
@@ -45,7 +45,7 @@ module ROCrate
     end
 
     def id=(id)
-      @properties['@id'] = id
+      @properties['@id'] = Addressable::URI.escape(id)
     end
 
     def type
