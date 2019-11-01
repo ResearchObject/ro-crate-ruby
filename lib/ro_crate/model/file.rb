@@ -3,7 +3,7 @@ module ROCrate
     include Writeable
 
     attr_accessor :content
-    properties(%w[name contentSize dateModified fileFormat encodingFormat givenName identifier sameAs])
+    properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
     def initialize(crate, content, path = nil, properties = {})
       @content = content
