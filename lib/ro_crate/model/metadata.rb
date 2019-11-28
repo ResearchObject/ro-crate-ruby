@@ -16,9 +16,9 @@ module ROCrate
 
     def default_properties
       {
-          '@id' => FILENAME,
-          '@type' => 'CreativeWork',
-          'about' => { '@id' => './' }
+        '@id' => FILENAME,
+        '@type' => 'CreativeWork',
+        'about' => { '@id' => './' }
       }
     end
   end

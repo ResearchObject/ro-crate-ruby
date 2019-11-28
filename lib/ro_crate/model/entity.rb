@@ -21,7 +21,7 @@ module ROCrate
         end
 
         define_method("#{underscored}=") do |value|
-          @properties[prop] = value
+          @properties[prop] = auto_reference(value)
         end
       end
     end
@@ -34,6 +34,24 @@ module ROCrate
       if value.is_a?(Hash) && value['@id']
         obj = dereference(value['@id'])
         return obj if obj
+      end
+
+      value
+    end
+
+    def auto_reference(value)
+      if value.is_a?(Array)
+        return value.map { |v| auto_reference(v) }
+      end
+
+      if value.is_a?(Entity)
+        # If it's from another crate, need to add it to this one.
+        unless value.crate == crate
+          value = value.class.new(crate, value.id, value.raw_properties)
+          crate.contextual_entities << value
+        end
+
+        return value.reference
       end
 
       value
@@ -95,6 +113,10 @@ module ROCrate
 
     def canonical_id
       crate.resolve_id(id)
+    end
+
+    def raw_properties
+      @properties
     end
 
     private

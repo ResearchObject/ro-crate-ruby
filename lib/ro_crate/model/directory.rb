@@ -5,8 +5,8 @@ module ROCrate
 
     def default_properties
       super.merge(
-          '@id' => "./#{SecureRandom.uuid}/",
-          '@type' => 'Dataset'
+        '@id' => "./#{SecureRandom.uuid}/",
+        '@type' => 'Dataset'
       )
     end
   end

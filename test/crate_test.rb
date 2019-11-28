@@ -81,6 +81,38 @@ class CrateTest < Test::Unit::TestCase
     assert_includes crate.author, 'Bob'
   end
 
+  def test_auto_referencing_properties
+    crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
+    person = crate.dereference('#thomas')
+    person2 = crate.dereference('#stefan')
+    crate.author = nil
+    assert_nil crate.author
+
+    crate.author = person
+    assert_equal person, crate.author
+    assert_equal person.reference, crate.raw_properties['author']
+
+    crate.author = [person, 'fred', person2]
+    assert_equal [person, 'fred', person2], crate.author
+    assert_equal [person.reference, 'fred', person2.reference], crate.raw_properties['author']
+
+    crate.author = 'fred'
+    assert_equal 'fred', crate.author
+    assert_equal 'fred', crate.raw_properties['author']
+
+    # Moving an entity to a new crate should add it to that crate's contextual_entities.
+    new_crate = ROCrate::Crate.new
+    assert_empty new_crate.contextual_entities
+    new_crate.author = person
+    assert_equal 1, new_crate.contextual_entities.length
+    new_person = new_crate.contextual_entities.first
+    assert_equal person.name, new_person.name
+    assert_equal person['email'], new_person['email']
+    assert_not_equal person.canonical_id, new_person.canonical_id
+    assert_equal new_person, new_crate.author
+    assert_equal new_person.reference, new_crate.raw_properties['author']
+  end
+
   def test_encoding_and_decoding_ids
     crate = ROCrate::Crate.new
     info = crate.add_file(fixture_file('info.txt'), path: 'awkward path with spaces [] etc.txt')
