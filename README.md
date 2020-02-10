@@ -6,7 +6,7 @@ This is a WIP gem for creating, manipulating and reading RO crates (conforming t
 * RO Crate spec (1.0) - https://researchobject.github.io/ro-crate/1.0/
 
 Example:
-```
+```ruby
 require './lib/ro_crate_ruby'
 
 # Make a new crate
