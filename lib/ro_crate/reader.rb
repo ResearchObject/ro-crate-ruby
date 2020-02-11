@@ -55,7 +55,8 @@ module ROCrate
             crate_info['hasPart'].each do |ref|
               part = graph.detect { |entry| entry['@id'] == ref['@id'] }
               next unless part
-              if part['@type'] == 'Dataset'
+              part = JSONLDHash.new(graph, part)
+              if part.has_type?('Dataset')
                 thing = ROCrate::Directory.new(crate)
               else
                 file = yield(part['@id'])
@@ -71,20 +72,7 @@ module ROCrate
 
             graph.each do |entity|
               id = entity['@id']
-              unless crate.dereference(id)
-                thing = case entity['@type']
-                        when 'Person'
-                          ROCrate::Person.new(crate)
-                        when 'Organization'
-                          ROCrate::Organization.new(crate)
-                        when 'ContactPoint'
-                          ROCrate::ContactPoint.new(crate)
-                        else
-                          ROCrate::Entity.new(crate)
-                        end
-                thing.properties = entity
-                crate.contextual_entities << thing
-              end
+              crate.add_contextual(id, entity) unless crate.dereference(id)
             end
           end
         else

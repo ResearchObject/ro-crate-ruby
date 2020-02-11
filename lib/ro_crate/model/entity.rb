@@ -3,7 +3,7 @@ require 'forwardable'
 module ROCrate
   class Entity
     extend Forwardable
-    def_delegators :@properties, :[], :[]=, :to_json
+    def_delegators :@properties, :[], :[]=, :to_json, :has_type?
     attr_reader :crate
     attr_reader :properties
 
@@ -59,7 +59,7 @@ module ROCrate
 
     def initialize(crate, id = nil, properties = {})
       @crate = crate
-      self.properties = default_properties.merge(properties)
+      @properties = ROCrate::JSONLDHash.new(crate, default_properties.merge(properties))
       self.id = id if id
     end
 
@@ -88,7 +88,7 @@ module ROCrate
     end
 
     def properties=(props)
-      @properties = ROCrate::JSONLDHash.new(crate, props)
+      @properties.replace(props)
     end
 
     def inspect
@@ -117,6 +117,19 @@ module ROCrate
 
     def raw_properties
       @properties
+    end
+
+    # Turn a generic Entity into a specialization based on it's @type
+    def specialize
+      if has_type?('Person')
+        ROCrate::Person.new(crate, id, properties)
+      elsif has_type?('Organization')
+        ROCrate::Organization.new(crate, id, properties)
+      elsif has_type?('ContactPoint')
+        ROCrate::ContactPoint.new(crate, id, properties)
+      else
+        self
+      end
     end
 
     private

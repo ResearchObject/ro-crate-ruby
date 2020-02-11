@@ -14,6 +14,11 @@ module ROCrate
       @graph.dereference(self['@id']) if self['@id']
     end
 
+    def has_type?(type)
+      t = self['@type']
+      t.is_a?(Array) ? t.include?(type) : t == type
+    end
+
     private
 
     def jsonld_wrap(val)

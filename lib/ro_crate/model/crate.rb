@@ -37,6 +37,10 @@ module ROCrate
       ROCrate::Organization.new(self, id, properties).tap { |e| contextual_entities << e }
     end
 
+    def add_contextual(id, properties = {})
+      ROCrate::Entity.new(self, id, properties).specialize.tap { |e| contextual_entities << e }
+    end
+
     def metadata
       @metadata ||= ROCrate::Metadata.new(self)
     end
