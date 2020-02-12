@@ -9,20 +9,20 @@ module ROCrate
     def initialize
       @data_entities = []
       @contextual_entities = []
-      super(self, './')
+      super(self, nil, './')
     end
 
-    def add_file(path_or_io, entity_class: ROCrate::File, **properties)
-      path = properties.delete(:path)
+    def add_file(path_or_io, crate_path = nil, entity_class: ROCrate::File, **properties)
+      path = crate_path
       path_or_io = ::File.open(path_or_io) if path_or_io.is_a?(String)
       path ||= path_or_io.respond_to?(:path) ? ::File.basename(path_or_io.path) : nil
       entity_class.new(self, path_or_io, path, properties).tap { |e| add_data_entity(e) }
     end
 
-    def add_directory(path_or_file, entity_class: ROCrate::Directory, **properties)
+    def add_directory(path_or_file, crate_path = nil, entity_class: ROCrate::Directory, **properties)
       raise 'Not a directory' if path_or_file.is_a?(::File) && !::File.directory?(path_or_file)
       path_or_file ||= path_or_file.respond_to?(:path) ? path_or_file.path : path_or_file
-      entity_class.new(self, path_or_file, properties).tap { |e| add_data_entity(e) }
+      entity_class.new(self, path_or_file, crate_path, properties).tap { |e| add_data_entity(e) }
     end
 
     def add_person(id, properties = {})
@@ -88,6 +88,24 @@ module ROCrate
     def claim(entity)
       return entity if entity.crate == self
       entity.class.new(crate, entity.id, entity.raw_properties)
+    end
+
+    def entries
+      entries = {
+          metadata.filepath => metadata
+      }
+
+      data_entities.each do |entity|
+        if entity.is_a?(Directory)
+          entity.entries.each do |path, io|
+            entries[path] = io
+          end
+        else
+          entries[entity.filepath] = entity
+        end
+      end
+
+      entries
     end
   end
 end

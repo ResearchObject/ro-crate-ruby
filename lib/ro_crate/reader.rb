@@ -61,7 +61,7 @@ module ROCrate
               part = entities.delete(ref['@id'])
               next unless part
               if Array(part['@type']).include?('Dataset')
-                thing = ROCrate::Directory.new(crate, nil, part)
+                thing = ROCrate::Directory.new(crate, nil, nil, part)
               else
                 file = yield(part['@id'])
                 if file

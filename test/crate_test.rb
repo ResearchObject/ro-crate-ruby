@@ -3,8 +3,8 @@ require 'test_helper'
 class CrateTest < Test::Unit::TestCase
   def test_dereferencing
     crate = ROCrate::Crate.new
-    info = crate.add_file(fixture_file('info.txt'), path: 'the_info.txt')
-    more_info = crate.add_file(fixture_file('info.txt'), path: 'directory/more_info.txt')
+    info = crate.add_file(fixture_file('info.txt'),'the_info.txt')
+    more_info = crate.add_file(fixture_file('info.txt'), 'directory/more_info.txt')
 
     assert_equal crate, crate.dereference('./')
     assert_equal crate.metadata, crate.dereference('ro-crate-metadata.jsonld')
@@ -115,7 +115,7 @@ class CrateTest < Test::Unit::TestCase
 
   def test_encoding_and_decoding_ids
     crate = ROCrate::Crate.new
-    info = crate.add_file(fixture_file('info.txt'), path: 'awkward path with spaces [] etc.txt')
+    info = crate.add_file(fixture_file('info.txt'), 'awkward path with spaces [] etc.txt')
     assert_equal 'awkward%20path%20with%20spaces%20%5B%5D%20etc.txt', info.id
     assert_equal 'awkward path with spaces [] etc.txt', info.filepath
   end

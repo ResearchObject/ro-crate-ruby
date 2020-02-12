@@ -1,7 +1,5 @@
 module ROCrate
   class File < Entity
-    include Writeable
-
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
     def initialize(crate, io, path = nil, properties = {})
@@ -23,6 +21,10 @@ module ROCrate
     # Write the file to the given IO.
     def write(io)
       io.write(content.respond_to?(:read) ? content.read : content)
+    end
+
+    def directory?
+      false
     end
 
     private

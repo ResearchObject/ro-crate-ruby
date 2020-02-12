@@ -4,7 +4,7 @@ class WriterTest < Test::Unit::TestCase
   def test_writing_to_directory
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))
-    crate.add_file(fixture_file('data.csv'), path: 'directory/data.csv')
+    crate.add_file(fixture_file('data.csv'), 'directory/data.csv')
 
     Dir.mktmpdir do |dir|
       ROCrate::Writer.new(crate).write(dir)
@@ -17,7 +17,7 @@ class WriterTest < Test::Unit::TestCase
   def test_writing_to_zip
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))
-    crate.add_file(fixture_file('data.csv'), path: 'directory/data.csv')
+    crate.add_file(fixture_file('data.csv'), 'directory/data.csv')
 
     Tempfile.create do |file|
       ROCrate::Writer.new(crate).write_zip(file)

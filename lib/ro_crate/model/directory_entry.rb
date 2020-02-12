@@ -1,26 +1,18 @@
 module ROCrate
-  class Directory < Entity
-    attr_accessor :content
-    properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
+  class DirectoryEntry
 
-    def initialize(crate, dir, path = nil, properties = {})
-      @dir = dir
-      super(crate, path, properties)
+    attr_reader :path
+
+    def initialize(path)
+      @path = path
     end
 
-    def entries
-      Dir.glob("#{dir}/**/*").map do |path|
-        DirectoryEntry.new(path)
-      end
+    def write(io)
+      io.write(::File.open(path, 'r').read)
     end
 
-    private
-
-    def default_properties
-      super.merge(
-        '@id' => "./#{SecureRandom.uuid}/",
-        '@type' => 'Dataset'
-      )
+    def directory?
+      ::File.directory?(path)
     end
   end
 end
