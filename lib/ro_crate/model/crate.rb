@@ -19,7 +19,7 @@ module ROCrate
       entity_class.new(self, path_or_io, path, properties).tap { |e| add_data_entity(e) }
     end
 
-    def add_directory(path_or_file, entity_class: ROCrate::Dataset, **properties)
+    def add_directory(path_or_file, entity_class: ROCrate::Directory, **properties)
       raise 'Not a directory' if path_or_file.is_a?(::File) && !::File.directory?(path_or_file)
       path_or_file ||= path_or_file.respond_to?(:path) ? path_or_file.path : path_or_file
       entity_class.new(self, path_or_file, properties).tap { |e| add_data_entity(e) }
