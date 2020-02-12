@@ -12,33 +12,50 @@ module ROCrate
       super(self, './')
     end
 
-    def add_file(path_or_io, properties = {})
+    def add_file(path_or_io, entity_class: ROCrate::File, **properties)
       path = properties.delete(:path)
       path_or_io = ::File.open(path_or_io) if path_or_io.is_a?(String)
       path ||= path_or_io.respond_to?(:path) ? ::File.basename(path_or_io.path) : nil
-      ROCrate::File.new(self, path_or_io, path, properties).tap { |e| data_entities << e }
+      entity_class.new(self, path_or_io, path, properties).tap { |e| add_data_entity(e) }
     end
 
-    def add_directory(path_or_file, properties = {})
+    def add_directory(path_or_file, entity_class: ROCrate::Dataset, **properties)
       raise 'Not a directory' if path_or_file.is_a?(::File) && !::File.directory?(path_or_file)
       path_or_file ||= path_or_file.respond_to?(:path) ? path_or_file.path : path_or_file
-      ROCrate::Directory.new(self, path_or_file, properties).tap { |e| data_entities << e }
+      entity_class.new(self, path_or_file, properties).tap { |e| add_data_entity(e) }
     end
 
     def add_person(id, properties = {})
-      ROCrate::Person.new(self, id, properties).tap { |e| contextual_entities << e }
+      create_contextual_entity(id, properties, entity_class: ROCrate::Person)
     end
 
     def add_contact_point(id, properties = {})
-      ROCrate::ContactPoint.new(self, id, properties).tap { |e| contextual_entities << e }
+      create_contextual_entity(id, properties, entity_class: ROCrate::ContactPoint)
     end
 
     def add_organization(id, properties = {})
-      ROCrate::Organization.new(self, id, properties).tap { |e| contextual_entities << e }
+      create_contextual_entity(id, properties, entity_class: ROCrate::Organization)
     end
 
-    def add_contextual(id, properties = {})
-      ROCrate::Entity.new(self, id, properties).specialize.tap { |e| contextual_entities << e }
+    def create_contextual_entity(id, properties, entity_class: nil)
+      entity = (entity_class || ROCrate::Entity).new(self, id, properties)
+      entity = entity.specialize if entity_class.nil?
+      add_contextual_entity(entity)
+      entity
+    end
+
+    def add_contextual_entity(entity)
+      entity = claim(entity)
+      contextual_entities.delete(entity) # Remove (then re-add) the entity if it exists
+      contextual_entities.push(entity)
+      entity
+    end
+
+    def add_data_entity(entity)
+      entity = claim(entity)
+      data_entities.delete(entity) # Remove (then re-add) the entity if it exists
+      data_entities.push(entity)
+      entity
     end
 
     def metadata
@@ -63,6 +80,14 @@ module ROCrate
 
     def resolve_id(*parts)
       URI.join("arcp://uuid,#{uuid}", *parts)
+    end
+
+    ##
+    # Copy the entity, but as if it was in this crate.
+    # (Or just return the entity if it was already included)
+    def claim(entity)
+      return entity if entity.crate == self
+      entity.class.new(crate, entity.id, entity.raw_properties)
     end
   end
 end

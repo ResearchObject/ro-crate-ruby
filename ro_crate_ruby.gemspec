@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name        = 'ro-crate-ruby'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2019-10-23'
-  s.summary     = 'Create RO crates'
+  s.summary     = 'Create, manipulate, read RO crates.'
   s.authors     = ['Finn Bacall']
   s.email       = 'finn.bacall@manchester.ac.uk'
   s.files       = `git ls-files`.split("\n")

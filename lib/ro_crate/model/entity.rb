@@ -46,10 +46,7 @@ module ROCrate
 
       if value.is_a?(Entity)
         # If it's from another crate, need to add it to this one.
-        unless value.crate == crate
-          value = value.class.new(crate, value.id, value.raw_properties)
-          crate.contextual_entities << value
-        end
+        crate.add_contextual_entity(value)
 
         return value.reference
       end

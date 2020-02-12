@@ -119,4 +119,44 @@ class CrateTest < Test::Unit::TestCase
     assert_equal 'awkward%20path%20with%20spaces%20%5B%5D%20etc.txt', info.id
     assert_equal 'awkward path with spaces [] etc.txt', info.filepath
   end
+
+  def test_creating_contextual_entities
+    crate = ROCrate::Crate.new
+
+    # Specific class
+    fish = crate.create_contextual_entity('fish', { name: 'Wanda' }, entity_class: ROCrate::Person)
+    assert_equal ROCrate::Person, fish.class
+
+    # Detect class
+    cool = crate.create_contextual_entity('cool', { '@type' => 'Organization', name: 'Cool Kids' })
+    assert_equal ROCrate::Organization, cool.class
+
+    # Force generic "Entity" class
+    entity = crate.create_contextual_entity('entity', { '@type' => 'Organization', name: 'We want to be an entity' }, entity_class: ROCrate::Entity)
+    assert_equal ROCrate::Entity, entity.class
+  end
+
+  def test_swapping_entities_between_crates
+    crate1 = ROCrate::Crate.new
+    crate2 = ROCrate::Crate.new
+
+    john = crate1.add_person('john', { name: 'John', cats: 1 })
+    john_copy = crate2.add_contextual_entity(john)
+
+    assert_equal 1, crate1.contextual_entities.length
+    assert_equal 1, crate2.contextual_entities.length
+    assert_equal crate1.contextual_entities.first.properties['name'], crate2.contextual_entities.first.properties['name']
+    assert_equal crate1.contextual_entities.first.properties['cats'], crate2.contextual_entities.first.properties['cats']
+    assert_not_equal john.canonical_id, john_copy.canonical_id
+
+    # Modify the copy, which should not change the original
+    john_copy.properties['cats'] = 2
+    assert_equal crate1.contextual_entities.first.properties['name'], crate2.contextual_entities.first.properties['name']
+    assert_not_equal crate1.contextual_entities.first.properties['cats'], crate2.contextual_entities.first.properties['cats']
+
+    # Add the "copy" back into the first crate, which should replace the original, since they have the same ID.
+    crate1.add_contextual_entity(john_copy)
+    assert_equal 1, crate1.contextual_entities.length
+    assert_equal 2, crate1.contextual_entities.first.properties['cats']
+  end
 end

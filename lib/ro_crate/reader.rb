@@ -46,33 +46,35 @@ module ROCrate
       graph = metadata['@graph']
 
       if graph
-        crate_info = graph.detect { |entry| entry['@id'] == './' || entry['@id'] == '.' }
-        crate_metadata_info = graph.detect { |entry| entry['@id'] == './ro-crate-metadata.jsonld' || entry['@id'] == 'ro-crate-metadata.jsonld' }
+        # Collect all the things in the graph, mapped by their @id
+        entities = {}
+        graph.each do |entity|
+          entities[entity['@id']] = entity
+        end
+        crate_info = entities.delete('./') || entities.delete('.')
+        crate_metadata_info = entities.delete('./ro-crate-metadata.jsonld') || entities.delete('ro-crate-metadata.jsonld')
         if crate_info
           ROCrate::Crate.new.tap do |crate|
             crate.properties = crate_info
             crate.metadata.properties = crate_metadata_info
             crate_info['hasPart'].each do |ref|
-              part = graph.detect { |entry| entry['@id'] == ref['@id'] }
+              part = entities.delete(ref['@id'])
               next unless part
-              part = JSONLDHash.new(graph, part)
-              if part.has_type?('Dataset')
-                thing = ROCrate::Directory.new(crate)
+              if Array(part['@type']).include?('Dataset')
+                thing = ROCrate::Directory.new(crate, nil, part)
               else
                 file = yield(part['@id'])
                 if file
-                  thing = ROCrate::File.new(crate, file)
+                  thing = ROCrate::File.new(crate, file, nil, part)
                 else
-                  thing = ROCrate::Entity.new(crate)
+                  thing = ROCrate::Entity.new(crate, nil, part)
                 end
               end
-              thing.properties = part
-              crate.data_entities << thing
+              crate.add_data_entity(thing)
             end
 
-            graph.each do |entity|
-              id = entity['@id']
-              crate.add_contextual(id, entity) unless crate.dereference(id)
+            entities.each do |id, entity|
+              crate.create_contextual_entity(id, entity)
             end
           end
         else
