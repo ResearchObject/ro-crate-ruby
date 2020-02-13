@@ -42,18 +42,4 @@ class DirectoryTest < Test::Unit::TestCase
     assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), entries['fish/data/nested.txt'].path
     assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['fish/data/binary.jpg'].path
   end
-
-  def test_adding_to_crate_root
-    crate = ROCrate::Crate.new
-    crate.add_directory(fixture_file('directory').path.to_s, '.')
-
-    entries = crate.entries
-    base_path = ::File.dirname(fixture_file('directory'))
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), entries['./info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), entries['./root.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), entries['./data'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), entries['./data/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), entries['./data/nested.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['./data/binary.jpg'].path
-  end
 end

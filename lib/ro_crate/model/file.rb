@@ -2,6 +2,10 @@ module ROCrate
   class File < Entity
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
+    def self.format_id(id)
+      super.chomp('/')
+    end
+
     def initialize(crate, path_or_io, crate_path = nil, properties = {})
       super(crate, crate_path, properties)
       @io = path_or_io
@@ -39,7 +43,7 @@ module ROCrate
 
     def default_properties
       super.merge(
-        '@id' => "./#{SecureRandom.uuid}",
+        '@id' => "#{SecureRandom.uuid}",
         '@type' => 'File'
       )
     end

@@ -26,6 +26,11 @@ module ROCrate
       end
     end
 
+    # Remove initial ./ if present
+    def self.format_id(id)
+      Addressable::URI.escape(id.sub(/\A\.\//, ''))
+    end
+
     def auto_dereference(value)
       if value.is_a?(Array)
         return value.map { |v| auto_dereference(v) }
@@ -73,7 +78,7 @@ module ROCrate
     end
 
     def id=(id)
-      @properties['@id'] = Addressable::URI.escape(id)
+      @properties['@id'] = self.class.format_id(id)
     end
 
     def type

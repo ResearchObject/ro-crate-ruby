@@ -3,6 +3,10 @@ module ROCrate
     attr_accessor :content
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
+    def self.format_id(id)
+      super.chomp('/') + '/'
+    end
+
     def initialize(crate, input_directory = nil, crate_path = nil, properties = {})
       raise 'Not a directory' if input_directory && !(::File.directory?(input_directory) rescue false)
       super(crate, crate_path, properties)
@@ -24,7 +28,7 @@ module ROCrate
 
     def default_properties
       super.merge(
-        '@id' => "./#{SecureRandom.uuid}/",
+        '@id' => "#{SecureRandom.uuid}/",
         '@type' => 'Dataset'
       )
     end

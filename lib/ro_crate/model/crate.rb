@@ -6,6 +6,10 @@ module ROCrate
     attr_reader :contextual_entities
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
+    def self.format_id(id)
+      './'
+    end
+
     def initialize
       @data_entities = []
       @contextual_entities = []
