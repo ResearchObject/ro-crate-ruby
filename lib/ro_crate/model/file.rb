@@ -2,9 +2,9 @@ module ROCrate
   class File < Entity
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
-    def initialize(crate, io, path = nil, properties = {})
-      @io = io
-      super(crate, path, properties)
+    def initialize(crate, path_or_io, crate_path = nil, properties = {})
+      super(crate, crate_path, properties)
+      @io = path_or_io
     end
 
     def content
@@ -18,9 +18,17 @@ module ROCrate
     end
 
     ##
-    # Write the file to the given IO.
-    def write(io)
-      io.write(content.respond_to?(:read) ? content.read : content)
+    # Write the file to the given IO destination.
+    def write(dest)
+      source = content
+      if source.respond_to?(:read)
+        source = source.open('rb') if source.is_a?(Pathname)
+        while buff = source.read(4096)
+          dest.write(buff)
+        end
+      else
+        dest.write(source)
+      end
     end
 
     def directory?

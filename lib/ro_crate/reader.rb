@@ -1,12 +1,8 @@
 module ROCrate
   class Reader
     def self.read(path_or_io)
-      if path_or_io.is_a?(String)
-        if ::File.directory?(path_or_io)
-          read_directory(path_or_io)
-        else
-          read_zip(path_or_io)
-        end
+      if path_or_io.is_a?(String) && ::File.directory?(path_or_io)
+        read_directory(path_or_io)
       else
         read_zip(path_or_io)
       end
@@ -65,9 +61,9 @@ module ROCrate
               else
                 file = yield(part['@id'])
                 if file
-                  thing = ROCrate::File.new(crate, file, nil, part)
+                  thing = ROCrate::File.new(crate, file, part['@id'], part)
                 else
-                  thing = ROCrate::Entity.new(crate, nil, part)
+                  thing = ROCrate::Entity.new(crate, part['@id'], part)
                 end
               end
               crate.add_data_entity(thing)

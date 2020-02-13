@@ -7,8 +7,12 @@ module ROCrate
       @path = path
     end
 
-    def write(io)
-      io.write(::File.open(path, 'r').read)
+    def write(dest)
+      ::File.open(path, 'r') do |input|
+        while buff = input.read(4096)
+          dest.write(buff)
+        end
+      end
     end
 
     def directory?

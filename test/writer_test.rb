@@ -14,6 +14,20 @@ class WriterTest < Test::Unit::TestCase
     end
   end
 
+  def test_reading_and_writing_to_same_directory
+    Dir.mktmpdir do |dir|
+      FileUtils.cp_r(fixture_file('workflow-0.2.0').path, dir)
+      dir = ::File.join(dir, 'workflow-0.2.0')
+      crate = ROCrate::Reader.read(dir)
+      crate.add_file(fixture_file('info.txt'))
+
+      ROCrate::Writer.new(crate).write(dir)
+      assert_equal 6, ::File.size(::File.join(dir, 'info.txt'))
+      assert_equal 1257, ::File.size(::File.join(dir, 'README.md'))
+      assert_equal 24157, ::File.size(::File.join(dir, 'workflow', 'workflow.knime'))
+    end
+  end
+
   def test_writing_to_zip
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))

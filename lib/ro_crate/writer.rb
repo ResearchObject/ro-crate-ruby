@@ -10,7 +10,14 @@ module ROCrate
         fullpath = ::File.join(dir, path)
         FileUtils.mkdir_p(::File.dirname(fullpath))
         next if entry.directory?
-        ::File.open(fullpath, 'w') { |f| entry.write(f) }
+        temp = Tempfile.new('ro-crate-temp')
+        begin
+          entry.write(temp)
+          temp.close
+          FileUtils.mv(temp, fullpath)
+        ensure
+          temp.unlink
+        end
       end
     end
 

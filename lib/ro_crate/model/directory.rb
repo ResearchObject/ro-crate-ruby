@@ -4,13 +4,16 @@ module ROCrate
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
     def initialize(crate, input_directory = nil, crate_path = nil, properties = {})
+      raise 'Not a directory' if input_directory && !(::File.directory?(input_directory) rescue false)
+      super(crate, crate_path, properties)
       @entries = {}
       if input_directory
-        Dir.glob(::File.join(input_directory, '**', '*')).each do |file|
-          @entries[::File.join(crate_path || '.', file)] = DirectoryEntry.new(file)
+        Dir.chdir(input_directory) { Dir.glob("**/*") }.each do |file|
+          source_path = ::File.expand_path(::File.join(input_directory, file))
+          dest_path = ::File.join(id, file)
+          @entries[dest_path] = DirectoryEntry.new(source_path)
         end
       end
-      super(crate, crate_path, properties)
     end
 
     def entries
