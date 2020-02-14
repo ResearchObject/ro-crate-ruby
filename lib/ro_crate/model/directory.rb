@@ -1,10 +1,12 @@
 module ROCrate
-  class Directory < Entity
+  ##
+  # A data entity that represents a directory of potentially many files and subdirectories (or none).
+  class Directory < DataEntity
     attr_accessor :content
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
     def self.format_id(id)
-      super.chomp('/') + '/'
+      super + '/'
     end
 
     def initialize(crate, input_directory = nil, crate_path = nil, properties = {})
@@ -13,9 +15,9 @@ module ROCrate
       @entries = {}
       if input_directory
         Dir.chdir(input_directory) { Dir.glob("**/*") }.each do |file|
-          source_path = ::File.expand_path(::File.join(input_directory, file))
-          dest_path = ::File.join(id, file)
-          @entries[dest_path] = DirectoryEntry.new(source_path)
+          source_path = Pathname.new(::File.join(input_directory, file)).expand_path
+          dest_path = ::File.join(filepath, file)
+          @entries[dest_path] = Entry.new(source_path)
         end
       end
     end

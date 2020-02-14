@@ -23,6 +23,7 @@ GEM
     simplecov-html (0.10.2)
     test-unit (3.2.3)
       power_assert
+    yard (0.9.20)
 
 PLATFORMS
   ruby
@@ -32,6 +33,7 @@ DEPENDENCIES
   ro-crate-ruby!
   simplecov
   test-unit
+  yard
 
 BUNDLED WITH
    1.17.3

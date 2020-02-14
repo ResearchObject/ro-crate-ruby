@@ -47,6 +47,11 @@ module ROCrate
       entity
     end
 
+    ##
+    # Add a contextual entity to the crate
+    #
+    # @param entity [Entity] the entity to add to the crate.
+    # @return [Entity] the entity itself, or a clone of the entity "owned" by this crate.
     def add_contextual_entity(entity)
       entity = claim(entity)
       contextual_entities.delete(entity) # Remove (then re-add) the entity if it exists
@@ -54,6 +59,11 @@ module ROCrate
       entity
     end
 
+    ##
+    # Add a data entity to the crate
+    #
+    # @param entity [Entity] the entity to add to the crate.
+    # @return [Entity] the entity itself, or a clone of the entity "owned" by this crate.
     def add_data_entity(entity)
       entity = claim(entity)
       data_entities.delete(entity) # Remove (then re-add) the entity if it exists
@@ -61,14 +71,26 @@ module ROCrate
       entity
     end
 
+    ##
+    # The RO crate metadata file
+    #
+    # @return [Metadata]
     def metadata
       @metadata ||= ROCrate::Metadata.new(self)
     end
 
+    ##
+    # All the entities within the crate. Includes contextual entities, data entities, the crate itself and its metadata file.
+    #
+    # @return [Array<Entity>]
     def entities
       default_entities | data_entities | contextual_entities
     end
 
+    ##
+    # Entities for the metadata file and crate itself, which should be present in all RO crates.
+    #
+    # @return [Array<Entity>]
     def default_entities
       [metadata, self]
     end
@@ -93,18 +115,17 @@ module ROCrate
       entity.class.new(crate, entity.id, entity.raw_properties)
     end
 
+    ##
+    # A map of all the files/directories contained in the RO crate, where the key is the destination path within the crate
+    # and the value is
+    #
+    # @return [Hash{String => Entry}>]
     def entries
-      entries = {
-          metadata.filepath => metadata
-      }
+      entries = {}
 
-      data_entities.each do |entity|
-        if entity.is_a?(Directory)
-          entity.entries.each do |path, io|
-            entries[path] = io
-          end
-        else
-          entries[entity.filepath] = entity
+      [metadata, *data_entities].each do |entity|
+        entity.entries.each do |path, io|
+          entries[path] = io
         end
       end
 

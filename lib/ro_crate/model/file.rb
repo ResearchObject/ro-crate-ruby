@@ -1,38 +1,24 @@
 module ROCrate
-  class File < Entity
+  ##
+  # A data entity that represents a single file.
+  class File < DataEntity
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
-    def self.format_id(id)
-      super.chomp('/')
-    end
-
-    def initialize(crate, path_or_io, crate_path = nil, properties = {})
+    def initialize(crate, source, crate_path = nil, properties = {})
       super(crate, crate_path, properties)
-      @io = path_or_io
+      @source = Entry.new(source)
     end
 
-    def content
-      @io
-    end
-
-    ##
-    # The path of the file, relative to the root of the RO crate.
-    def filepath
-      Addressable::URI.unescape(canonical_id.path.sub(/\A\//, '')) # Remove initial / and decode %20 etc.
+    def source
+      @source
     end
 
     ##
-    # Write the file to the given IO destination.
-    def write(dest)
-      source = content
-      source = source.open('rb') if source.is_a?(Pathname)
-      while buff = source.read(4096)
-        dest.write(buff)
-      end
-    end
-
-    def directory?
-      false
+    # A map of all the files/directories associated with this DataEntity. For files, it will contain a single key/value.
+    #
+    # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.
+    def entries
+      { filepath => source }
     end
 
     private
