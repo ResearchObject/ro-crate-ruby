@@ -17,13 +17,13 @@ module ROCrate
     end
 
     def add_file(path_or_io, crate_path = nil, entity_class: ROCrate::File, **properties)
-      path_or_io = Pathname.new(path_or_io) if path_or_io.is_a?(String) || path_or_io.is_a?(::File)
+      path_or_io = Pathname.new(path_or_io).expand_path if path_or_io.is_a?(String) || path_or_io.is_a?(::File)
       crate_path = path_or_io.basename.to_s if crate_path.nil? && path_or_io.respond_to?(:basename)
       entity_class.new(self, path_or_io, crate_path, properties).tap { |e| add_data_entity(e) }
     end
 
     def add_directory(path_or_file, crate_path = nil, entity_class: ROCrate::Directory, **properties)
-      path_or_file = Pathname.new(path_or_file) if path_or_file.is_a?(String) || path_or_file.is_a?(::File)
+      path_or_file = Pathname.new(path_or_file).expand_path if path_or_file.is_a?(String) || path_or_file.is_a?(::File)
       crate_path = path_or_file.basename.to_s if crate_path.nil? && path_or_file.respond_to?(:basename)
       entity_class.new(self, path_or_file, crate_path, properties).tap { |e| add_data_entity(e) }
     end
