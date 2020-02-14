@@ -25,6 +25,8 @@ module ROCrate
       end
     end
 
+    ##
+    # Does this Entry point to a directory on the disk?
     def directory?
       ::File.directory?(source) rescue false
     end

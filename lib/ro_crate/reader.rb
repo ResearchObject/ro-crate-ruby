@@ -1,15 +1,25 @@
 module ROCrate
   class Reader
-    def self.read(path_or_io)
-      if path_or_io.is_a?(String) && ::File.directory?(path_or_io)
-        read_directory(path_or_io)
+    ##
+    # Reads an RO Crate from a directory of zip file.
+    #
+    # @param source [String, File, Pathname] The source location for the crate.
+    # @return [Crate] The RO Crate.
+    def self.read(source)
+      if source.is_a?(String) && ::File.directory?(source)
+        read_directory(source)
       else
-        read_zip(path_or_io)
+        read_zip(source)
       end
     end
 
-    def self.read_zip(path_or_io)
-      Zip::File.open(path_or_io) do |zipfile|
+    ##
+    # Reads an RO Crate from a zip file.
+    #
+    # @param source [String, File, Pathname] The location of the zip file.
+    # @return [Crate] The RO Crate.
+    def self.read_zip(source)
+      Zip::File.open(source) do |zipfile|
         if zipfile.file.exist?(ROCrate::Metadata::FILENAME)
           metadata_file = zipfile.file.open(ROCrate::Metadata::FILENAME)
           read_from_metadata(metadata_file.read) do |filepath|
@@ -22,6 +32,11 @@ module ROCrate
       end
     end
 
+    ##
+    # Reads an RO Crate from a directory.
+    #
+    # @param path [String] The location of the directory.
+    # @return [Crate] The RO Crate.
     def self.read_directory(path)
       metadata_file = Dir.entries(path).detect { |entry| entry == ROCrate::Metadata::FILENAME }
 
@@ -36,7 +51,13 @@ module ROCrate
     end
 
     ##
-    # Block takes a relative path and should return a File
+    # Reads an RO Crate from an `ro-crate-metadata.json` file.
+    # Takes a block that implements reading of data entities.
+    #
+    # @yieldparam [String] filepath The path of the data entity to be read.
+    # @yieldreturn [File] A file object for that entity.
+    # @param metadata_json [String] A string containing the metadata JSON.
+    # @return [Crate] The RO Crate.
     def self.read_from_metadata(metadata_json)
       metadata = JSON.load(metadata_json)
       graph = metadata['@graph']

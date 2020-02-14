@@ -87,7 +87,7 @@ module ROCrate
     # @param crate [Crate] The crate that owns this Entity.
     # @param id [String, nil] An ID to identify this Entity, or blank to auto-generate an appropriate one,
     #   (or determine via the properties param)
-    # @param properties [Hash] A hash of JSON-LD properties to associate with this entity.
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this entity.
     def initialize(crate, id = nil, properties = {})
       @crate = crate
       @properties = ROCrate::JSONLDHash.new(crate, default_properties.merge(properties))

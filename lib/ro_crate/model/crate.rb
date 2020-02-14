@@ -10,22 +10,20 @@ module ROCrate
       './'
     end
 
+    ##
+    # Initialize an empty RO Crate.
     def initialize
       @data_entities = []
       @contextual_entities = []
       super(self, nil, './')
     end
 
-    def add_file(path_or_io, crate_path = nil, entity_class: ROCrate::File, **properties)
-      path_or_io = Pathname.new(path_or_io).expand_path if path_or_io.is_a?(String) || path_or_io.is_a?(::File)
-      crate_path = path_or_io.basename.to_s if crate_path.nil? && path_or_io.respond_to?(:basename)
-      entity_class.new(self, path_or_io, crate_path, properties).tap { |e| add_data_entity(e) }
+    def add_file(source, crate_path = nil, entity_class: ROCrate::File, **properties)
+      entity_class.new(self, source, crate_path, properties).tap { |e| add_data_entity(e) }
     end
 
-    def add_directory(path_or_file, crate_path = nil, entity_class: ROCrate::Directory, **properties)
-      path_or_file = Pathname.new(path_or_file).expand_path if path_or_file.is_a?(String) || path_or_file.is_a?(::File)
-      crate_path = path_or_file.basename.to_s if crate_path.nil? && path_or_file.respond_to?(:basename)
-      entity_class.new(self, path_or_file, crate_path, properties).tap { |e| add_data_entity(e) }
+    def add_directory(source, crate_path = nil, entity_class: ROCrate::Directory, **properties)
+      entity_class.new(self, source, crate_path, properties).tap { |e| add_data_entity(e) }
     end
 
     def add_person(id, properties = {})
@@ -117,7 +115,7 @@ module ROCrate
 
     ##
     # A map of all the files/directories contained in the RO crate, where the key is the destination path within the crate
-    # and the value is
+    # and the value is an Entry where the source data can be read.
     #
     # @return [Hash{String => Entry}>]
     def entries
