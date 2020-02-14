@@ -4,13 +4,15 @@ class WriterTest < Test::Unit::TestCase
   def test_writing_to_directory
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))
+    crate.add_file(StringIO.new('just a string!'), 'notice.txt')
     crate.add_file(fixture_file('data.csv'), 'directory/data.csv')
 
     Dir.mktmpdir do |dir|
       ROCrate::Writer.new(crate).write(dir)
       assert ::File.exist?(::File.join(dir, ROCrate::Metadata::FILENAME))
-      assert ::File.exist?(::File.join(dir, 'info.txt'))
-      assert ::File.exist?(::File.join(dir, 'directory', 'data.csv'))
+      assert_equal 6, ::File.size(::File.join(dir, 'info.txt'))
+      assert_equal 14, ::File.size(::File.join(dir, 'notice.txt'))
+      assert_equal 20, ::File.size(::File.join(dir, 'directory', 'data.csv'))
     end
   end
 
@@ -38,8 +40,26 @@ class WriterTest < Test::Unit::TestCase
 
       Zip::File.open(file) do |zipfile|
         assert zipfile.file.exist?(ROCrate::Metadata::FILENAME)
-        assert zipfile.file.exist?('info.txt')
-        assert zipfile.file.exist?('directory/data.csv')
+        assert_equal 6, zipfile.file.size('info.txt')
+        assert_equal 20, zipfile.file.size('directory/data.csv')
+      end
+    end
+  end
+
+  def test_writing_a_directory
+    crate = ROCrate::Crate.new
+    crate.add_directory(fixture_file('directory').path.to_s, 'fish')
+
+    Tempfile.create do |file|
+      ROCrate::Writer.new(crate).write_zip(file)
+
+      Zip::File.open(file) do |zipfile|
+        assert zipfile.file.exist?(ROCrate::Metadata::FILENAME)
+        assert zipfile.file.exist? 'fish/info.txt'
+        assert zipfile.file.exist? 'fish/root.txt'
+        assert zipfile.file.exist? 'fish/data/info.txt'
+        assert zipfile.file.exist? 'fish/data/nested.txt'
+        assert zipfile.file.exist? 'fish/data/binary.jpg'
       end
     end
   end

@@ -1,5 +1,5 @@
 module ROCrate
-  class Organization < Entity
+  class Organization < ContextualEntity
     properties(['name'])
 
     private

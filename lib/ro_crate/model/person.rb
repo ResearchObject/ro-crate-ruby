@@ -1,5 +1,5 @@
 module ROCrate
-  class Person < Entity
+  class Person < ContextualEntity
     properties(%w[name familyName givenName identifier sameAs])
 
     private

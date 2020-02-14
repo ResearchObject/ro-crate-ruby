@@ -1,5 +1,5 @@
 module ROCrate
-  class ContactPoint < Entity
+  class ContactPoint < ContextualEntity
     properties(%w[name email])
 
     private

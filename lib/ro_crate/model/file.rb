@@ -25,13 +25,9 @@ module ROCrate
     # Write the file to the given IO destination.
     def write(dest)
       source = content
-      if source.respond_to?(:read)
-        source = source.open('rb') if source.is_a?(Pathname)
-        while buff = source.read(4096)
-          dest.write(buff)
-        end
-      else
-        dest.write(source)
+      source = source.open('rb') if source.is_a?(Pathname)
+      while buff = source.read(4096)
+        dest.write(buff)
       end
     end
 

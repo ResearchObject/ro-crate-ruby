@@ -136,6 +136,25 @@ class CrateTest < Test::Unit::TestCase
     assert_equal ROCrate::Entity, entity.class
   end
 
+  def test_adding_contextual_entities
+    crate = ROCrate::Crate.new
+
+    fish = crate.add_person('#fish', { name: 'Wanda' })
+    assert_equal 'Wanda', fish.name
+    assert_equal '#fish', fish.id
+    assert_equal ROCrate::Person, fish.class
+
+    cool = crate.add_organization('#cool', { name: 'Cool kids' })
+    assert_equal 'Cool kids', cool.name
+    assert_equal '#cool', cool.id
+    assert_equal ROCrate::Organization, cool.class
+
+    ab = crate.add_contact_point('#maintainer', { name: 'A B' })
+    assert_equal 'A B', ab.name
+    assert_equal '#maintainer', ab.id
+    assert_equal ROCrate::ContactPoint, ab.class
+  end
+
   def test_swapping_entities_between_crates
     crate1 = ROCrate::Crate.new
     crate2 = ROCrate::Crate.new

@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class EntityTest < Test::Unit::TestCase
-  CONTEXTUAL_ID_PATTERN = /\#\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}/
-  DATA_ID_PATTERN = /\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}/
-  DIR_ID_PATTERN = /\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\/\Z/
+  CONTEXTUAL_ID_PATTERN = /\A\#\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\Z/ # UUID preceeded by #
+  DATA_ID_PATTERN = /\A\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\Z/ # UUID
+  DIR_ID_PATTERN = /\A\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\/\Z/ # UUID with trailing /
 
   def test_automatic_ids
     crate = ROCrate::Crate.new
@@ -20,7 +20,11 @@ class EntityTest < Test::Unit::TestCase
   def test_provided_ids
     crate = ROCrate::Crate.new
 
-    p = ROCrate::Person.new(crate, '#finn')
+    # Contextual entities need absolute URI or #bla ID
+    assert_equal 'https://orcid.org/0000-0002-0048-3300',
+                 ROCrate::Person.new(crate, 'https://orcid.org/0000-0002-0048-3300').id
+    assert_equal '#finn', ROCrate::Person.new(crate, '#finn').id
+    assert_equal '#finn', ROCrate::Person.new(crate, 'finn').id
     f = ROCrate::File.new(crate, StringIO.new(''), './hehe/').id
     refute f.end_with?('/')
     refute f.start_with?('.')

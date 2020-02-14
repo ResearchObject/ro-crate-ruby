@@ -63,7 +63,7 @@ module ROCrate
                 if file
                   thing = ROCrate::File.new(crate, file, part['@id'], part)
                 else
-                  thing = ROCrate::Entity.new(crate, part['@id'], part)
+                  warn "Could not find: #{part['@id']}"
                 end
               end
               crate.add_data_entity(thing)
