@@ -139,5 +139,9 @@ module ROCrate
 
       entries
     end
+
+    def get_binding
+      binding
+    end
   end
 end

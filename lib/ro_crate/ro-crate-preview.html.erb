@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= crate.name || "New RO Crate" %></title>
-  <script type="application/ld+json"><%= crate.metadata.generate %></script>
+  <title><%= name || "New RO Crate" %></title>
+  <script type="application/ld+json"><%= metadata.generate %></script>
   <meta name="generator" content="https://github.com/fbacall/ro-crate-ruby">
   <meta name="keywords" content="RO Crate">
 </head>
 <body>
-  <h1><%= crate.name || "New RO Crate" %></h1>
-  <% if crate.url %>
-    <a href="<%= crate.url %>" target="_blank"><%= crate.url %></a>
+  <h1><%= name || "New RO Crate" %></h1>
+  <% if url %>
+    <a href="<%= url %>" target="_blank"><%= url %></a>
   <% end %>
   <p>
-    <%= crate.description %>
+    <%= description %>
   </p>
   <dl>
-    <% if crate.author %>
+    <% if author %>
       <dt>Author</dt>
-      <dd><%= crate.author %></dd>
+      <dd><%= author %></dd>
     <% end %>
-    <% if crate.contact_point %>
+    <% if contact_point %>
       <dt>Contact</dt>
-      <dd><%= crate.contact_point %></dd>
+      <dd><%= contact_point %></dd>
     <% end %>
-    <% if crate.publisher %>
+    <% if publisher %>
       <dt>Publisher</dt>
-      <dd><%= crate.publisher %></dd>
+      <dd><%= publisher %></dd>
     <% end %>
-    <% if crate.license %>
+    <% if license %>
       <dt>License</dt>
-      <dd><%= crate.license %></dd>
+      <dd><%= license %></dd>
     <% end %>
   </dl>
 
   <h2>Contents</h2>
   <ul>
-    <% crate.data_entities.each do |data_entity| %>
+    <% data_entities.each do |data_entity| %>
       <li id="__data_entity_<%= data_entity.id.gsub(/\s/, '-') %>">
         <strong><%= data_entity.name || data_entity.id %></strong>
         <% if data_entity.content_size %>

@@ -12,7 +12,7 @@ module ROCrate
     end
 
     def generate
-      b = binding
+      b = crate.get_binding
       renderer = ERB.new(template || ::File.read(DEFAULT_TEMPLATE))
       renderer.result(b)
     end
