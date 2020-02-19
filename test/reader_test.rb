@@ -84,4 +84,26 @@ class ReaderTest < Test::Unit::TestCase
     # assert entity.is_a?(ROCrate::File)
     # assert_equal 'File', entity.type
   end
+
+  def test_reading_from_zip_with_directories
+    crate = ROCrate::Reader.read_zip(fixture_file('directory.zip'))
+
+    assert crate.entries['fish/info.txt']
+    assert_equal '1234', crate.entries['fish/info.txt'].source.read.chomp
+    assert crate.entries['fish/root.txt']
+    assert crate.entries['fish/data/info.txt']
+    assert crate.entries['fish/data/nested.txt']
+    assert crate.entries['fish/data/binary.jpg']
+  end
+
+  def test_reading_from_directory_with_directories
+    crate = ROCrate::Reader.read_directory(fixture_file('directory_crate').path)
+
+    assert crate.entries['fish/info.txt']
+    assert_equal '1234', crate.entries['fish/info.txt'].source.read.chomp
+    assert crate.entries['fish/root.txt']
+    assert crate.entries['fish/data/info.txt']
+    assert crate.entries['fish/data/nested.txt']
+    assert crate.entries['fish/data/binary.jpg']
+  end
 end

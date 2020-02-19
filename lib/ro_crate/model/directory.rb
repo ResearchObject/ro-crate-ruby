@@ -13,19 +13,23 @@ module ROCrate
     # Crate#add_data_entity, or just use Crate#add_directory.
     #
     # @param crate [Crate] The RO crate that owns this directory.
-    # @param source_directory [String, #read, nil] The source directory that will be included in the crate.
+    # @param source_directory [String, #read, Hash, nil] The source directory that will be included in the crate.
     # @param crate_path [String] The relative path within the RO crate where this directory will be written.
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this dectory.
     def initialize(crate, source_directory = nil, crate_path = nil, properties = {})
-      raise 'Not a directory' if source_directory && !(::File.directory?(source_directory) rescue false)
+      raise 'Not a directory' if source_directory && !(::File.directory?(source_directory) rescue true)
       source_directory = Pathname.new(source_directory).expand_path if source_directory.is_a?(String) || source_directory.is_a?(::File)
       crate_path = source_directory.basename.to_s if crate_path.nil? && source_directory.respond_to?(:basename)
       super(crate, crate_path, properties)
       @directory_entries = {}
       if source_directory
-        Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
-          source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
-          @directory_entries[rel_path] = Entry.new(source_path)
+        if source_directory.is_a?(Hash)
+          @directory_entries = source_directory
+        else
+          Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
+            source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
+            @directory_entries[rel_path] = Entry.new(source_path)
+          end
         end
       end
     end

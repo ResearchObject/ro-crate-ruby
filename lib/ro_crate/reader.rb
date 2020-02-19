@@ -19,17 +19,19 @@ module ROCrate
     # @param source [String, File, Pathname] The location of the zip file.
     # @return [Crate] The RO Crate.
     def self.read_zip(source)
-      Zip::File.open(source) do |zipfile|
-        if zipfile.file.exist?(ROCrate::Metadata::IDENTIFIER)
-          metadata_file = zipfile.file.open(ROCrate::Metadata::IDENTIFIER)
-          read_from_metadata(metadata_file.read) do |filepath|
-            filepath = filepath[2..-1] if filepath.start_with?('./')
-            zipfile.file.open(filepath) if zipfile.file.exist?(filepath)
+      dir = Dir.mktmpdir
+      Dir.chdir(dir) do
+        Zip::File.open(source) do |zipfile|
+          zipfile.each do |entry|
+            unless ::File.exist?(entry.name)
+              FileUtils::mkdir_p(::File.dirname(entry.name))
+              zipfile.extract(entry, entry.name)
+            end
           end
-        else
-          raise "No metadata found!"
         end
       end
+
+      read_directory(dir)
     end
 
     ##
@@ -43,7 +45,7 @@ module ROCrate
       if metadata_file
         read_from_metadata(::File.open(::File.join(path, metadata_file)).read) do |filepath|
           fullpath = ::File.join(path, filepath)
-          ::File.open(fullpath) if ::File.exist?(fullpath)
+          Pathname.new(fullpath) if ::File.exist?(fullpath)
         end
       else
         raise "No metadata found!"
@@ -54,8 +56,9 @@ module ROCrate
     # Reads an RO Crate from an `ro-crate-metadata.json` file.
     # Takes a block that implements reading of data entities.
     #
-    # @yieldparam [String] filepath The path of the data entity to be read.
-    # @yieldreturn [File] A file object for that entity.
+    # @yieldparam [String] filepath The path of the data entity to be read
+    # @yieldparam [Boolean] directory Is it a directory?.
+    # @yieldreturn [#read, Hash{String => Entry}] A readable object for that entity, or alternatively Hash of path -> Entry object if it's a directory.
     # @param metadata_json [String] A string containing the metadata JSON.
     # @return [Crate] The RO Crate.
     def self.read_from_metadata(metadata_json, &block)
@@ -84,8 +87,9 @@ module ROCrate
     ##
     # Create a crate from the given set of entities and block specifying how to read files.
     #
-    # @yieldparam [String] filepath The path of the data entity to be read.
-    # @yieldreturn [File] A file object for that entity.
+    # @yieldparam [String] filepath The path of the data entity to be read
+    # @yieldparam [Boolean] directory Is it a directory?.
+    # @yieldreturn [#read, Hash{String => Entry}] A readable object for that entity, or alternatively Hash of path -> Entry object if it's a directory.
     # @param entities [Hash] A Hash containing all the entities in the @graph, mapped by their @id.
     # @return [Crate] The RO Crate.
     def self.initialize_crate(entities)
@@ -96,9 +100,14 @@ module ROCrate
           part = entities.delete(ref['@id'])
           next unless part
           if Array(part['@type']).include?('Dataset')
-            thing = ROCrate::Directory.new(crate, nil, nil, part)
+            contents = yield(part['@id'], true)
+            if contents
+              thing = ROCrate::Directory.new(crate, contents, part['@id'], part)
+            else
+              warn "Could not find: #{part['@id']}"
+            end
           else
-            file = yield(part['@id'])
+            file = yield(part['@id'], false)
             if file
               thing = ROCrate::File.new(crate, file, part['@id'], part)
             else
