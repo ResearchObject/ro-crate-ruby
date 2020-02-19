@@ -2,12 +2,12 @@ module ROCrate
   ##
   # A representation of the `ro-crate-metadata.jsonld` file.
   class Metadata < File
+    IDENTIFIER = 'ro-crate-metadata.jsonld'.freeze
     CONTEXT = 'https://w3id.org/ro/crate/1.0/context'.freeze
-    FILENAME = 'ro-crate-metadata.jsonld'.freeze
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
     def initialize(crate, properties = {})
-      super(crate, nil, FILENAME, properties)
+      super(crate, nil, IDENTIFIER, properties)
     end
 
     private
@@ -21,9 +21,9 @@ module ROCrate
 
     def default_properties
       {
-        '@id' => FILENAME,
+        '@id' => IDENTIFIER,
         '@type' => 'CreativeWork',
-        'about' => { '@id' => './' }
+        'about' => { '@id' => ROCrate::Crate::IDENTIFIER }
       }
     end
   end

@@ -9,7 +9,7 @@ class WriterTest < Test::Unit::TestCase
 
     Dir.mktmpdir do |dir|
       ROCrate::Writer.new(crate).write(dir)
-      assert ::File.exist?(::File.join(dir, ROCrate::Metadata::FILENAME))
+      assert ::File.exist?(::File.join(dir, ROCrate::Metadata::IDENTIFIER))
       assert_equal 6, ::File.size(::File.join(dir, 'info.txt'))
       assert_equal 14, ::File.size(::File.join(dir, 'notice.txt'))
       assert_equal 20, ::File.size(::File.join(dir, 'directory', 'data.csv'))
@@ -39,7 +39,7 @@ class WriterTest < Test::Unit::TestCase
       ROCrate::Writer.new(crate).write_zip(file)
 
       Zip::File.open(file) do |zipfile|
-        assert zipfile.file.exist?(ROCrate::Metadata::FILENAME)
+        assert zipfile.file.exist?(ROCrate::Metadata::IDENTIFIER)
         assert_equal 6, zipfile.file.size('info.txt')
         assert_equal 20, zipfile.file.size('directory/data.csv')
       end
@@ -54,7 +54,7 @@ class WriterTest < Test::Unit::TestCase
       ROCrate::Writer.new(crate).write_zip(file)
 
       Zip::File.open(file) do |zipfile|
-        assert zipfile.file.exist?(ROCrate::Metadata::FILENAME)
+        assert zipfile.file.exist?(ROCrate::Metadata::IDENTIFIER)
         assert zipfile.file.exist? 'fish/info.txt'
         assert zipfile.file.exist? 'fish/root.txt'
         assert zipfile.file.exist? 'fish/data/info.txt'

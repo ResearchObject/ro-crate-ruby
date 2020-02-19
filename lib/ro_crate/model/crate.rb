@@ -2,12 +2,13 @@ module ROCrate
   ##
   # A Ruby abstraction of an RO Crate.
   class Crate < Directory
+    IDENTIFIER = './'.freeze
     attr_reader :data_entities
     attr_reader :contextual_entities
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
-    def self.format_id(id)
-      './'
+    def self.format_id(_)
+      IDENTIFIER
     end
 
     ##
@@ -15,7 +16,7 @@ module ROCrate
     def initialize
       @data_entities = []
       @contextual_entities = []
-      super(self, nil, './')
+      super(self, nil, IDENTIFIER)
     end
 
     def add_file(source, crate_path = nil, entity_class: ROCrate::File, **properties)

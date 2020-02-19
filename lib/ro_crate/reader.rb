@@ -20,8 +20,8 @@ module ROCrate
     # @return [Crate] The RO Crate.
     def self.read_zip(source)
       Zip::File.open(source) do |zipfile|
-        if zipfile.file.exist?(ROCrate::Metadata::FILENAME)
-          metadata_file = zipfile.file.open(ROCrate::Metadata::FILENAME)
+        if zipfile.file.exist?(ROCrate::Metadata::IDENTIFIER)
+          metadata_file = zipfile.file.open(ROCrate::Metadata::IDENTIFIER)
           read_from_metadata(metadata_file.read) do |filepath|
             filepath = filepath[2..-1] if filepath.start_with?('./')
             zipfile.file.open(filepath) if zipfile.file.exist?(filepath)
@@ -38,7 +38,7 @@ module ROCrate
     # @param path [String] The location of the directory.
     # @return [Crate] The RO Crate.
     def self.read_directory(path)
-      metadata_file = Dir.entries(path).detect { |entry| entry == ROCrate::Metadata::FILENAME }
+      metadata_file = Dir.entries(path).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER }
 
       if metadata_file
         read_from_metadata(::File.open(::File.join(path, metadata_file)).read) do |filepath|
@@ -58,7 +58,7 @@ module ROCrate
     # @yieldreturn [File] A file object for that entity.
     # @param metadata_json [String] A string containing the metadata JSON.
     # @return [Crate] The RO Crate.
-    def self.read_from_metadata(metadata_json)
+    def self.read_from_metadata(metadata_json, &block)
       metadata = JSON.load(metadata_json)
       graph = metadata['@graph']
 
@@ -68,37 +68,49 @@ module ROCrate
         graph.each do |entity|
           entities[entity['@id']] = entity
         end
-        crate_info = entities.delete('./') || entities.delete('.')
-        crate_metadata_info = entities.delete('./ro-crate-metadata.jsonld') || entities.delete('ro-crate-metadata.jsonld')
-        if crate_info
-          ROCrate::Crate.new.tap do |crate|
-            crate.properties = crate_info
-            crate.metadata.properties = crate_metadata_info
-            crate_info['hasPart'].each do |ref|
-              part = entities.delete(ref['@id'])
-              next unless part
-              if Array(part['@type']).include?('Dataset')
-                thing = ROCrate::Directory.new(crate, nil, nil, part)
-              else
-                file = yield(part['@id'])
-                if file
-                  thing = ROCrate::File.new(crate, file, part['@id'], part)
-                else
-                  warn "Could not find: #{part['@id']}"
-                end
-              end
-              crate.add_data_entity(thing)
-            end
-
-            entities.each do |id, entity|
-              crate.create_contextual_entity(id, entity)
-            end
-          end
+        # Do some normalization...
+        entities[ROCrate::Crate::IDENTIFIER] = (entities.delete('./') || entities.delete('.'))
+        entities[ROCrate::Metadata::IDENTIFIER] = (entities.delete('./ro-crate-metadata.jsonld') || entities.delete('ro-crate-metadata.jsonld'))
+        if entities[ROCrate::Crate::IDENTIFIER]
+          initialize_crate(entities, &block)
         else
-          raise "No { @id : './' } found in @graph!"
+          raise "No { @id : '#{ROCrate::Crate::IDENTIFIER}' } found in @graph!"
         end
       else
         raise "No @graph found in metadata!"
+      end
+    end
+
+    ##
+    # Create a crate from the given set of entities and block specifying how to read files.
+    #
+    # @yieldparam [String] filepath The path of the data entity to be read.
+    # @yieldreturn [File] A file object for that entity.
+    # @param entities [Hash] A Hash containing all the entities in the @graph, mapped by their @id.
+    # @return [Crate] The RO Crate.
+    def self.initialize_crate(entities)
+      ROCrate::Crate.new.tap do |crate|
+        crate.properties = entities[ROCrate::Crate::IDENTIFIER]
+        crate.metadata.properties = entities[ROCrate::Metadata::IDENTIFIER]
+        entities[ROCrate::Crate::IDENTIFIER]['hasPart'].each do |ref|
+          part = entities.delete(ref['@id'])
+          next unless part
+          if Array(part['@type']).include?('Dataset')
+            thing = ROCrate::Directory.new(crate, nil, nil, part)
+          else
+            file = yield(part['@id'])
+            if file
+              thing = ROCrate::File.new(crate, file, part['@id'], part)
+            else
+              warn "Could not find: #{part['@id']}"
+            end
+          end
+          crate.add_data_entity(thing)
+        end
+
+        entities.each do |id, entity|
+          crate.create_contextual_entity(id, entity)
+        end
       end
     end
   end

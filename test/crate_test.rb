@@ -6,8 +6,8 @@ class CrateTest < Test::Unit::TestCase
     info = crate.add_file(fixture_file('info.txt'),'the_info.txt')
     more_info = crate.add_file(fixture_file('info.txt'), 'directory/more_info.txt')
 
-    assert_equal crate, crate.dereference('./')
-    assert_equal crate.metadata, crate.dereference('ro-crate-metadata.jsonld')
+    assert_equal crate, crate.dereference(ROCrate::Crate::IDENTIFIER)
+    assert_equal crate.metadata, crate.dereference(ROCrate::Metadata::IDENTIFIER)
     assert_equal info, crate.dereference('./the_info.txt')
     assert_equal more_info, crate.dereference('./directory/more_info.txt')
     assert_nil crate.dereference('./directory/blabla.zip')
