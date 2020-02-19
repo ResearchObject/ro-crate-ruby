@@ -79,6 +79,14 @@ module ROCrate
     end
 
     ##
+    # The RO crate preview file
+    #
+    # @return [Preview]
+    def preview
+      @preview ||= ROCrate::Preview.new(self)
+    end
+
+    ##
     # All the entities within the crate. Includes contextual entities, data entities, the crate itself and its metadata file.
     #
     # @return [Array<Entity>]
@@ -91,7 +99,7 @@ module ROCrate
     #
     # @return [Array<Entity>]
     def default_entities
-      [metadata, self]
+      [metadata, preview, self]
     end
 
     def properties
@@ -122,7 +130,8 @@ module ROCrate
     def entries
       entries = {}
 
-      [metadata, *data_entities].each do |entity|
+      (default_entities | data_entities).each do |entity|
+        next if entity == self
         entity.entries.each do |path, io|
           entries[path] = io
         end

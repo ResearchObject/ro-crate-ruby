@@ -1,17 +1,20 @@
 module ROCrate
   ##
-  # A representation of the `ro-crate-metadata.jsonld` file.
-  class Metadata < File
-    IDENTIFIER = 'ro-crate-metadata.jsonld'.freeze
-    CONTEXT = 'https://w3id.org/ro/crate/1.0/context'.freeze
+  # A representation of the `ro-crate-preview.html` file.
+  class Preview < File
+    IDENTIFIER = 'ro-crate-preview.html'.freeze
+    DEFAULT_TEMPLATE = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..', 'ro-crate-preview.html.erb'))
+    attr_accessor :template
 
     def initialize(crate, properties = {})
+      @template = nil
       super(crate, nil, IDENTIFIER, properties)
     end
 
     def generate
-      graph = crate.entities.map(&:properties).reject(&:empty?)
-      JSON.pretty_generate('@context' => CONTEXT, '@graph' => graph)
+      b = binding
+      renderer = ERB.new(template || ::File.read(DEFAULT_TEMPLATE))
+      renderer.result(b)
     end
 
     private

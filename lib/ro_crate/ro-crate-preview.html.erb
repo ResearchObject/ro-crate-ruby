@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= crate.name || "New RO Crate" %></title>
+  <script type="application/ld+json"><%= crate.metadata.generate %></script>
+  <meta name="generator" content="https://github.com/fbacall/ro-crate-ruby">
+  <meta name="keywords" content="RO Crate">
+</head>
+<body>
+  <h1><%= crate.name || "New RO Crate" %></h1>
+  <% if crate.url %>
+    <a href="<%= crate.url %>" target="_blank"><%= crate.url %></a>
+  <% end %>
+  <p>
+    <%= crate.description %>
+  </p>
+  <dl>
+    <% if crate.author %>
+      <dt>Author</dt>
+      <dd><%= crate.author %></dd>
+    <% end %>
+    <% if crate.contact_point %>
+      <dt>Contact</dt>
+      <dd><%= crate.contact_point %></dd>
+    <% end %>
+    <% if crate.publisher %>
+      <dt>Publisher</dt>
+      <dd><%= crate.publisher %></dd>
+    <% end %>
+    <% if crate.license %>
+      <dt>License</dt>
+      <dd><%= crate.license %></dd>
+    <% end %>
+  </dl>
+
+  <h2>Contents</h2>
+  <ul>
+    <% crate.data_entities.each do |data_entity| %>
+      <li id="__data_entity_<%= data_entity.id.gsub(/\s/, '-') %>">
+        <strong><%= data_entity.name || data_entity.id %></strong>
+        <% if data_entity.content_size %>
+          <br/>Size: <%= data_entity.content_size %>
+        <% end %>
+        <% if data_entity.encoding_format %>
+          <br/>Format: <%= data_entity.encoding_format %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</body>
+</html>
