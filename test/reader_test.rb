@@ -94,6 +94,7 @@ class ReaderTest < Test::Unit::TestCase
     assert crate.entries['fish/data/info.txt']
     assert crate.entries['fish/data/nested.txt']
     assert crate.entries['fish/data/binary.jpg']
+    assert_equal ['./', 'fish/', 'ro-crate-metadata.jsonld'], crate.entities.map(&:id).sort
   end
 
   def test_reading_from_directory_with_directories
@@ -105,5 +106,6 @@ class ReaderTest < Test::Unit::TestCase
     assert crate.entries['fish/data/info.txt']
     assert crate.entries['fish/data/nested.txt']
     assert crate.entries['fish/data/binary.jpg']
+    assert_equal ['./', 'fish/', 'ro-crate-metadata.jsonld'], crate.entities.map(&:id).sort
   end
 end

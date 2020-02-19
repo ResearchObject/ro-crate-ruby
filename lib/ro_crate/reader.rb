@@ -94,9 +94,9 @@ module ROCrate
     # @return [Crate] The RO Crate.
     def self.initialize_crate(entities)
       ROCrate::Crate.new.tap do |crate|
-        crate.properties = entities[ROCrate::Crate::IDENTIFIER]
-        crate.metadata.properties = entities[ROCrate::Metadata::IDENTIFIER]
-        entities[ROCrate::Crate::IDENTIFIER]['hasPart'].each do |ref|
+        crate.properties = entities.delete(ROCrate::Crate::IDENTIFIER)
+        crate.metadata.properties = entities.delete(ROCrate::Metadata::IDENTIFIER)
+        crate.raw_properties['hasPart'].each do |ref|
           part = entities.delete(ref['@id'])
           next unless part
           if Array(part['@type']).include?('Dataset')
