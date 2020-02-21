@@ -1,9 +1,5 @@
-require 'forwardable'
-
 module ROCrate
   class Entity
-    extend Forwardable
-    def_delegators :@properties, :[], :[]=, :to_json, :has_type?
     attr_reader :crate
     attr_reader :properties
 
@@ -171,6 +167,22 @@ module ROCrate
       else
         self
       end
+    end
+
+    def [](key)
+      @properties[key]
+    end
+
+    def []=(key, *args)
+      @properties[key] = *args
+    end
+
+    def to_json
+      @properties.to_json
+    end
+
+    def has_type?(type)
+      @properties.has_type?(type)
     end
 
     private
