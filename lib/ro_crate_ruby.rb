@@ -19,6 +19,9 @@ require_relative './ro_crate/model/contact_point'
 require_relative './ro_crate/model/organization'
 require_relative './ro_crate/reader'
 require_relative './ro_crate/writer'
-#
+
+module ROCrateRuby
+end
+
 # ctx = JSON::LD::Context.parse(::File.join(::File.dirname(__FILE__), '..', 'vendor', 'ro-crate-context-0-2.json'))
 # JSON::LD::Context.add_preloaded('https://w3id.org/ro/crate/0.2/context', ctx)
