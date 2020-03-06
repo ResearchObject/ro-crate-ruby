@@ -34,3 +34,24 @@ file.author = [joe, existing_author]
 # Write it back
 ROCrate::Writer.new(crate).write('./an_ro_crate_directory')
 ```
+
+### RO Crate Preview
+A simple HTML preview page is generated when an RO Crate is written, containing a list of the crate's contents and some
+metadata. This preview is written to `ro-crate-preview.html` at the root of the RO Crate.
+
+The default template can be seen here [here](lib/ro_crate/ro-crate-preview.html.erb).
+
+You can customize this preview by providing your own ERB file. The ERB file is evaluated using the `ROCrate` instance's `binding`.
+
+#### Example
+```ruby
+crate = ROCrate::Crate.new
+
+# ... add stuff to the crate
+ 
+# Tell the crate to use your own template (as a string)
+crate.preview.template = File.read('path_to_your_template.html.erb')
+
+# Write it
+ROCrate::Writer.new(crate).write('./an_ro_crate_directory')
+```
