@@ -7,7 +7,7 @@ This is a WIP gem for creating, manipulating and reading RO crates (conforming t
 
 Example:
 ```ruby
-require './lib/ro_crate_ruby'
+require 'ro_crate_ruby'
 
 # Make a new crate
 crate = ROCrate::Crate.new
