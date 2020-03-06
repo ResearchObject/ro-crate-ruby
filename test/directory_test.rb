@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class DirectoryTest < Test::Unit::TestCase
-  def test_adding_directory_via_file
+  test 'adding directory via file' do
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory'))
 
@@ -15,7 +15,7 @@ class DirectoryTest < Test::Unit::TestCase
     assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['directory/data/binary.jpg'].path
   end
 
-  def test_adding_directory_via_path
+  test 'adding directory via path' do
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory').path.to_s)
 
@@ -29,7 +29,7 @@ class DirectoryTest < Test::Unit::TestCase
     assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['directory/data/binary.jpg'].path
   end
 
-  def test_adding_to_given_path
+  test 'adding to given path' do
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory').path.to_s, 'fish')
 

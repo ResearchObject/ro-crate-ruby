@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class CrateTest < Test::Unit::TestCase
-  def test_dereferencing
+  test 'dereferencing' do
     crate = ROCrate::Crate.new
     info = crate.add_file(fixture_file('info.txt'),'the_info.txt')
     more_info = crate.add_file(fixture_file('info.txt'), 'directory/more_info.txt')
@@ -13,7 +13,7 @@ class CrateTest < Test::Unit::TestCase
     assert_nil crate.dereference('./directory/blabla.zip')
   end
 
-  def test_dereferencing_equivalent_ids
+  test 'dereferencing equivalent ids' do
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
     workflow = crate.data_entities.first
 
@@ -25,7 +25,7 @@ class CrateTest < Test::Unit::TestCase
     assert_equal workflow, crate.dereference('workflow/workflow.knime')
   end
 
-  def test_entity_equality
+  test 'entity equality' do
     crate = ROCrate::Crate.new
     entity = ROCrate::Entity.new(crate, 'id123')
     entity.properties['name'] = 'Jess'
@@ -44,7 +44,7 @@ class CrateTest < Test::Unit::TestCase
     assert_equal 2, ([entity, entity4] | [entity2, entity4]).length
   end
 
-  def test_dereferencing_properties
+  test 'dereferencing properties' do
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
     workflow = crate.data_entities.first
     person = crate.dereference('#thomas')
@@ -58,7 +58,7 @@ class CrateTest < Test::Unit::TestCase
     assert_equal person, crate.properties['hasPart'].first.dereference.properties['creator'].dereference
   end
 
-  def test_auto_dereferencing_properties
+  test 'auto dereferencing properties' do
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
     person = crate.dereference('#thomas')
     person2 = crate.dereference('#stefan')
@@ -81,7 +81,7 @@ class CrateTest < Test::Unit::TestCase
     assert_includes crate.author, 'Bob'
   end
 
-  def test_auto_referencing_properties
+  test 'auto referencing properties' do
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
     person = crate.dereference('#thomas')
     person2 = crate.dereference('#stefan')
@@ -113,14 +113,14 @@ class CrateTest < Test::Unit::TestCase
     assert_equal new_person.reference, new_crate.raw_properties['author']
   end
 
-  def test_encoding_and_decoding_ids
+  test 'encoding and decoding ids' do
     crate = ROCrate::Crate.new
     info = crate.add_file(fixture_file('info.txt'), 'awkward path with spaces [] etc.txt')
     assert_equal 'awkward%20path%20with%20spaces%20%5B%5D%20etc.txt', info.id
     assert_equal 'awkward path with spaces [] etc.txt', info.filepath
   end
 
-  def test_creating_contextual_entities
+  test 'creating contextual entities' do
     crate = ROCrate::Crate.new
 
     # Specific class
@@ -136,7 +136,7 @@ class CrateTest < Test::Unit::TestCase
     assert_equal ROCrate::Entity, entity.class
   end
 
-  def test_adding_contextual_entities
+  test 'adding contextual entities' do
     crate = ROCrate::Crate.new
 
     fish = crate.add_person('#fish', { name: 'Wanda' })
@@ -155,7 +155,7 @@ class CrateTest < Test::Unit::TestCase
     assert_equal ROCrate::ContactPoint, ab.class
   end
 
-  def test_swapping_entities_between_crates
+  test 'swapping entities between crates' do
     crate1 = ROCrate::Crate.new
     crate2 = ROCrate::Crate.new
 

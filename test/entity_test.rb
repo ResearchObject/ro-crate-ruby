@@ -5,7 +5,7 @@ class EntityTest < Test::Unit::TestCase
   DATA_ID_PATTERN = /\A\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\Z/ # UUID
   DIR_ID_PATTERN = /\A\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\/\Z/ # UUID with trailing /
 
-  def test_automatic_ids
+  test 'automatic ids' do
     crate = ROCrate::Crate.new
 
     assert_equal './', crate.id
@@ -17,7 +17,7 @@ class EntityTest < Test::Unit::TestCase
     assert_match DIR_ID_PATTERN, ROCrate::Directory.new(crate).id
   end
 
-  def test_provided_ids
+  test 'provided ids' do
     crate = ROCrate::Crate.new
 
     # Contextual entities need absolute URI or #bla ID

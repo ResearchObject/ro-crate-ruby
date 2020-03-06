@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class WriterTest < Test::Unit::TestCase
-  def test_writing_to_directory
+  test 'writing to directory' do
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))
     crate.add_file(StringIO.new('just a string!'), 'notice.txt')
@@ -17,7 +17,7 @@ class WriterTest < Test::Unit::TestCase
     end
   end
 
-  def test_reading_and_writing_to_same_directory
+  test 'reading and writing to same directory' do
     Dir.mktmpdir do |dir|
       FileUtils.cp_r(fixture_file('workflow-0.2.0').path, dir)
       dir = ::File.join(dir, 'workflow-0.2.0')
@@ -31,7 +31,7 @@ class WriterTest < Test::Unit::TestCase
     end
   end
 
-  def test_writing_to_zip
+  test 'writing to zip' do
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))
     crate.add_file(fixture_file('data.csv'), 'directory/data.csv')
@@ -48,7 +48,7 @@ class WriterTest < Test::Unit::TestCase
     end
   end
 
-  def test_writing_a_directory
+  test 'writing a crate with a directory' do
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory').path.to_s, 'fish')
 
