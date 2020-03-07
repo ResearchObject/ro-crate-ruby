@@ -41,7 +41,7 @@ metadata. This preview is written to `ro-crate-preview.html` at the root of the 
 
 The default template can be seen here [here](lib/ro_crate/ro-crate-preview.html.erb).
 
-You can customize this preview by providing your own ERB file. The ERB file is evaluated using the `ROCrate` instance's `binding`.
+You can customize this preview by providing your own ERB file. The ERB file is evaluated using the `ROCrate::Crate` instance's `binding`.
 
 #### Example
 ```ruby
