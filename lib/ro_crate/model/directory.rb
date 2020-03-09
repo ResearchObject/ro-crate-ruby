@@ -15,7 +15,7 @@ module ROCrate
     # @param crate [Crate] The RO crate that owns this directory.
     # @param source_directory [String, #read, Hash, nil] The source directory that will be included in the crate.
     # @param crate_path [String] The relative path within the RO crate where this directory will be written.
-    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this dectory.
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this directory.
     def initialize(crate, source_directory = nil, crate_path = nil, properties = {})
       raise 'Not a directory' if source_directory && !(::File.directory?(source_directory) rescue true)
       source_directory = Pathname.new(source_directory).expand_path if source_directory.is_a?(String) || source_directory.is_a?(::File)

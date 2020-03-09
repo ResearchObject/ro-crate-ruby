@@ -99,12 +99,15 @@ module ROCrate
     end
 
     ##
-    # Resolve a style reference: { '@id' : '#an-entity' } to another Entity within the same crate, or nil if it wasn't found.
+    # Lookup an Entity using the given ID (in this Entity's crate).
     #
+    # @param id [String] The ID to query.
     # @return [Entity, nil]
     def dereference(id)
       crate.entities.detect { |e| e.canonical_id == crate.resolve_id(id) } if id
     end
+
+    alias_method :get, :dereference
 
     def id
       @properties['@id']
@@ -146,6 +149,13 @@ module ROCrate
       canonical_id == other.canonical_id
     end
 
+    ##
+    # The "canonical", global ID of this entity, as an "Archive and Package" (ARCP) URI, relative to the UUID of the crate.
+    # Will be formatted like so: arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/foo where `foo` is the local ID of this entity.
+    #
+    # This is used, for example, to compare equality of two entities.
+    #
+    # @return [URI]
     def canonical_id
       crate.resolve_id(id)
     end
@@ -181,6 +191,11 @@ module ROCrate
       @properties.to_json
     end
 
+    ##
+    # A safe way of checking if the Entity has the given type, regardless of whether the Entity has a single, or Array of types.
+    # Does not check superclasses etc.
+    # @param type [String] The type to check, e.g. "File".
+    # @return [Boolean]
     def has_type?(type)
       @properties.has_type?(type)
     end

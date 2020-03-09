@@ -1,4 +1,6 @@
 module ROCrate
+  ##
+  # A contextual entity that represents an organization.
   class Organization < ContextualEntity
     properties(['name'])
 

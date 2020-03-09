@@ -1,4 +1,6 @@
 module ROCrate
+  ##
+  # A contextual entity that represents a contact point.
   class ContactPoint < ContextualEntity
     properties(%w[name email])
 

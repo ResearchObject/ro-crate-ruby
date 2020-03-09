@@ -1,4 +1,6 @@
 module ROCrate
+  ##
+  # A contextual entity that represents a person.
   class Person < ContextualEntity
     properties(%w[name familyName givenName identifier sameAs])
 

@@ -19,26 +19,71 @@ module ROCrate
       super(self, nil, IDENTIFIER)
     end
 
+    ##
+    # Create a new file and add it to the crate.
+    #
+    # @param source [String, #read, nil] The source on the disk where this file will be read.
+    # @param crate_path [String] The relative path within the RO crate where this file will be written.
+    # @param entity_class [Class] The class to use to instantiate the Entity,
+    #   useful if you have created a subclass of ROCrate::File that you want to use. (defaults to ROCrate::File).
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this file.
+    #
+    # @return [Entity]
     def add_file(source, crate_path = nil, entity_class: ROCrate::File, **properties)
       entity_class.new(self, source, crate_path, properties).tap { |e| add_data_entity(e) }
     end
 
-    def add_directory(source, crate_path = nil, entity_class: ROCrate::Directory, **properties)
-      entity_class.new(self, source, crate_path, properties).tap { |e| add_data_entity(e) }
+    ##
+    # Create a new directory and add it to the crate.
+    #
+    # @param source_directory [String, #read, Hash, nil] The source directory that will be included in the crate.
+    # @param crate_path [String] The relative path within the RO crate where this directory will be written.
+    # @param entity_class [Class] The class to use to instantiate the Entity,
+    #   useful if you have created a subclass of ROCrate::Directory that you want to use. (defaults to ROCrate::Directory).
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this directory.
+    #
+    # @return [Entity]
+    def add_directory(source_directory, crate_path = nil, entity_class: ROCrate::Directory, **properties)
+      entity_class.new(self, source_directory, crate_path, properties).tap { |e| add_data_entity(e) }
     end
 
+    ##
+    # Create a new ROCrate::Person and add it to the crate
+    #
+    # @param id [String, nil] An ID to identify this person, or blank to auto-generate an appropriate one,
+    #   (or determine via the properties param)
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this person.
     def add_person(id, properties = {})
       create_contextual_entity(id, properties, entity_class: ROCrate::Person)
     end
 
+    ##
+    # Create a new ROCrate::ContactPoint and add it to the crate
+    #
+    # @param id [String, nil] An ID to identify this contact point, or blank to auto-generate an appropriate one,
+    #   (or determine via the properties param)
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this contact point.
     def add_contact_point(id, properties = {})
       create_contextual_entity(id, properties, entity_class: ROCrate::ContactPoint)
     end
 
+    ##
+    # Create a new ROCrate::Organization and add it to the crate
+    #
+    # @param id [String, nil] An ID to identify this organization, or blank to auto-generate an appropriate one,
+    #   (or determine via the properties param)
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this organization.
     def add_organization(id, properties = {})
       create_contextual_entity(id, properties, entity_class: ROCrate::Organization)
     end
 
+    ##
+    # Create a new contextual entity, and add it to the crate
+    #
+    # @param id [String, nil] An ID to identify this Entity, or blank to auto-generate an appropriate one,
+    #   (or determine via the properties param)
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this entity.
+    # @param entity_class [Class] The class to use to instantiate the Entity (defaults to a generic ROCrate::Entity).
     def create_contextual_entity(id, properties, entity_class: nil)
       entity = (entity_class || ROCrate::Entity).new(self, id, properties)
       entity = entity.specialize if entity_class.nil?
@@ -110,6 +155,12 @@ module ROCrate
       @uuid ||= SecureRandom.uuid
     end
 
+    ##
+    # Return an absolute URI for the given array of "parts", relative to the crate's ARCP URI.
+    #
+    # @param *parts [Array<String>] The list of parts to "join" onto the crate's base URI.
+    #
+    # @return [URI]
     def resolve_id(*parts)
       URI.join("arcp://uuid,#{uuid}", *parts)
     end

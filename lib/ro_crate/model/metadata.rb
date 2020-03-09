@@ -9,6 +9,9 @@ module ROCrate
       super(crate, nil, IDENTIFIER, properties)
     end
 
+    ##
+    # Generate the crate's `ro-crate-metadata.jsonld`.
+    # @return [String] The rendered JSON-LD as a "prettified" string.
     def generate
       graph = crate.entities.map(&:properties).reject(&:empty?)
       JSON.pretty_generate('@context' => CONTEXT, '@graph' => graph)

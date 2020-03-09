@@ -7,6 +7,10 @@ module ROCrate
       super.chomp('/')
     end
 
+    ##
+    # A map of all the files/directories associated with this DataEntity.
+    #
+    # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.
     def entries
       {}
     end
