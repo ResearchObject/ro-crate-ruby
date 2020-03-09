@@ -5,6 +5,8 @@ This is a WIP gem for creating, manipulating and reading RO crates (conforming t
 * RO Crate - https://researchobject.github.io/ro-crate/
 * RO Crate spec (1.0) - https://researchobject.github.io/ro-crate/1.0/
 
+[Documentation](https://fbacall.github.io/ro-crate-ruby/)
+
 Example:
 ```ruby
 require 'ro_crate_ruby'
