@@ -6,7 +6,7 @@ module ROCrate
     # @param source [String, File, Pathname] The source location for the crate.
     # @return [Crate] The RO Crate.
     def self.read(source)
-      if source.is_a?(String) && ::File.directory?(source)
+      if ::File.directory?(source)
         read_directory(source)
       else
         read_zip(source)
@@ -19,6 +19,7 @@ module ROCrate
     # @param source [String, File, Pathname] The location of the zip file.
     # @return [Crate] The RO Crate.
     def self.read_zip(source)
+      source = ::File.expand_path(source)
       dir = Dir.mktmpdir
       Dir.chdir(dir) do
         Zip::File.open(source) do |zipfile|
@@ -37,14 +38,15 @@ module ROCrate
     ##
     # Reads an RO Crate from a directory.
     #
-    # @param path [String] The location of the directory.
+    # @param source [String, File, Pathname] The location of the directory.
     # @return [Crate] The RO Crate.
-    def self.read_directory(path)
-      metadata_file = Dir.entries(path).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER }
+    def self.read_directory(source)
+      source = ::File.expand_path(source)
+      metadata_file = Dir.entries(source).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER }
 
       if metadata_file
-        read_from_metadata(::File.open(::File.join(path, metadata_file)).read) do |filepath|
-          fullpath = ::File.join(path, filepath)
+        read_from_metadata(::File.open(::File.join(source, metadata_file)).read) do |filepath|
+          fullpath = ::File.join(source, filepath)
           Pathname.new(fullpath) if ::File.exist?(fullpath)
         end
       else
