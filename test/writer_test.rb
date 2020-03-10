@@ -31,6 +31,21 @@ class WriterTest < Test::Unit::TestCase
     end
   end
 
+  test 'reading and writing to same directory without overwriting' do
+    Dir.mktmpdir do |dir|
+      FileUtils.cp_r(fixture_file('workflow-0.2.0').path, dir)
+      dir = ::File.join(dir, 'workflow-0.2.0')
+      crate = ROCrate::Reader.read(dir)
+      ::File.write(::File.join(dir, 'test.txt'), 'original') # Add an existing file to the directory.
+      crate.add_file(StringIO.new('modified'), 'test.txt') # Also add a file with the same path, but different content to the crate.
+
+      ROCrate::Writer.new(crate).write(dir, overwrite: false)
+      assert_equal 'original', ::File.read(::File.join(dir, 'test.txt')), 'Existing file should not have been overwritten since `skip_existing` is true.'
+      assert_equal 1257, ::File.size(::File.join(dir, 'README.md'))
+      assert_equal 24157, ::File.size(::File.join(dir, 'workflow', 'workflow.knime'))
+    end
+  end
+
   test 'writing to zip' do
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))

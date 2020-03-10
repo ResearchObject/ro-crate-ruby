@@ -1,4 +1,6 @@
 module ROCrate
+  ##
+  # A class to handle writing of RO Crates to Zip files or directories.
   class Writer
     ##
     # Initialize a new Writer for the given Crate.
@@ -11,12 +13,14 @@ module ROCrate
     # Write the crate to a directory.
     #
     # @param dir [String] A path for the directory for the crate to be written to. All parent directories will be created.
-    def write(dir)
+    # @param overwrite [Boolean] Whether or not to overwrite existing files.
+    def write(dir, overwrite: true)
       FileUtils.mkdir_p(dir) # Make any parent directories
       @crate.entries.each do |path, entry|
         fullpath = ::File.join(dir, path)
-        FileUtils.mkdir_p(::File.dirname(fullpath))
+        next if !overwrite && ::File.exist?(fullpath)
         next if entry.directory?
+        FileUtils.mkdir_p(::File.dirname(fullpath))
         temp = Tempfile.new('ro-crate-temp')
         begin
           entry.write(temp)
