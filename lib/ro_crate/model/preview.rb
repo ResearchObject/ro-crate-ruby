@@ -1,3 +1,5 @@
+require 'erb'
+
 module ROCrate
   ##
   # A representation of the `ro-crate-preview.html` file.
