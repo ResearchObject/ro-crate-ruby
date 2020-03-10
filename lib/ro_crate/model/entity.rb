@@ -1,4 +1,7 @@
 module ROCrate
+  ##
+  # A generic "Entity" within an RO Crate. It has an identifier and a set of properties, and will be referenced in the
+  # RO Crate Metadata's @graph.
   class Entity
     attr_reader :crate
     attr_reader :properties
