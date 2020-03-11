@@ -441,30 +441,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_contextual_entity-instance_method" title="#create_contextual_entity (instance method)">#<strong>create_contextual_entity</strong>(id, properties, entity_class: nil)  &#x21d2; Entity </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Create a new contextual entity, and add it to the crate.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#default_entities-instance_method" title="#default_entities (instance method)">#<strong>default_entities</strong>  &#x21d2; Array&lt;Entity&gt; </a>
     
 
@@ -721,7 +697,7 @@ crate&#39;s ARCP URI.</p>
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="DataEntity.html" title="ROCrate::DataEntity (class)">DataEntity</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="DataEntity.html#filepath-instance_method" title="ROCrate::DataEntity#filepath (method)">#filepath</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="DataEntity.html#filepath-instance_method" title="ROCrate::DataEntity#filepath (method)">#filepath</a></span>, <span class='object_link'><a href="DataEntity.html#specialize-class_method" title="ROCrate::DataEntity.specialize (method)">specialize</a></span></p>
 
   
   
@@ -732,7 +708,7 @@ crate&#39;s ARCP URI.</p>
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Entity.html#==-instance_method" title="ROCrate::Entity#== (method)">#==</a></span>, <span class='object_link'><a href="Entity.html#[]-instance_method" title="ROCrate::Entity#[] (method)">#[]</a></span>, <span class='object_link'><a href="Entity.html#[]=-instance_method" title="ROCrate::Entity#[]= (method)">#[]=</a></span>, <span class='object_link'><a href="Entity.html#auto_dereference-instance_method" title="ROCrate::Entity#auto_dereference (method)">#auto_dereference</a></span>, <span class='object_link'><a href="Entity.html#auto_reference-instance_method" title="ROCrate::Entity#auto_reference (method)">#auto_reference</a></span>, <span class='object_link'><a href="Entity.html#canonical_id-instance_method" title="ROCrate::Entity#canonical_id (method)">#canonical_id</a></span>, <span class='object_link'><a href="Entity.html#dereference-instance_method" title="ROCrate::Entity#dereference (method)">#dereference</a></span>, <span class='object_link'><a href="Entity.html#eql%3F-instance_method" title="ROCrate::Entity#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="Entity.html#has_type%3F-instance_method" title="ROCrate::Entity#has_type? (method)">#has_type?</a></span>, <span class='object_link'><a href="Entity.html#hash-instance_method" title="ROCrate::Entity#hash (method)">#hash</a></span>, <span class='object_link'><a href="Entity.html#id-instance_method" title="ROCrate::Entity#id (method)">#id</a></span>, <span class='object_link'><a href="Entity.html#id=-instance_method" title="ROCrate::Entity#id= (method)">#id=</a></span>, <span class='object_link'><a href="Entity.html#inspect-instance_method" title="ROCrate::Entity#inspect (method)">#inspect</a></span>, <span class='object_link'><a href="Entity.html#properties-class_method" title="ROCrate::Entity.properties (method)">properties</a></span>, <span class='object_link'><a href="Entity.html#raw_properties-instance_method" title="ROCrate::Entity#raw_properties (method)">#raw_properties</a></span>, <span class='object_link'><a href="Entity.html#reference-instance_method" title="ROCrate::Entity#reference (method)">#reference</a></span>, <span class='object_link'><a href="Entity.html#specialize-instance_method" title="ROCrate::Entity#specialize (method)">#specialize</a></span>, <span class='object_link'><a href="Entity.html#to_json-instance_method" title="ROCrate::Entity#to_json (method)">#to_json</a></span>, <span class='object_link'><a href="Entity.html#type-instance_method" title="ROCrate::Entity#type (method)">#type</a></span>, <span class='object_link'><a href="Entity.html#type=-instance_method" title="ROCrate::Entity#type= (method)">#type=</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Entity.html#==-instance_method" title="ROCrate::Entity#== (method)">#==</a></span>, <span class='object_link'><a href="Entity.html#[]-instance_method" title="ROCrate::Entity#[] (method)">#[]</a></span>, <span class='object_link'><a href="Entity.html#[]=-instance_method" title="ROCrate::Entity#[]= (method)">#[]=</a></span>, <span class='object_link'><a href="Entity.html#auto_dereference-instance_method" title="ROCrate::Entity#auto_dereference (method)">#auto_dereference</a></span>, <span class='object_link'><a href="Entity.html#auto_reference-instance_method" title="ROCrate::Entity#auto_reference (method)">#auto_reference</a></span>, <span class='object_link'><a href="Entity.html#canonical_id-instance_method" title="ROCrate::Entity#canonical_id (method)">#canonical_id</a></span>, <span class='object_link'><a href="Entity.html#dereference-instance_method" title="ROCrate::Entity#dereference (method)">#dereference</a></span>, <span class='object_link'><a href="Entity.html#eql%3F-instance_method" title="ROCrate::Entity#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="Entity.html#has_type%3F-instance_method" title="ROCrate::Entity#has_type? (method)">#has_type?</a></span>, <span class='object_link'><a href="Entity.html#hash-instance_method" title="ROCrate::Entity#hash (method)">#hash</a></span>, <span class='object_link'><a href="Entity.html#id-instance_method" title="ROCrate::Entity#id (method)">#id</a></span>, <span class='object_link'><a href="Entity.html#id=-instance_method" title="ROCrate::Entity#id= (method)">#id=</a></span>, <span class='object_link'><a href="Entity.html#inspect-instance_method" title="ROCrate::Entity#inspect (method)">#inspect</a></span>, <span class='object_link'><a href="Entity.html#properties-class_method" title="ROCrate::Entity.properties (method)">properties</a></span>, <span class='object_link'><a href="Entity.html#raw_properties-instance_method" title="ROCrate::Entity#raw_properties (method)">#raw_properties</a></span>, <span class='object_link'><a href="Entity.html#reference-instance_method" title="ROCrate::Entity#reference (method)">#reference</a></span>, <span class='object_link'><a href="Entity.html#to_json-instance_method" title="ROCrate::Entity#to_json (method)">#to_json</a></span>, <span class='object_link'><a href="Entity.html#type-instance_method" title="ROCrate::Entity#type (method)">#type</a></span>, <span class='object_link'><a href="Entity.html#type=-instance_method" title="ROCrate::Entity#type= (method)">#type=</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -1001,7 +977,7 @@ appropriate one, (or determine via the properties param)</p>
       <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_contact_point'>add_contact_point</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_create_contextual_entity'>create_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='comma'>,</span> <span class='label'>entity_class:</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContactPoint.html" title="ROCrate::ContactPoint (class)">ContactPoint</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ContactPoint.html" title="ROCrate::ContactPoint (class)">ContactPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Entity.html#initialize-instance_method" title="ROCrate::Entity#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1072,15 +1048,15 @@ appropriate one, (or determine via the properties param)</p>
       <pre class="lines">
 
 
-103
-104
-105
-106
-107
-108</pre>
+88
+89
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_entity'>entity</span> <span class='op'>=</span> <span class='id identifier rubyid_claim'>claim</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
@@ -1157,15 +1133,15 @@ appropriate one, (or determine via the properties param)</p>
       <pre class="lines">
 
 
-115
-116
-117
-118
-119
-120</pre>
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_data_entity'>add_data_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_entity'>entity</span> <span class='op'>=</span> <span class='id identifier rubyid_claim'>claim</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
@@ -1516,7 +1492,7 @@ appropriate one, (or determine via the properties param)</p>
       <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_organization'>add_organization</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_create_contextual_entity'>create_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='comma'>,</span> <span class='label'>entity_class:</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Organization.html" title="ROCrate::Organization (class)">Organization</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Organization.html" title="ROCrate::Organization (class)">Organization</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Entity.html#initialize-instance_method" title="ROCrate::Entity#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1609,7 +1585,7 @@ one, (or determine via the properties param)</p>
       <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_person'>add_person</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_create_contextual_entity'>create_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='comma'>,</span> <span class='label'>entity_class:</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Person.html" title="ROCrate::Person (class)">Person</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Person.html" title="ROCrate::Person (class)">Person</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Entity.html#initialize-instance_method" title="ROCrate::Entity#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1643,131 +1619,17 @@ if it was already included)</p>
       <pre class="lines">
 
 
-175
-176
-177
-178</pre>
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_claim'>claim</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_entity'>entity</span> <span class='kw'>if</span> <span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_crate'>crate</span> <span class='op'>==</span> <span class='kw'>self</span>
   <span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_raw_properties'>raw_properties</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="create_contextual_entity-instance_method">
-  
-    #<strong>create_contextual_entity</strong>(id, properties, entity_class: nil)  &#x21d2; <tt><span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Create a new contextual entity, and add it to the crate</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>id</span>
-      
-      
-        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>An ID to identify this Entity, or blank to auto-generate an appropriate
-one, (or determine via the properties param)</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>properties</span>
-      
-      
-        <span class='type'>(<tt>Hash{String =&gt; Object}</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>A hash of JSON-LD properties to associate with this entity.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>entity_class</span>
-      
-      
-        <span class='type'>(<tt>Class</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The class to use to instantiate the Entity (defaults to a generic
-ROCrate::Entity).</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-91
-92
-93
-94
-95
-96</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 91</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_create_contextual_entity'>create_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='comma'>,</span> <span class='label'>entity_class:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_entity'>entity</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_entity_class'>entity_class</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_entity'>entity</span> <span class='op'>=</span> <span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_specialize'>specialize</span> <span class='kw'>if</span> <span class='id identifier rubyid_entity_class'>entity_class</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-  <span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_entity'>entity</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1814,12 +1676,12 @@ all RO crates.</p>
       <pre class="lines">
 
 
-150
-151
-152</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_entities'>default_entities</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_metadata'>metadata</span><span class='comma'>,</span> <span class='id identifier rubyid_preview'>preview</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rbracket'>]</span>
@@ -1869,12 +1731,12 @@ entities, the crate itself and its metadata file.</p>
       <pre class="lines">
 
 
-142
-143
-144</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_entities'>entities</span>
   <span class='id identifier rubyid_default_entities'>default_entities</span> <span class='op'>|</span> <span class='id identifier rubyid_data_entities'>data_entities</span> <span class='op'>|</span> <span class='id identifier rubyid_contextual_entities'>contextual_entities</span>
@@ -1930,21 +1792,21 @@ the source data can be read.</p>
       <pre class="lines">
 
 
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196</pre>
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_entries'>entries</span>
   <span class='id identifier rubyid_entries'>entries</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1978,12 +1840,12 @@ the source data can be read.</p>
       <pre class="lines">
 
 
-198
-199
-200</pre>
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_binding'>get_binding</span>
   <span class='id identifier rubyid_binding'>binding</span>
@@ -2032,12 +1894,12 @@ the source data can be read.</p>
       <pre class="lines">
 
 
-126
-127
-128</pre>
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_metadata'>metadata</span>
   <span class='ivar'>@metadata</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Metadata.html#initialize-instance_method" title="ROCrate::Metadata#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -2086,12 +1948,12 @@ the source data can be read.</p>
       <pre class="lines">
 
 
-134
-135
-136</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_preview'>preview</span>
   <span class='ivar'>@preview</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Preview.html#initialize-instance_method" title="ROCrate::Preview#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -2116,12 +1978,12 @@ the source data can be read.</p>
       <pre class="lines">
 
 
-154
-155
-156</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_properties'>properties</span>
   <span class='kw'>super</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hasPart</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_data_entities'>data_entities</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:reference</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -2191,12 +2053,12 @@ crate&#39;s ARCP URI.</p>
       <pre class="lines">
 
 
-168
-169
-170</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resolve_id'>resolve_id</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_parts'>parts</span><span class='rparen'>)</span>
   <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>arcp://uuid,</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uuid'>uuid</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_parts'>parts</span><span class='rparen'>)</span>
@@ -2221,12 +2083,12 @@ crate&#39;s ARCP URI.</p>
       <pre class="lines">
 
 
-158
-159
-160</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/crate.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_uuid'>uuid</span>
   <span class='ivar'>@uuid</span> <span class='op'>||=</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span>
@@ -2241,7 +2103,7 @@ crate&#39;s ARCP URI.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Mar 10 17:37:00 2020 by
+  Generated on Wed Mar 11 10:23:14 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
