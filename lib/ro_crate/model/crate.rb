@@ -55,7 +55,7 @@ module ROCrate
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this person.
     # @return [Person]
     def add_person(id, properties = {})
-      create_contextual_entity(id, properties, entity_class: ROCrate::Person)
+      add_contextual_entity(ROCrate::Person.new(self, id, properties))
     end
 
     ##
@@ -66,7 +66,7 @@ module ROCrate
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this contact point.
     # @return [ContactPoint]
     def add_contact_point(id, properties = {})
-      create_contextual_entity(id, properties, entity_class: ROCrate::ContactPoint)
+      add_contextual_entity(ROCrate::ContactPoint.new(self, id, properties))
     end
 
     ##
@@ -77,22 +77,7 @@ module ROCrate
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this organization.
     # @return [Organization]
     def add_organization(id, properties = {})
-      create_contextual_entity(id, properties, entity_class: ROCrate::Organization)
-    end
-
-    ##
-    # Create a new contextual entity, and add it to the crate
-    #
-    # @param id [String, nil] An ID to identify this Entity, or blank to auto-generate an appropriate one,
-    #   (or determine via the properties param)
-    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this entity.
-    # @param entity_class [Class] The class to use to instantiate the Entity (defaults to a generic ROCrate::Entity).
-    # @return [Entity]
-    def create_contextual_entity(id, properties, entity_class: nil)
-      entity = (entity_class || ROCrate::Entity).new(self, id, properties)
-      entity = entity.specialize if entity_class.nil?
-      add_contextual_entity(entity)
-      entity
+      add_contextual_entity(ROCrate::Organization.new(self, id, properties))
     end
 
     ##

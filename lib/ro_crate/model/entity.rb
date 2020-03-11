@@ -167,21 +167,6 @@ module ROCrate
       @properties
     end
 
-    ##
-    # Turn a generic Entity into a specialization based on it's @type
-    # @return [Person, Organization, ContactPoint, Entity]
-    def specialize
-      if has_type?('Person')
-        ROCrate::Person.new(crate, id, properties)
-      elsif has_type?('Organization')
-        ROCrate::Organization.new(crate, id, properties)
-      elsif has_type?('ContactPoint')
-        ROCrate::ContactPoint.new(crate, id, properties)
-      else
-        self
-      end
-    end
-
     def [](key)
       @properties[key]
     end

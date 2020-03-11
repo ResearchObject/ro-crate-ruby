@@ -120,22 +120,6 @@ class CrateTest < Test::Unit::TestCase
     assert_equal 'awkward path with spaces [] etc.txt', info.filepath
   end
 
-  test 'creating contextual entities' do
-    crate = ROCrate::Crate.new
-
-    # Specific class
-    fish = crate.create_contextual_entity('fish', { name: 'Wanda' }, entity_class: ROCrate::Person)
-    assert_equal ROCrate::Person, fish.class
-
-    # Detect class
-    cool = crate.create_contextual_entity('cool', { '@type' => 'Organization', name: 'Cool Kids' })
-    assert_equal ROCrate::Organization, cool.class
-
-    # Force generic "Entity" class
-    entity = crate.create_contextual_entity('entity', { '@type' => 'Organization', name: 'We want to be an entity' }, entity_class: ROCrate::Entity)
-    assert_equal ROCrate::Entity, entity.class
-  end
-
   test 'adding contextual entities' do
     crate = ROCrate::Crate.new
 

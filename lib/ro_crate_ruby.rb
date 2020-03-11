@@ -4,6 +4,7 @@ require 'json'
 require 'zip'
 require 'zip/filesystem'
 require 'addressable'
+
 require 'ro_crate/json_ld_hash'
 require 'ro_crate/model/entity'
 require 'ro_crate/model/data_entity'
@@ -19,6 +20,3 @@ require 'ro_crate/model/contact_point'
 require 'ro_crate/model/organization'
 require 'ro_crate/reader'
 require 'ro_crate/writer'
-#
-# ctx = JSON::LD::Context.parse(::File.join(::File.dirname(__FILE__), '..', 'vendor', 'ro-crate-context-0-2.json'))
-# JSON::LD::Context.add_preloaded('https://w3id.org/ro/crate/0.2/context', ctx)

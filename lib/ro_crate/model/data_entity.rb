@@ -8,6 +8,19 @@ module ROCrate
     end
 
     ##
+    # Return an appropriate specialization of DataEntity for the given type.
+    # @param type [String, Array<String>] Type (or types) from the JSON-LD @type property.
+    # @return [Class]
+    def self.specialize(type)
+      type = [type] unless type.is_a?(Array)
+      if type.include?('Dataset')
+        ROCrate::Directory
+      else
+        ROCrate::File
+      end
+    end
+
+    ##
     # A map of all the files/directories associated with this DataEntity.
     #
     # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.

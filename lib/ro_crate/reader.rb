@@ -5,7 +5,7 @@ module ROCrate
     ##
     # Reads an RO Crate from a directory of zip file.
     #
-    # @param source [String, File, Pathname] The source location for the crate.
+    # @param source [String, ::File, Pathname] The source location for the crate.
     # @return [Crate] The RO Crate.
     def self.read(source)
       if ::File.directory?(source)
@@ -19,7 +19,7 @@ module ROCrate
     # Reads an RO Crate from a zip file. It first extracts the Zip file to a temporary directory, and then calls
     # #read_directory.
     #
-    # @param source [String, File, Pathname] The location of the zip file.
+    # @param source [String, ::File, Pathname] The location of the zip file.
     # @return [Crate] The RO Crate.
     def self.read_zip(source)
       source = ::File.expand_path(source)
@@ -41,27 +41,27 @@ module ROCrate
     ##
     # Reads an RO Crate from a directory.
     #
-    # @param source [String, File, Pathname] The location of the directory.
+    # @param source [String, ::File, Pathname] The location of the directory.
     # @return [Crate] The RO Crate.
     def self.read_directory(source)
       source = ::File.expand_path(source)
       metadata_file = Dir.entries(source).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER }
 
       if metadata_file
-        entities = entities_from_metadata(::File.open(::File.join(source, metadata_file)))
+        entities = entities_from_metadata(::File.read(::File.join(source, metadata_file)))
         build_crate(entities, source)
       else
-        raise "No metadata found!"
+        raise 'No metadata found!'
       end
     end
 
     ##
-    # Reads an RO Crate from an `ro-crate-metadata.json` file.
+    # Extracts all the entities from the @graph of the RO Crate Metadata.
     #
     # @param metadata_json [String] A string containing the metadata JSON.
-    # @return [Array<Hash>]
+    # @return [Hash{String => Hash}] A Hash of all the entities, mapped by their @id.
     def self.entities_from_metadata(metadata_json)
-      metadata = JSON.load(metadata_json)
+      metadata = JSON.parse(metadata_json)
       graph = metadata['@graph']
 
       if graph
@@ -76,7 +76,7 @@ module ROCrate
         if entities[ROCrate::Crate::IDENTIFIER]
           entities
         else
-          raise "No { @id : '#{ROCrate::Crate::IDENTIFIER}' } found in @graph!"
+          raise "No { \"@id\" : \"#{ROCrate::Crate::IDENTIFIER}\" } found in @graph!"
         end
       else
         raise "No @graph found in metadata!"
@@ -86,8 +86,8 @@ module ROCrate
     ##
     # Create a crate from the given set of entities.
     #
-    # @param entity_hash [Hash] A Hash containing all the entities in the @graph, mapped by their @id.
-    # @param source [String, File, Pathname] The location of the RO Crate being read.
+    # @param entity_hash [Hash{String => Hash}] A Hash containing all the entities in the @graph, mapped by their @id.
+    # @param source [String, ::File, Pathname] The location of the RO Crate being read.
     # @return [Crate] The RO Crate.
     def self.build_crate(entity_hash, source)
       ROCrate::Crate.new.tap do |crate|
@@ -97,8 +97,8 @@ module ROCrate
           crate.add_data_entity(entity)
         end
         # The remaining entities in the hash must be contextual.
-        entity_hash.each do |id, entity|
-          crate.create_contextual_entity(id, entity)
+        extract_contextual_entities(crate, entity_hash).each do |entity|
+          crate.add_contextual_entity(entity)
         end
       end
     end
@@ -107,9 +107,9 @@ module ROCrate
     # Discover data entities from the `hasPart` property of a crate, and create DataEntity objects for them.
     # Entities are looked up in the given `entity_hash` (and then removed from it).
     # @param crate [Crate] The RO Crate being read.
-    # @param source [String, File, Pathname] The location of the RO Crate being read.
+    # @param source [String, ::File, Pathname] The location of the RO Crate being read.
     # @param entity_hash [Hash] A Hash containing all the entities in the @graph, mapped by their @id.
-    # @return [Array<DataEntity>] An array of ROCrate::File or ROCrate::Directory objects.
+    # @return [Array<ROCrate::File, ROCrate::Directory>] The extracted DataEntity objects.
     def self.extract_data_entities(crate, source, entity_hash)
       crate.raw_properties['hasPart'].map do |ref|
         entity_props = entity_hash.delete(ref['@id'])
@@ -122,14 +122,26 @@ module ROCrate
           next
         end
 
-        type = if Array(entity_props['@type']).include?('Dataset')
-                 ROCrate::Directory
-               else
-                 ROCrate::File
-               end
-
-        type.new(crate, path, id, entity_props)
+        entity_class = ROCrate::DataEntity.specialize(entity_props['@type'])
+        entity_class.new(crate, path, id, entity_props)
       end.compact
+    end
+
+    ##
+    # Create appropriately specialized ContextualEntity objects from the given hash of entities and their properties.
+    # @param crate [Crate] The RO Crate being read.
+    # @param entity_hash [Hash] A Hash containing all the entities in the @graph, mapped by their @id.
+    # @return [Array<ContextualEntity>] The extracted ContextualEntity objects.
+    def self.extract_contextual_entities(crate, entity_hash)
+      entities = []
+
+      entity_hash.each do |id, entity_props|
+        entity_class = ROCrate::ContextualEntity.specialize(entity_props['@type'])
+        entity = entity_class.new(crate, id, entity_props)
+        entities << entity
+      end
+
+      entities
     end
   end
 end

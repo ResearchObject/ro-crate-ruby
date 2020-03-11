@@ -20,7 +20,7 @@ module ROCrate
     def write(dest)
       input = source
       input = input.open('rb') if input.is_a?(Pathname)
-      while buff = input.read(4096)
+      while (buff = input.read(4096))
         dest.write(buff)
       end
     end
