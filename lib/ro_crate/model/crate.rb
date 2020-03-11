@@ -22,7 +22,7 @@ module ROCrate
     ##
     # Create a new file and add it to the crate.
     #
-    # @param source [String, Pathname, File, #read, nil] The source on the disk where this file will be read.
+    # @param source [String, Pathname, ::File, #read, nil] The source on the disk where this file will be read.
     # @param crate_path [String] The relative path within the RO crate where this file will be written.
     # @param entity_class [Class] The class to use to instantiate the Entity,
     #   useful if you have created a subclass of ROCrate::File that you want to use. (defaults to ROCrate::File).
@@ -36,7 +36,7 @@ module ROCrate
     ##
     # Create a new directory and add it to the crate.
     #
-    # @param source_directory [String, Pathname, File, #read, nil] The source directory that will be included in the crate.
+    # @param source_directory [String, Pathname, ::File, #read, nil] The source directory that will be included in the crate.
     # @param crate_path [String] The relative path within the RO crate where this directory will be written.
     # @param entity_class [Class] The class to use to instantiate the Entity,
     #   useful if you have created a subclass of ROCrate::Directory that you want to use. (defaults to ROCrate::Directory).
