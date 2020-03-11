@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ro-crate-ruby'
-  s.version     = '0.0.3'
+  s.version     = '0.1.0'
   s.date        = '2019-10-23'
   s.summary     = 'Create, manipulate, read RO crates.'
   s.authors     = ['Finn Bacall']
@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n")
   s.homepage    = 'https://github.com/fbacall/ro-crate-ruby'
   s.require_paths = ['lib']
-  # s.add_runtime_dependency 'json-ld'
   s.add_runtime_dependency 'addressable'
   s.add_runtime_dependency 'rubyzip'
   s.add_development_dependency 'rake'
