@@ -5,9 +5,24 @@ This is a WIP gem for creating, manipulating and reading RO crates (conforming t
 * RO Crate - https://researchobject.github.io/ro-crate/
 * RO Crate spec (1.0) - https://researchobject.github.io/ro-crate/1.0/
 
-[Documentation](https://fbacall.github.io/ro-crate-ruby/)
+## Installation
 
-Example:
+Using bundler, add the following to your Gemfile:
+
+```
+gem 'ro-crate-ruby', git: 'https://github.com/fbacall/ro-crate-ruby.git'
+```
+
+and run `bundle install`.
+
+## Usage
+
+### Documentation
+
+[Click here for API documentation](https://fbacall.github.io/ro-crate-ruby/).
+
+### Examples
+
 ```ruby
 require 'ro_crate_ruby'
 
@@ -43,9 +58,11 @@ metadata. This preview is written to `ro-crate-preview.html` at the root of the 
 
 The default template can be seen here [here](lib/ro_crate/ro-crate-preview.html.erb).
 
-You can customize this preview by providing your own ERB file. The ERB file is evaluated using the `ROCrate::Crate` instance's `binding`.
+You can customize this preview by providing your own ERB file. 
+The ERB file is evaluated using the `ROCrate::Crate` instance's `binding`.
 
 #### Example
+
 ```ruby
 crate = ROCrate::Crate.new
 
