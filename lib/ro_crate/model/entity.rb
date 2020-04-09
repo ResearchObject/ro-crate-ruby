@@ -171,8 +171,8 @@ module ROCrate
       @properties[key]
     end
 
-    def []=(key, *args)
-      @properties[key] = *args
+    def []=(key, value)
+      @properties[key] = value
     end
 
     def to_json

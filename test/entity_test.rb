@@ -53,4 +53,20 @@ class EntityTest < Test::Unit::TestCase
     assert_equal ROCrate::ContextualEntity, ROCrate::ContextualEntity.specialize('Something else')
     assert_equal ROCrate::ContextualEntity, ROCrate::ContextualEntity.specialize('File')
   end
+
+  test 'setting properties' do
+    crate = ROCrate::Crate.new
+
+    crate['test'] = 'hello'
+    assert_equal 'hello', crate.properties['test']
+
+    crate['test'] = ['hello']
+    assert_equal ['hello'], crate.properties['test']
+
+    person = ROCrate::Person.new(crate, 'fred', { name: 'Fred' })
+    crate.author = person
+    assert_equal({ '@id' => '#fred' }, crate['author'])
+    assert_equal({ '@id' => '#fred' }, person.reference)
+    assert_equal(person.canonical_id, crate.author.canonical_id)
+  end
 end
