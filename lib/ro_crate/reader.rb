@@ -6,25 +6,25 @@ module ROCrate
     # Reads an RO Crate from a directory of zip file.
     #
     # @param source [String, ::File, Pathname] The source location for the crate.
+    # @param target_dir [String, ::File, Pathname] The target directory where the crate should be unzipped (if its a Zip file).
     # @return [Crate] The RO Crate.
-    def self.read(source)
+    def self.read(source, target_dir: Dir.mktmpdir)
+      raise "Not a directory!" unless ::File.directory?(target_dir)
       if ::File.directory?(source)
         read_directory(source)
       else
-        read_zip(source)
+        read_zip(source, target_dir: target_dir)
       end
     end
 
     ##
-    # Reads an RO Crate from a zip file. It first extracts the Zip file to a temporary directory, and then calls
-    # #read_directory.
+    # Extract the contents of the given Zip file to the given directory.
     #
     # @param source [String, ::File, Pathname] The location of the zip file.
-    # @return [Crate] The RO Crate.
-    def self.read_zip(source)
+    # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
+    def self.unzip_to(source, target)
       source = ::File.expand_path(source)
-      dir = Dir.mktmpdir
-      Dir.chdir(dir) do
+      Dir.chdir(target) do
         Zip::File.open(source) do |zipfile|
           zipfile.each do |entry|
             unless ::File.exist?(entry.name)
@@ -34,8 +34,19 @@ module ROCrate
           end
         end
       end
+    end
 
-      read_directory(dir)
+    ##
+    # Reads an RO Crate from a zip file. It first extracts the Zip file to a temporary directory, and then calls
+    # #read_directory.
+    #
+    # @param source [String, ::File, Pathname] The location of the zip file.
+    # @param target_dir [String, ::File, Pathname] The target directory where the crate should be unzipped.
+    # @return [Crate] The RO Crate.
+    def self.read_zip(source, target_dir: Dir.mktmpdir)
+      unzip_to(source, target_dir)
+
+      read_directory(target_dir)
     end
 
     ##

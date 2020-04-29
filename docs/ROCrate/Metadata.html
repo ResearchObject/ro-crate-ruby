@@ -135,6 +135,11 @@
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://w3id.org/ro/crate/1.0/context</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="SPEC-constant" class="">SPEC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://w3id.org/ro/crate/1.0</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
     </dl>
   
 
@@ -272,12 +277,12 @@
       <pre class="lines">
 
 
-8
 9
-10</pre>
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/metadata.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/metadata.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
@@ -338,13 +343,13 @@
       <pre class="lines">
 
 
-15
 16
 17
-18</pre>
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/metadata.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/metadata.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate'>generate</span>
   <span class='id identifier rubyid_graph'>graph</span> <span class='op'>=</span> <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_entities'>entities</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:properties</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:empty?</span><span class='rparen'>)</span>
@@ -360,7 +365,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Mar 11 14:44:55 2020 by
+  Generated on Wed Apr 29 11:08:42 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>

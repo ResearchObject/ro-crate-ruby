@@ -97,6 +97,16 @@ class ReaderTest < Test::Unit::TestCase
     assert_equal ['./', 'fish/', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
   end
 
+  test 'reading from zip to a specified target directory' do
+    Dir.mktmpdir('test-1234-banana') do |dir|
+      crate = ROCrate::Reader.read_zip(fixture_file('directory.zip'), target_dir: dir)
+
+      assert crate.entries['fish/info.txt']
+      assert crate.entries['fish/info.txt'].source.to_s.include?('/test-1234-banana')
+    end
+  end
+
+
   test 'reading from directory with directories' do
     crate = ROCrate::Reader.read_directory(fixture_file('directory_crate').path)
 
