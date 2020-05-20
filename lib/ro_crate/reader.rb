@@ -125,16 +125,20 @@ module ROCrate
       crate.raw_properties['hasPart'].map do |ref|
         entity_props = entity_hash.delete(ref['@id'])
         next unless entity_props
-        id = entity_props['@id']
-        fullpath = ::File.join(source, id)
-        path = ::File.exist?(fullpath) ? Pathname.new(fullpath) : nil
+        id = entity_props.delete('@id')
+        decoded_id = URI.decode_www_form_component(id)
+        path = nil
+        [id, decoded_id].each do |i|
+          fullpath = ::File.join(source, i)
+          path = Pathname.new(fullpath) if ::File.exist?(fullpath)
+        end
         unless path
           warn "Missing file/directory: #{id}, skipping..."
           next
         end
 
         entity_class = ROCrate::DataEntity.specialize(entity_props['@type'])
-        entity_class.new(crate, path, id, entity_props)
+        entity_class.new(crate, path, decoded_id, entity_props)
       end.compact
     end
 

@@ -106,7 +106,6 @@ class ReaderTest < Test::Unit::TestCase
     end
   end
 
-
   test 'reading from directory with directories' do
     crate = ROCrate::Reader.read_directory(fixture_file('directory_crate').path)
 
@@ -117,5 +116,29 @@ class ReaderTest < Test::Unit::TestCase
     assert crate.entries['fish/data/nested.txt']
     assert crate.entries['fish/data/binary.jpg']
     assert_equal ['./', 'fish/', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
+  end
+
+  test 'reading does not double-encode encoded IDs' do
+    crate = ROCrate::Reader.read_directory(fixture_file('spaces').path)
+    file = crate.dereference('file with spaces.txt')
+    assert file
+    assert_equal 'file%20with%20spaces.txt', file.id
+
+    # Write/Read the crate 3 times to ensure!
+    Tempfile.create do |file|
+      ROCrate::Writer.new(crate).write_zip(file)
+      crate = ROCrate::Reader.read_zip(file)
+      Tempfile.create do |file|
+        ROCrate::Writer.new(crate).write_zip(file)
+        crate = ROCrate::Reader.read_zip(file)
+        Tempfile.create do |file|
+          ROCrate::Writer.new(crate).write_zip(file)
+          crate = ROCrate::Reader.read_zip(file)
+          file = crate.dereference('file with spaces.txt')
+          assert file
+          assert_equal 'file%20with%20spaces.txt', file.id
+        end
+      end
+    end
   end
 end
