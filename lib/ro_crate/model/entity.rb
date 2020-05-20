@@ -158,7 +158,7 @@ module ROCrate
     #
     # This is used, for example, to compare equality of two entities.
     #
-    # @return [URI]
+    # @return [Addressable::URI]
     def canonical_id
       crate.resolve_id(id)
     end
