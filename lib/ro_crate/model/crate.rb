@@ -145,13 +145,13 @@ module ROCrate
     end
 
     ##
-    # Return an absolute URI for the given array of "parts", relative to the crate's ARCP URI.
+    # Return an absolute URI for the given string ID, relative to the crate's ARCP URI.
     #
-    # @param parts [Array<String>] The list of parts to "join" onto the crate's base URI.
+    # @param id [String] The ID to "join" onto the crate's base URI.
     #
-    # @return [URI]
-    def resolve_id(*parts)
-      URI.join("arcp://uuid,#{uuid}", *parts)
+    # @return [Addressable::URI]
+    def resolve_id(id)
+      Addressable::URI.parse("arcp://uuid,#{uuid}").join(id)
     end
 
     ##

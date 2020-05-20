@@ -116,6 +116,7 @@ class CrateTest < Test::Unit::TestCase
   test 'encoding and decoding ids' do
     crate = ROCrate::Crate.new
     info = crate.add_file(fixture_file('info.txt'), 'awkward path with spaces [] etc.txt')
+    assert crate.dereference('awkward path with spaces [] etc.txt')
     assert_equal 'awkward%20path%20with%20spaces%20%5B%5D%20etc.txt', info.id
     assert_equal 'awkward path with spaces [] etc.txt', info.filepath
   end
