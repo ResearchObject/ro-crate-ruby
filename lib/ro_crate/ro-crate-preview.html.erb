@@ -37,7 +37,11 @@
   <ul>
     <% data_entities.each do |data_entity| %>
       <li id="__data_entity_<%= data_entity.id.gsub(/\s/, '-') %>">
-        <strong><%= data_entity.name || data_entity.id %></strong>
+        <% if data_entity.external? %>
+          <strong><a href="<%= data_entity.id %>" target="_blank"><%= data_entity.name || data_entity.id %></a></strong>
+        <% else %>
+          <strong><%= data_entity.name || data_entity.id %></strong>
+        <% end %>
         <% if data_entity.content_size %>
           <br/>Size: <%= data_entity.content_size %>
         <% end %>

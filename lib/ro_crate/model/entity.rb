@@ -163,6 +163,14 @@ module ROCrate
       crate.resolve_id(id)
     end
 
+    ##
+    # Is this entity local to the crate or an external reference?
+    #
+    # @return [boolean]
+    def external?
+      crate.canonical_id.host != canonical_id.host
+    end
+
     def raw_properties
       @properties
     end

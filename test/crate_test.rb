@@ -166,11 +166,14 @@ class CrateTest < Test::Unit::TestCase
 
   test 'external files' do
     crate = ROCrate::Crate.new
-    readme = crate.add_external_file('https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md')
+    local = crate.add_file(fixture_file('info.txt'))
+    ext = crate.add_external_file('https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md')
 
     assert_equal crate, crate.dereference(ROCrate::Crate::IDENTIFIER)
     assert_equal crate.metadata, crate.dereference(ROCrate::Metadata::IDENTIFIER)
-    assert_equal readme, crate.dereference('https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md')
-    assert_equal 'https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md', readme.canonical_id.to_s
+    assert_equal ext, crate.dereference('https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md')
+    assert_equal 'https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md', ext.canonical_id.to_s
+    assert ext.external?
+    refute local.external?
   end
 end
