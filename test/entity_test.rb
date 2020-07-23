@@ -9,7 +9,7 @@ class EntityTest < Test::Unit::TestCase
     crate = ROCrate::Crate.new
 
     assert_equal './', crate.id
-    assert_equal 'ro-crate-metadata.jsonld', crate.metadata.id
+    assert_equal 'ro-crate-metadata.json', crate.metadata.id
     assert_match CONTEXTUAL_ID_PATTERN, ROCrate::Person.new(crate).id
     assert_match CONTEXTUAL_ID_PATTERN, ROCrate::Organization.new(crate).id
     assert_match CONTEXTUAL_ID_PATTERN, ROCrate::ContactPoint.new(crate).id

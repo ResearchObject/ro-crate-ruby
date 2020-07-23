@@ -2,9 +2,10 @@ module ROCrate
   ##
   # A representation of the `ro-crate-metadata.jsonld` file.
   class Metadata < File
-    IDENTIFIER = 'ro-crate-metadata.jsonld'.freeze
-    CONTEXT = 'https://w3id.org/ro/crate/1.0/context'.freeze
-    SPEC = 'https://w3id.org/ro/crate/1.0'.freeze
+    IDENTIFIER = 'ro-crate-metadata.json'.freeze
+    IDENTIFIER_1_0 = 'ro-crate-metadata.jsonld'.freeze # 1.0 spec identifier
+    CONTEXT = 'https://w3id.org/ro/crate/1.1/context'.freeze
+    SPEC = 'https://w3id.org/ro/crate/1.1'.freeze
 
     def initialize(crate, properties = {})
       super(crate, nil, IDENTIFIER, properties)

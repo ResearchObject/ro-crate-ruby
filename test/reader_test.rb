@@ -141,4 +141,11 @@ class ReaderTest < Test::Unit::TestCase
       end
     end
   end
+
+  test 'can read a 1.1 spec crate' do
+    crate = ROCrate::Reader.read_directory(fixture_file('crate-spec1.1').path)
+    file = crate.dereference('file with spaces.txt')
+    assert file
+    assert_equal 'file%20with%20spaces.txt', file.id
+  end
 end

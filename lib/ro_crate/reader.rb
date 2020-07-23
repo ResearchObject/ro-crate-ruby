@@ -56,7 +56,8 @@ module ROCrate
     # @return [Crate] The RO Crate.
     def self.read_directory(source)
       source = ::File.expand_path(source)
-      metadata_file = Dir.entries(source).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER }
+      metadata_file = Dir.entries(source).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER ||
+          entry == ROCrate::Metadata::IDENTIFIER_1_0 }
 
       if metadata_file
         entities = entities_from_metadata(::File.read(::File.join(source, metadata_file)))
@@ -83,7 +84,11 @@ module ROCrate
         end
         # Do some normalization...
         entities[ROCrate::Crate::IDENTIFIER] = (entities.delete('./') || entities.delete('.'))
-        entities[ROCrate::Metadata::IDENTIFIER] = (entities.delete('./ro-crate-metadata.jsonld') || entities.delete('ro-crate-metadata.jsonld'))
+        entities[ROCrate::Metadata::IDENTIFIER] = (entities.delete("./#{ROCrate::Metadata::IDENTIFIER}") ||
+            entities.delete(ROCrate::Metadata::IDENTIFIER) ||
+            entities.delete("./#{ROCrate::Metadata::IDENTIFIER_1_0}") ||
+            entities.delete(ROCrate::Metadata::IDENTIFIER_1_0)
+        )
         if entities[ROCrate::Crate::IDENTIFIER]
           entities
         else
