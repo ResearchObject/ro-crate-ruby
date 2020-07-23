@@ -36,22 +36,23 @@ class EntityTest < Test::Unit::TestCase
   end
 
   test 'fetch appropriate class for type' do
-    assert_equal ROCrate::File, ROCrate::DataEntity.specialize('File')
-    assert_equal ROCrate::File, ROCrate::DataEntity.specialize(['File', 'Image'])
-    assert_equal ROCrate::File, ROCrate::DataEntity.specialize('SoftwareSourceCode')
-    assert_equal ROCrate::File, ROCrate::DataEntity.specialize('anything that isnt a directory')
-    assert_equal ROCrate::Directory, ROCrate::DataEntity.specialize('Dataset')
-    assert_equal ROCrate::Directory, ROCrate::DataEntity.specialize(['Dataset', 'Image'])
-    assert_equal ROCrate::File, ROCrate::DataEntity.specialize('Person')
+    assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => 'File' })
+    assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => ['File', 'Image'] })
+    assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => 'SoftwareSourceCode' })
+    assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => 'anything that isnt a directory' })
+    assert_equal ROCrate::Directory, ROCrate::DataEntity.specialize({ '@type' => 'Dataset' })
+    assert_equal ROCrate::Directory, ROCrate::DataEntity.specialize({ '@type' => ['Dataset', 'Image'] })
+    assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => 'Person' })
+    assert_equal ROCrate::ExternalFile, ROCrate::DataEntity.specialize({ '@type' => ['File', 'Image'], '@id' => 'http://www.external.com' })
 
-    assert_equal ROCrate::Person, ROCrate::ContextualEntity.specialize('Person')
-    assert_equal ROCrate::Person, ROCrate::ContextualEntity.specialize(['Person', 'Dave'])
-    assert_equal ROCrate::ContactPoint, ROCrate::ContextualEntity.specialize('ContactPoint')
-    assert_equal ROCrate::ContactPoint, ROCrate::ContextualEntity.specialize(['ContactPoint', 'Something'])
-    assert_equal ROCrate::Organization, ROCrate::ContextualEntity.specialize('Organization')
-    assert_equal ROCrate::Organization, ROCrate::ContextualEntity.specialize(['Organization', 'College'])
-    assert_equal ROCrate::ContextualEntity, ROCrate::ContextualEntity.specialize('Something else')
-    assert_equal ROCrate::ContextualEntity, ROCrate::ContextualEntity.specialize('File')
+    assert_equal ROCrate::Person, ROCrate::ContextualEntity.specialize({ '@type' => 'Person' })
+    assert_equal ROCrate::Person, ROCrate::ContextualEntity.specialize({ '@type' => ['Person', 'Dave'] })
+    assert_equal ROCrate::ContactPoint, ROCrate::ContextualEntity.specialize({ '@type' => 'ContactPoint' })
+    assert_equal ROCrate::ContactPoint, ROCrate::ContextualEntity.specialize({ '@type' => ['ContactPoint', 'Something'] })
+    assert_equal ROCrate::Organization, ROCrate::ContextualEntity.specialize({ '@type' => 'Organization' })
+    assert_equal ROCrate::Organization, ROCrate::ContextualEntity.specialize({ '@type' => ['Organization', 'College'] })
+    assert_equal ROCrate::ContextualEntity, ROCrate::ContextualEntity.specialize({ '@type' => 'Something else' })
+    assert_equal ROCrate::ContextualEntity, ROCrate::ContextualEntity.specialize({ '@type' => 'File' })
   end
 
   test 'setting properties' do

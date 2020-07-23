@@ -21,10 +21,11 @@ module ROCrate
     end
 
     ##
-    # Return an appropriate specialization of ContextualEntity for the given type.
-    # @param type [String, Array<String>] Type (or types) from the JSON-LD @type property.
+    # Return an appropriate specialization of ContextualEntity for the given properties.
+    # @param props [Hash] Set of properties to try and infer the type from.
     # @return [Class]
-    def self.specialize(type)
+    def self.specialize(props)
+      type = props['@type']
       type = [type] unless type.is_a?(Array)
       if type.include?('Person')
         ROCrate::Person

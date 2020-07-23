@@ -14,11 +14,18 @@
       "hasPart": [
         {
           "@id": "file%20with%20spaces.txt"
+        },
+        {
+          "@id": "http://example.com/external_ref.txt"
         }
       ]
     },
     {
       "@id": "file%20with%20spaces.txt",
+      "@type": "File"
+    },
+    {
+      "@id": "http://example.com/external_ref.txt",
       "@type": "File"
     }
   ]

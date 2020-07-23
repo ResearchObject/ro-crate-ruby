@@ -163,4 +163,14 @@ class CrateTest < Test::Unit::TestCase
     assert_equal 1, crate1.contextual_entities.length
     assert_equal 2, crate1.contextual_entities.first.properties['cats']
   end
+
+  test 'external files' do
+    crate = ROCrate::Crate.new
+    readme = crate.add_external_file('https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md')
+
+    assert_equal crate, crate.dereference(ROCrate::Crate::IDENTIFIER)
+    assert_equal crate.metadata, crate.dereference(ROCrate::Metadata::IDENTIFIER)
+    assert_equal readme, crate.dereference('https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md')
+    assert_equal 'https://raw.githubusercontent.com/fbacall/ro-crate-ruby/master/README.md', readme.canonical_id.to_s
+  end
 end

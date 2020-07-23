@@ -81,4 +81,22 @@ class WriterTest < Test::Unit::TestCase
       end
     end
   end
+
+  test 'do not try and write external files' do
+    stub_request(:get, "http://example.com/external_ref.txt").to_return(status: 500)
+
+    crate = ROCrate::Crate.new
+    crate.add_file(fixture_file('info.txt'))
+    crate.add_external_file('http://example.com/external_ref.txt')
+
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+      assert ::File.exist?(::File.join(dir, ROCrate::Metadata::IDENTIFIER))
+      assert ::File.exist?(::File.join(dir, ROCrate::Preview::IDENTIFIER))
+      Dir.chdir(dir) do
+        file_list = Dir.glob('*').sort
+        assert_equal file_list, [ROCrate::Metadata::IDENTIFIER, ROCrate::Preview::IDENTIFIER, 'info.txt'].sort
+      end
+    end
+  end
 end

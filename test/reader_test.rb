@@ -143,9 +143,18 @@ class ReaderTest < Test::Unit::TestCase
   end
 
   test 'can read a 1.1 spec crate' do
+    stub_request(:get, "http://example.com/external_ref.txt").to_return(status: 200, body: 'file contents')
+
     crate = ROCrate::Reader.read_directory(fixture_file('crate-spec1.1').path)
     file = crate.dereference('file with spaces.txt')
     assert file
+    assert file.is_a?(ROCrate::File)
     assert_equal 'file%20with%20spaces.txt', file.id
+
+    ext_file = crate.dereference('http://example.com/external_ref.txt')
+    assert ext_file
+    assert ext_file.is_a?(ROCrate::ExternalFile)
+    assert_equal 'http://example.com/external_ref.txt', ext_file.id
+    assert_equal 'file contents', ext_file.source.read
   end
 end
