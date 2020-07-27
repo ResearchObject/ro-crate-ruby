@@ -1,9 +1,9 @@
 # ro-crate-ruby
 
-This is a WIP gem for creating, manipulating and reading RO crates (conforming to version 1.0 of the specification).
+This is a WIP gem for creating, manipulating and reading RO crates (conforming to version 1.1 of the specification).
 
 * RO Crate - https://researchobject.github.io/ro-crate/
-* RO Crate spec (1.0) - https://researchobject.github.io/ro-crate/1.0/
+* RO Crate spec (1.1) - https://researchobject.github.io/ro-crate/1.1/
 
 ## Installation
 
@@ -47,6 +47,9 @@ existing_author = existing_file.author
 joe = crate.add_person('joe', { name: 'Joe Bloggs' })
 file = crate.add_file('some_more_data.csv')
 file.author = [joe, existing_author]
+
+# Add an external file
+ext_file = crate.add_external_file('https://example.com/my_file.txt')
 
 # Write it back
 ROCrate::Writer.new(crate).write('./an_ro_crate_directory')
