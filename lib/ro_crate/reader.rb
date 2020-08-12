@@ -131,7 +131,7 @@ module ROCrate
         entity_props = entity_hash.delete(ref['@id'])
         next unless entity_props
         entity_class = ROCrate::DataEntity.specialize(entity_props)
-        entity = self.create_data_entity(crate, entity_class, source, entity_props)
+        entity = create_data_entity(crate, entity_class, source, entity_props)
         next if entity.nil?
         entity
       end.compact
