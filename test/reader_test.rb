@@ -149,11 +149,15 @@ class ReaderTest < Test::Unit::TestCase
     file = crate.dereference('file with spaces.txt')
     assert file
     assert file.is_a?(ROCrate::File)
+    refute file.remote?
+    assert file.source.is_a?(ROCrate::Entry)
     assert_equal 'file%20with%20spaces.txt', file.id
 
     ext_file = crate.dereference('http://example.com/external_ref.txt')
     assert ext_file
     assert ext_file.is_a?(ROCrate::File)
+    assert ext_file.remote?
+    assert ext_file.source.is_a?(ROCrate::RemoteEntry)
     assert_equal 'http://example.com/external_ref.txt', ext_file.id
     assert_equal 'file contents', ext_file.source.read
   end

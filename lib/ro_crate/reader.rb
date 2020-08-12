@@ -134,9 +134,10 @@ module ROCrate
         id = entity_props.delete('@id')
         decoded_id = URI.decode_www_form_component(id)
         path = nil
-        absolute = URI(id)&.absolute? rescue false
+        uri = URI(id) rescue nil
+        absolute = uri&.absolute?
         if absolute
-          entity_class.new(crate, id, entity_props)
+          entity_class.new(crate, uri, entity_props)
         else
           [id, decoded_id].each do |i|
             fullpath = ::File.join(source, i)
