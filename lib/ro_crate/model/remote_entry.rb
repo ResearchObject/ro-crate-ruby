@@ -42,9 +42,5 @@ module ROCrate
     def remote?
       true
     end
-
-    def path
-      uri.path
-    end
   end
 end
