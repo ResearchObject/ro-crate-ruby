@@ -9,14 +9,38 @@ module ROCrate
     # Crate#add_data_entity, or just use Crate#add_file.
     #
     # @param crate [Crate] The RO crate that owns this file.
-    # @param source [String, Pathname, ::File, #read, nil] The source on the disk where this file will be read.
+    # @param source [String, Pathname, ::File, #read, URI, nil] The source on the disk (or on the internet if a URI) where this file will be read.
     # @param crate_path [String] The relative path within the RO crate where this file will be written.
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this file.
     def initialize(crate, source, crate_path = nil, properties = {})
-      source = Pathname.new(source).expand_path if source.is_a?(String) || source.is_a?(::File)
-      crate_path = source.basename.to_s if crate_path.nil? && source.respond_to?(:basename)
+      if crate_path.is_a?(Hash) && properties.empty?
+        properties = crate_path
+        crate_path = nil
+      end
+
+      if source.is_a?(String)
+        uri = URI(source) rescue nil
+        if uri.absolute?
+          source = uri
+        else
+          source = Pathname.new(source).expand_path
+        end
+      elsif source.is_a?(::File)
+        source = Pathname.new(source).expand_path
+      end
+
+      if crate_path.nil?
+        crate_path = source.basename.to_s if source.respond_to?(:basename)
+        crate_path = source.to_s if source.is_a?(URI) && source.absolute?
+      end
+
       super(crate, crate_path, properties)
-      @entry = Entry.new(source)
+
+      if source.is_a?(URI) && source.absolute?
+        @entry = RemoteEntry.new(source)
+      else
+        @entry = Entry.new(source)
+      end
     end
 
     ##
@@ -33,7 +57,11 @@ module ROCrate
     #
     # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.
     def entries
-      { filepath => source }
+      remote? ? {} : { filepath => source }
+    end
+
+    def remote?
+      @entry.remote?
     end
 
     private

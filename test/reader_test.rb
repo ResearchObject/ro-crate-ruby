@@ -153,7 +153,7 @@ class ReaderTest < Test::Unit::TestCase
 
     ext_file = crate.dereference('http://example.com/external_ref.txt')
     assert ext_file
-    assert ext_file.is_a?(ROCrate::ExternalFile)
+    assert ext_file.is_a?(ROCrate::File)
     assert_equal 'http://example.com/external_ref.txt', ext_file.id
     assert_equal 'file contents', ext_file.source.read
   end

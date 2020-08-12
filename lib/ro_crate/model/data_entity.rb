@@ -19,11 +19,7 @@ module ROCrate
       if type.include?('Dataset')
         ROCrate::Directory
       else
-        if abs
-          ROCrate::ExternalFile
-        else
-          ROCrate::File
-        end
+        ROCrate::File
       end
     end
 

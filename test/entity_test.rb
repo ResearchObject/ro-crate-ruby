@@ -43,7 +43,7 @@ class EntityTest < Test::Unit::TestCase
     assert_equal ROCrate::Directory, ROCrate::DataEntity.specialize({ '@type' => 'Dataset' })
     assert_equal ROCrate::Directory, ROCrate::DataEntity.specialize({ '@type' => ['Dataset', 'Image'] })
     assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => 'Person' })
-    assert_equal ROCrate::ExternalFile, ROCrate::DataEntity.specialize({ '@type' => ['File', 'Image'], '@id' => 'http://www.external.com' })
+    assert_equal ROCrate::File, ROCrate::DataEntity.specialize({ '@type' => ['File', 'Image'], '@id' => 'http://www.external.com' })
 
     assert_equal ROCrate::Person, ROCrate::ContextualEntity.specialize({ '@type' => 'Person' })
     assert_equal ROCrate::Person, ROCrate::ContextualEntity.specialize({ '@type' => ['Person', 'Dave'] })

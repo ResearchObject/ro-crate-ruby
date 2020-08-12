@@ -38,6 +38,12 @@ module ROCrate
       ::File.directory?(source) rescue false
     end
 
+    ##
+    # Does this Entry point to a remote resource?
+    def remote?
+      false
+    end
+
     def path
       if source.is_a?(Pathname)
         source.to_s

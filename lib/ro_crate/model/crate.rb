@@ -34,16 +34,16 @@ module ROCrate
     end
 
     ##
-    # Create a new external file from a URI and add it to the crate.
+    # Create a new file that references a remote URI and add it to the crate.
     #
     # @param source [String, URI] The URI to add.
     # @param entity_class [Class] The class to use to instantiate the Entity,
-    #   useful if you have created a subclass of ROCrate::ExternalFile that you want to use. (defaults to ROCrate::ExternalFile).
+    #   useful if you have created a subclass of ROCrate::File that you want to use. (defaults to ROCrate::File).
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this file.
     #
     # @return [Entity]
-    def add_external_file(source, entity_class: ROCrate::ExternalFile, **properties)
-      entity_class.new(self, source, properties).tap { |e| add_data_entity(e) }
+    def add_external_file(source, entity_class: ROCrate::File, **properties)
+      entity_class.new(self, source, nil, properties).tap { |e| add_data_entity(e) }
     end
 
     ##

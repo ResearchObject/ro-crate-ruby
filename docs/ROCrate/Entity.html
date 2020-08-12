@@ -440,6 +440,30 @@ Array of references.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#external%3F-instance_method" title="#external? (instance method)">#<strong>external?</strong>  &#x21d2; boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this entity local to the crate or an external reference?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#has_type%3F-instance_method" title="#has_type? (instance method)">#<strong>has_type?</strong>(type)  &#x21d2; Boolean </a>
     
 
@@ -1064,12 +1088,12 @@ reference/dereference entities within the crate using their `@id`.</p>
       <pre class="lines">
 
 
-170
-171
-172</pre>
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
@@ -1094,12 +1118,12 @@ reference/dereference entities within the crate using their `@id`.</p>
       <pre class="lines">
 
 
-174
-175
-176</pre>
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='op'>[]=</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -1505,6 +1529,60 @@ local ID of this entity.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="external?-instance_method">
+  
+    #<strong>external?</strong>  &#x21d2; <tt>boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Is this entity local to the crate or an external reference?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_external?'>external?</span>
+  <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_canonical_id'>canonical_id</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span> <span class='op'>!=</span> <span class='id identifier rubyid_canonical_id'>canonical_id</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="has_type?-instance_method">
   
     #<strong>has_type?</strong>(type)  &#x21d2; <tt>Boolean</tt> 
@@ -1565,12 +1643,12 @@ superclasses etc.</p>
       <pre class="lines">
 
 
-187
-188
-189</pre>
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_type?'>has_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
   <span class='ivar'>@properties</span><span class='period'>.</span><span class='id identifier rubyid_has_type?'>has_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
@@ -1719,12 +1797,12 @@ superclasses etc.</p>
       <pre class="lines">
 
 
-166
-167
-168</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_raw_properties'>raw_properties</span>
   <span class='ivar'>@properties</span>
@@ -1804,12 +1882,12 @@ for this Entity.</p>
       <pre class="lines">
 
 
-178
-179
-180</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_json'>to_json</span>
   <span class='ivar'>@properties</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
@@ -1884,7 +1962,7 @@ for this Entity.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 23 10:32:58 2020 by
+  Generated on Wed Aug 12 11:10:55 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>

@@ -259,6 +259,30 @@ handles the actual reading/writing of bytes.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#remote%3F-instance_method" title="#remote? (instance method)">#<strong>remote?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this Entry point to a remote resource?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#write-instance_method" title="#write (instance method)">#<strong>write</strong>(dest)  &#x21d2; Object </a>
     
 
@@ -471,18 +495,18 @@ handles the actual reading/writing of bytes.</p>
       <pre class="lines">
 
 
-41
-42
-43
-44
-45
-46
 47
 48
-49</pre>
+49
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entry.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entry.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Pathname</span><span class='rparen'>)</span>
@@ -533,6 +557,60 @@ handles the actual reading/writing of bytes.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_read'>read</span>
   <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remote?-instance_method">
+  
+    #<strong>remote?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Does this Entry point to a remote resource?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entry.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remote?'>remote?</span>
+  <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -613,7 +691,7 @@ handles the actual reading/writing of bytes.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 23 10:32:58 2020 by
+  Generated on Wed Aug 12 11:10:55 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
