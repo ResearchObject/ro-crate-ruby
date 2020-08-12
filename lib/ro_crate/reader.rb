@@ -131,24 +131,9 @@ module ROCrate
         entity_props = entity_hash.delete(ref['@id'])
         next unless entity_props
         entity_class = ROCrate::DataEntity.specialize(entity_props)
-        id = entity_props.delete('@id')
-        decoded_id = URI.decode_www_form_component(id)
-        path = nil
-        uri = URI(id) rescue nil
-        absolute = uri&.absolute?
-        if absolute
-          entity_class.new(crate, uri, entity_props)
-        else
-          [id, decoded_id].each do |i|
-            fullpath = ::File.join(source, i)
-            path = Pathname.new(fullpath) if ::File.exist?(fullpath)
-          end
-          unless path
-            warn "Missing file/directory: #{id}, skipping..."
-            next
-          end
-          entity_class.new(crate, path, decoded_id, entity_props)
-        end
+        entity = self.create_data_entity(crate, entity_class, source, entity_props)
+        next if entity.nil?
+        entity
       end.compact
     end
 
@@ -167,6 +152,35 @@ module ROCrate
       end
 
       entities
+    end
+
+    ##
+    # Create a DataEntity of the given class.
+    # @param crate [Crate] The RO Crate being read.
+    # @param source [String, ::File, Pathname] The location of the RO Crate being read.
+    # @param entity_props [Hash] A Hash containing the entity's properties, including its @id.
+    # @return [ROCrate::File, ROCrate::Directory, nil] The DataEntity object,
+    #          or nil if it referenced a local file that wasn't found.
+    def self.create_data_entity(crate, entity_class, source, entity_props)
+      id = entity_props.delete('@id')
+      decoded_id = URI.decode_www_form_component(id)
+      path = nil
+      uri = URI(id) rescue nil
+      if uri&.absolute?
+        path = uri
+        decoded_id = nil
+      else
+        [id, decoded_id].each do |i|
+          fullpath = ::File.join(source, i)
+          path = Pathname.new(fullpath) if ::File.exist?(fullpath)
+        end
+        unless path
+          warn "Missing file/directory: #{id}, skipping..."
+          return nil
+        end
+      end
+
+      entity_class.new(crate, path, decoded_id, entity_props)
     end
   end
 end
