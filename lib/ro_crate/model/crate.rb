@@ -7,16 +7,17 @@ module ROCrate
     attr_reader :contextual_entities
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
-    def self.format_id(_)
-      IDENTIFIER
+    def self.format_id(id)
+      return id if id == IDENTIFIER
+      super
     end
 
     ##
     # Initialize an empty RO Crate.
-    def initialize
+    def initialize(id = IDENTIFIER, properties = {})
       @data_entities = []
       @contextual_entities = []
-      super(self, nil, IDENTIFIER)
+      super(self, nil, id, properties)
     end
 
     ##

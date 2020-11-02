@@ -82,18 +82,14 @@ module ROCrate
         graph.each do |entity|
           entities[entity['@id']] = entity
         end
+
         # Do some normalization...
-        entities[ROCrate::Crate::IDENTIFIER] = (entities.delete('./') || entities.delete('.'))
-        entities[ROCrate::Metadata::IDENTIFIER] = (entities.delete("./#{ROCrate::Metadata::IDENTIFIER}") ||
-            entities.delete(ROCrate::Metadata::IDENTIFIER) ||
-            entities.delete("./#{ROCrate::Metadata::IDENTIFIER_1_0}") ||
-            entities.delete(ROCrate::Metadata::IDENTIFIER_1_0)
-        )
-        if entities[ROCrate::Crate::IDENTIFIER]
-          entities
-        else
-          raise "No { \"@id\" : \"#{ROCrate::Crate::IDENTIFIER}\" } found in @graph!"
-        end
+        entities[ROCrate::Metadata::IDENTIFIER] = extract_metadata_entity(entities)
+        raise "No metadata entity found in @graph!" unless entities[ROCrate::Metadata::IDENTIFIER]
+        entities[ROCrate::Crate::IDENTIFIER] = extract_root_entity(entities)
+        raise "No root entity (with @id: #{entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')}) found in @graph!" unless entities[ROCrate::Crate::IDENTIFIER]
+
+        entities
       else
         raise "No @graph found in metadata!"
       end
@@ -181,6 +177,37 @@ module ROCrate
       end
 
       entity_class.new(crate, path, decoded_id, entity_props)
+    end
+
+
+    ##
+    # Extract the metadata entity from the entity hash, according to the rules defined here:
+    # https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity
+    # @return [Hash{String => Hash}] A Hash containing (hopefully) one value, the metadata entity's properties,
+    # mapped by its @id.
+    def self.extract_metadata_entity(entities)
+      key = entities.detect do |_, props|
+        props.key?('conformsTo') && props['conformsTo'].start_with?(ROCrate::Metadata::RO_CRATE_BASE)
+      end&.first
+
+      return entities.delete(key) if key
+
+      # Legacy support
+      (entities.delete("./#{ROCrate::Metadata::IDENTIFIER}") ||
+          entities.delete(ROCrate::Metadata::IDENTIFIER) ||
+          entities.delete("./#{ROCrate::Metadata::IDENTIFIER_1_0}") ||
+          entities.delete(ROCrate::Metadata::IDENTIFIER_1_0))
+    end
+
+    ##
+    # Extract the root entity from the entity hash, according to the rules defined here:
+    # https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity
+    # @return [Hash{String => Hash}] A Hash containing (hopefully) one value, the root entity's properties,
+    # mapped by its @id.
+    def self.extract_root_entity(entities)
+      root_id = entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')
+      raise "Metadata entity does not reference any root entity" unless root_id
+      entities.delete(root_id)
     end
   end
 end

@@ -176,4 +176,14 @@ class CrateTest < Test::Unit::TestCase
     assert ext.external?
     refute local.external?
   end
+
+  test 'can use alternative IDs for crate root' do
+    new_crate = ROCrate::Crate.new('http://mycoolwebsite.golf/ro_crate')
+    assert_equal 'http://mycoolwebsite.golf/ro_crate/', new_crate.id.to_s, 'Should add trailing slash'
+    assert_equal new_crate.id.to_s, new_crate.canonical_id.to_s, 'whole URL should be used as canonical if absolute'
+
+    new_crate2 = ROCrate::Crate.new(nil, { '@id' => '😃' })
+    assert_equal '😃', new_crate2.id.to_s
+    assert_match /\Aarcp:\/\/uuid,\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\/😃\Z/, new_crate2.canonical_id.to_s
+  end
 end

@@ -4,8 +4,9 @@ module ROCrate
   class Metadata < File
     IDENTIFIER = 'ro-crate-metadata.json'.freeze
     IDENTIFIER_1_0 = 'ro-crate-metadata.jsonld'.freeze # 1.0 spec identifier
-    CONTEXT = 'https://w3id.org/ro/crate/1.1/context'.freeze
-    SPEC = 'https://w3id.org/ro/crate/1.1'.freeze
+    RO_CRATE_BASE = 'https://w3id.org/ro/crate/'
+    CONTEXT = "#{RO_CRATE_BASE}1.1/context".freeze
+    SPEC = "#{RO_CRATE_BASE}1.1".freeze
 
     def initialize(crate, properties = {})
       super(crate, nil, IDENTIFIER, properties)
@@ -29,7 +30,7 @@ module ROCrate
       {
         '@id' => IDENTIFIER,
         '@type' => 'CreativeWork',
-        'about' => { '@id' => ROCrate::Crate::IDENTIFIER },
+        'about' => { '@id' => crate.id },
         'conformsTo' => { '@id' => SPEC }
       }
     end
