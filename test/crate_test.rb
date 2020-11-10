@@ -186,4 +186,16 @@ class CrateTest < Test::Unit::TestCase
     assert_equal '😃', new_crate2.id.to_s
     assert_match /\Aarcp:\/\/uuid,\h{8}\-\h{4}\-\h{4}\-\h{4}\-\h{12}\/😃\Z/, new_crate2.canonical_id.to_s
   end
+
+  test 'can resolve IDs relative to absolute crate ID' do
+    new_crate = ROCrate::Crate.new('http://mycoolwebsite.golf/ro_crate')
+    assert_equal 'http://mycoolwebsite.golf/ro_crate/file', new_crate.resolve_id('file').to_s
+    assert_equal 'http://mycoolwebsite.golf/file', new_crate.resolve_id('../file').to_s
+    assert_equal 'http://mycoolwebsite.golf/ro_crate/#file', new_crate.resolve_id('#file').to_s
+    assert_equal 'http://www.internets.com', new_crate.resolve_id('http://www.internets.com').to_s
+
+    file = new_crate.add_file(StringIO.new('bla'), 'http://mycoolwebsite.golf/ro_crate/some/file.txt')
+    assert_equal file, new_crate.get('some/file.txt')
+    assert_equal file, new_crate.get('http://mycoolwebsite.golf/ro_crate/some/file.txt')
+  end
 end

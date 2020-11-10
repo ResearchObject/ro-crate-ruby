@@ -159,13 +159,23 @@ module ROCrate
     end
 
     ##
-    # Return an absolute URI for the given string ID, relative to the crate's ARCP URI.
+    # The "canonical", global ID of the crate. If the crate was not given an absolute URI as its ID,
+    # it will use an "Archive and Package" (ARCP) URI with the UUID of the crate, for example:
+    #   arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/
+    #
+    # @return [Addressable::URI]
+    def canonical_id
+      Addressable::URI.parse("arcp://uuid,#{uuid}").join(id)
+    end
+
+    ##
+    # Return an absolute URI for the given string ID, relative to the crate's canonical ID.
     #
     # @param id [String] The ID to "join" onto the crate's base URI.
     #
     # @return [Addressable::URI]
     def resolve_id(id)
-      Addressable::URI.parse("arcp://uuid,#{uuid}").join(id)
+      canonical_id.join(id)
     end
 
     ##

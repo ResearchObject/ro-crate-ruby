@@ -153,8 +153,16 @@ module ROCrate
     end
 
     ##
-    # The "canonical", global ID of this entity, as an "Archive and Package" (ARCP) URI, relative to the UUID of the crate.
-    # Will be formatted like so: arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/foo where `foo` is the local ID of this entity.
+    # The "canonical", global ID of this entity relative to the canonical ID of the crate.
+    #
+    # In the case that the crate does not have an absolute URI as its ID, it will appear something like this:
+    #   arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/foo - where `foo` is the local ID of this entity.
+    #
+    # If the crate does have an absolute URI, it will appear relative to that e.g.:
+    #   http://mycoolcrate.info/foo - where `foo` is the local ID of this entity.
+    #
+    # If the entity itself has an absolute URI, that will be used e.g.:
+    #   http://website.com/foo.txt where `http://website.com/foo.txt ` is the local ID of this entity.
     #
     # This is used, for example, to compare equality of two entities.
     #
