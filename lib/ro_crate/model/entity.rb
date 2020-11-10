@@ -162,7 +162,7 @@ module ROCrate
     #   http://mycoolcrate.info/foo - where `foo` is the local ID of this entity.
     #
     # If the entity itself has an absolute URI, that will be used e.g.:
-    #   http://website.com/foo.txt where `http://website.com/foo.txt ` is the local ID of this entity.
+    #   http://website.com/foo.txt - where `http://website.com/foo.txt ` is the local ID of this entity.
     #
     # This is used, for example, to compare equality of two entities.
     #

@@ -6,15 +6,15 @@
 <title>
   Class: ROCrate::Entity
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ROCrate::Entity";
   relpath = '../';
 </script>
@@ -382,8 +382,8 @@ Array of references.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The “canonical”, global ID of this entity, as an “Archive and Package”
-(ARCP) URI, relative to the UUID of the crate.</p>
+<p>The “canonical”, global ID of this entity relative to the canonical ID of
+the crate.</p>
 </div></span>
   
 </li>
@@ -840,7 +840,7 @@ one, (or determine via the properties param)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute crate</p>
+<p>Returns the value of attribute crate.</p>
 
 
   </div>
@@ -883,7 +883,7 @@ one, (or determine via the properties param)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute properties</p>
+<p>Returns the value of attribute properties.</p>
 
 
   </div>
@@ -1088,12 +1088,12 @@ reference/dereference entities within the crate using their `@id`.</p>
       <pre class="lines">
 
 
-178
-179
-180</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
@@ -1118,12 +1118,12 @@ reference/dereference entities within the crate using their `@id`.</p>
       <pre class="lines">
 
 
-182
-183
-184</pre>
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 190</span>
 
 <span class='kw'>def</span> <span class='op'>[]=</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -1349,10 +1349,22 @@ wasn&#39;t an Entity after all.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The “canonical”, global ID of this entity, as an “Archive and Package”
-(ARCP) URI, relative to the UUID of the crate. Will be formatted like so:
-arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/foo where `foo` is the
-local ID of this entity.</p>
+<p>The “canonical”, global ID of this entity relative to the canonical ID of
+the crate.</p>
+
+<p>In the case that the crate does not have an absolute URI as its ID, it will
+appear something like this:</p>
+
+<pre class="code ruby"><code class="ruby">arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/foo - where `foo` is the local ID of this entity.</code></pre>
+
+<p>If the crate does have an absolute URI, it will appear relative to that
+e.g.:</p>
+
+<pre class="code ruby"><code class="ruby">http://mycoolcrate.info/foo - where `foo` is the local ID of this entity.</code></pre>
+
+<p>If the entity itself has an absolute URI, that will be used e.g.:</p>
+
+<pre class="code ruby"><code class="ruby">http://website.com/foo.txt - where `http://website.com/foo.txt ` is the local ID of this entity.</code></pre>
 
 <p>This is used, for example, to compare equality of two entities.</p>
 
@@ -1381,12 +1393,12 @@ local ID of this entity.</p>
       <pre class="lines">
 
 
-162
-163
-164</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_canonical_id'>canonical_id</span>
   <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_resolve_id'>resolve_id</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
@@ -1567,12 +1579,12 @@ local ID of this entity.</p>
       <pre class="lines">
 
 
-170
-171
-172</pre>
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_external?'>external?</span>
   <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_canonical_id'>canonical_id</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span> <span class='op'>!=</span> <span class='id identifier rubyid_canonical_id'>canonical_id</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span>
@@ -1643,12 +1655,12 @@ superclasses etc.</p>
       <pre class="lines">
 
 
-195
-196
-197</pre>
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 195</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 203</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_type?'>has_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
   <span class='ivar'>@properties</span><span class='period'>.</span><span class='id identifier rubyid_has_type?'>has_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
@@ -1797,12 +1809,12 @@ superclasses etc.</p>
       <pre class="lines">
 
 
-174
-175
-176</pre>
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_raw_properties'>raw_properties</span>
   <span class='ivar'>@properties</span>
@@ -1882,12 +1894,12 @@ for this Entity.</p>
       <pre class="lines">
 
 
-186
-187
-188</pre>
+194
+195
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/entity.rb', line 194</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_json'>to_json</span>
   <span class='ivar'>@properties</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
@@ -1962,9 +1974,9 @@ for this Entity.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Aug 12 11:10:55 2020 by
+  Generated on Tue Nov 10 17:06:31 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.4.9).
+  0.9.25 (ruby-2.4.9).
 </div>
 
     </div>
