@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ROCrate::Preview
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "ROCrate::Preview";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span>
+     &raquo; 
+    <span class="title">Preview</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ROCrate::Preview
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="File.html" title="ROCrate::File (class)">File</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="DataEntity.html" title="ROCrate::DataEntity (class)">DataEntity</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="File.html" title="ROCrate::File (class)">File</a></span></li>
+          
+            <li class="next">ROCrate::Preview</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/ro_crate/model/preview.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A representation of the `ro-crate-preview.html` file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="IDENTIFIER-constant" class="">IDENTIFIER =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ro-crate-preview.html</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEFAULT_TEMPLATE-constant" class="">DEFAULT_TEMPLATE =
+          
+        </dt>
+        <dd><pre class="code"><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>..</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ro-crate-preview.html.erb</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#template-instance_method" title="#template (instance method)">#<strong>template</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The ERB template to use when rendering the preview.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Entity.html#crate-instance_method" title="ROCrate::Entity#crate (method)">#crate</a></span>, <span class='object_link'><a href="Entity.html#properties-instance_method" title="ROCrate::Entity#properties (method)">#properties</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate-instance_method" title="#generate (instance method)">#<strong>generate</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate the crate&#39;s `ro-crate-preview.html`.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(crate, properties = {})  &#x21d2; Preview </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Preview.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="File.html" title="ROCrate::File (class)">File</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="File.html#entries-instance_method" title="ROCrate::File#entries (method)">#entries</a></span>, <span class='object_link'><a href="File.html#remote%3F-instance_method" title="ROCrate::File#remote? (method)">#remote?</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="DataEntity.html" title="ROCrate::DataEntity (class)">DataEntity</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="DataEntity.html#entries-instance_method" title="ROCrate::DataEntity#entries (method)">#entries</a></span>, <span class='object_link'><a href="DataEntity.html#filepath-instance_method" title="ROCrate::DataEntity#filepath (method)">#filepath</a></span>, <span class='object_link'><a href="DataEntity.html#format_id-class_method" title="ROCrate::DataEntity.format_id (method)">format_id</a></span>, <span class='object_link'><a href="DataEntity.html#specialize-class_method" title="ROCrate::DataEntity.specialize (method)">specialize</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Entity.html" title="ROCrate::Entity (class)">Entity</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Entity.html#==-instance_method" title="ROCrate::Entity#== (method)">#==</a></span>, <span class='object_link'><a href="Entity.html#[]-instance_method" title="ROCrate::Entity#[] (method)">#[]</a></span>, <span class='object_link'><a href="Entity.html#[]=-instance_method" title="ROCrate::Entity#[]= (method)">#[]=</a></span>, <span class='object_link'><a href="Entity.html#auto_dereference-instance_method" title="ROCrate::Entity#auto_dereference (method)">#auto_dereference</a></span>, <span class='object_link'><a href="Entity.html#auto_reference-instance_method" title="ROCrate::Entity#auto_reference (method)">#auto_reference</a></span>, <span class='object_link'><a href="Entity.html#canonical_id-instance_method" title="ROCrate::Entity#canonical_id (method)">#canonical_id</a></span>, <span class='object_link'><a href="Entity.html#dereference-instance_method" title="ROCrate::Entity#dereference (method)">#dereference</a></span>, <span class='object_link'><a href="Entity.html#eql%3F-instance_method" title="ROCrate::Entity#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="Entity.html#external%3F-instance_method" title="ROCrate::Entity#external? (method)">#external?</a></span>, <span class='object_link'><a href="Entity.html#format_id-class_method" title="ROCrate::Entity.format_id (method)">format_id</a></span>, <span class='object_link'><a href="Entity.html#has_type%3F-instance_method" title="ROCrate::Entity#has_type? (method)">#has_type?</a></span>, <span class='object_link'><a href="Entity.html#hash-instance_method" title="ROCrate::Entity#hash (method)">#hash</a></span>, <span class='object_link'><a href="Entity.html#id-instance_method" title="ROCrate::Entity#id (method)">#id</a></span>, <span class='object_link'><a href="Entity.html#id=-instance_method" title="ROCrate::Entity#id= (method)">#id=</a></span>, <span class='object_link'><a href="Entity.html#inspect-instance_method" title="ROCrate::Entity#inspect (method)">#inspect</a></span>, <span class='object_link'><a href="Entity.html#properties-class_method" title="ROCrate::Entity.properties (method)">properties</a></span>, <span class='object_link'><a href="Entity.html#raw_properties-instance_method" title="ROCrate::Entity#raw_properties (method)">#raw_properties</a></span>, <span class='object_link'><a href="Entity.html#reference-instance_method" title="ROCrate::Entity#reference (method)">#reference</a></span>, <span class='object_link'><a href="Entity.html#to_json-instance_method" title="ROCrate::Entity#to_json (method)">#to_json</a></span>, <span class='object_link'><a href="Entity.html#type-instance_method" title="ROCrate::Entity#type (method)">#type</a></span>, <span class='object_link'><a href="Entity.html#type=-instance_method" title="ROCrate::Entity#type= (method)">#type=</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(crate, properties = {})  &#x21d2; <tt><span class='object_link'><a href="" title="ROCrate::Preview (class)">Preview</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Preview.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/preview.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@template</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#IDENTIFIER-constant" title="ROCrate::Preview::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="template=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="template-instance_method">
+  
+    #<strong>template</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The ERB template to use when rendering the preview.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/preview.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_template'>template</span>
+  <span class='ivar'>@template</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="generate-instance_method">
+  
+    #<strong>generate</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate the crate&#39;s `ro-crate-preview.html`.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The rendered HTML as a string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/preview.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate'>generate</span>
+  <span class='id identifier rubyid_b'>b</span> <span class='op'>=</span> <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_get_binding'>get_binding</span>
+  <span class='id identifier rubyid_renderer'>renderer</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_template'>template</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#DEFAULT_TEMPLATE-constant" title="ROCrate::Preview::DEFAULT_TEMPLATE (constant)">DEFAULT_TEMPLATE</a></span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_renderer'>renderer</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Nov 10 17:06:31 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.4.9).
+</div>
+
+    </div>
+  </body>
+</html>
