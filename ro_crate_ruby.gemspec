@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Finn Bacall']
   s.email       = 'finn.bacall@manchester.ac.uk'
   s.files       = `git ls-files`.split("\n")
-  s.homepage    = 'https://github.com/fbacall/ro-crate-ruby'
+  s.homepage    = 'https://github.com/ResearchObject/ro-crate-ruby'
   s.require_paths = ['lib']
   s.add_runtime_dependency 'addressable'
   s.add_runtime_dependency 'rubyzip'

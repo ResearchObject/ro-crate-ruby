@@ -10,7 +10,7 @@ This is a WIP gem for creating, manipulating and reading RO crates (conforming t
 Using bundler, add the following to your Gemfile:
 
 ```
-gem 'ro-crate-ruby', git: 'https://github.com/fbacall/ro-crate-ruby.git'
+gem 'ro-crate-ruby', git: 'https://github.com/ResearchObject/ro-crate-ruby.git'
 ```
 
 and run `bundle install`.
@@ -19,7 +19,7 @@ and run `bundle install`.
 
 ### Documentation
 
-[Click here for API documentation](https://fbacall.github.io/ro-crate-ruby/).
+[Click here for API documentation](https://www.researchobject.org/ro-crate-ruby/).
 
 ### Examples
 
