@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.licenses    = ['MIT']
   s.add_runtime_dependency 'addressable', '~> 2.7.0'
   s.add_runtime_dependency 'rubyzip', '~> 2.0.0'
-  s.add_development_dependency 'rake', '~> 2.7.0'
-  s.add_development_dependency 'test-unit', '~> 2.7.0'
+  s.add_development_dependency 'rake', '~> 13.0.0'
+  s.add_development_dependency 'test-unit', '~> 3.2.3'
   s.add_development_dependency 'simplecov', '~> 0.16.1'
   s.add_development_dependency 'yard', '~> 0.9.25'
   s.add_development_dependency 'webmock', '~> 3.8.3'

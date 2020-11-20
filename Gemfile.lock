@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     ro-crate-ruby (0.3.0)
-      addressable
-      rubyzip
+      addressable (~> 2.7.0)
+      rubyzip (~> 2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -37,12 +37,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rake
+  rake (~> 13.0.0)
   ro-crate-ruby!
-  simplecov
-  test-unit
-  webmock
-  yard
+  simplecov (~> 0.16.1)
+  test-unit (~> 3.2.3)
+  webmock (~> 3.8.3)
+  yard (~> 0.9.25)
 
 BUNDLED WITH
    1.17.3
