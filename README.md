@@ -24,7 +24,7 @@ and run `bundle install`.
 ### Examples
 
 ```ruby
-require 'ro_crate_ruby'
+require 'ro_crate'
 
 # Make a new crate
 crate = ROCrate::Crate.new

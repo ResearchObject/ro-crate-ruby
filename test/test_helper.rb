@@ -2,7 +2,7 @@ require 'simplecov'
 SimpleCov.start
 
 require 'test/unit'
-require 'ro_crate_ruby'
+require 'ro_crate'
 require 'webmock/test_unit'
 
 def fixture_file(name, *args)
