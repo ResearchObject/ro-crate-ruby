@@ -10,7 +10,7 @@ This is a WIP gem for creating, manipulating and reading RO crates (conforming t
 Using bundler, add the following to your Gemfile:
 
 ```
-gem 'ro-crate-ruby', git: 'https://github.com/ResearchObject/ro-crate-ruby.git'
+gem 'ro-crate'
 ```
 
 and run `bundle install`.
