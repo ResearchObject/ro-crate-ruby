@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'ro-crate-ruby'
+  s.name        = 'ro-crate'
   s.version     = '0.3.0'
   s.summary     = 'Create, manipulate, read RO crates.'
   s.authors     = ['Finn Bacall']

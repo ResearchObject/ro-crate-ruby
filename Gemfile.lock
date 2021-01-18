@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ro-crate-ruby (0.3.0)
+    ro-crate (0.3.0)
       addressable (~> 2.7.0)
       rubyzip (~> 2.0.0)
 
@@ -38,7 +38,7 @@ PLATFORMS
 
 DEPENDENCIES
   rake (~> 13.0.0)
-  ro-crate-ruby!
+  ro-crate!
   simplecov (~> 0.16.1)
   test-unit (~> 3.2.3)
   webmock (~> 3.8.3)
