@@ -31,6 +31,10 @@ crate = ROCrate::Crate.new
 crate.add_file(File.open('Gemfile')) # Using IO-like objects
 crate.add_file('README.md') # or paths
 
+# Quickly add everything from a directory into the crate
+crate = ROCrate::Crate.new
+crate.add_all('workspace/secret_project/dataset123')
+
 # Write to a zip file
 ROCrate::Writer.new(crate).write_zip(File.new('ro_crate.zip', 'w'))
 

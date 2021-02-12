@@ -198,4 +198,34 @@ class CrateTest < Test::Unit::TestCase
     assert_equal file, new_crate.get('some/file.txt')
     assert_equal file, new_crate.get('http://mycoolwebsite.golf/ro_crate/some/file.txt')
   end
+
+  test 'can add an entire directory tree as data entities' do
+    crate = ROCrate::Crate.new
+    entities = crate.add_all(fixture_file('directory').path)
+
+    assert_equal 6, entities.length
+    assert_equal 'ROCrate::Directory', crate.dereference('data/').class.name
+    assert_equal 'ROCrate::File', crate.dereference('root.txt').class.name
+    assert_equal 'ROCrate::File', crate.dereference('info.txt').class.name
+    assert_equal 'ROCrate::File', crate.dereference('data/binary.jpg').class.name
+    assert_equal 'ROCrate::File', crate.dereference('data/info.txt').class.name
+    assert_equal 'ROCrate::File', crate.dereference('data/nested.txt').class.name
+
+    assert_equal "5678\n", crate.dereference('data/info.txt').source.read
+  end
+
+  test 'can create an RO-Crate using content from a given directory' do
+    crate = ROCrate::Crate.new
+    entities = crate.add_all(fixture_file('directory').path, false)
+
+    assert_empty entities
+
+    # Should not create any data entities
+    assert_nil crate.dereference('data/')
+    assert_nil crate.dereference('root.txt')
+    assert_nil crate.dereference('info.txt')
+    assert_nil crate.dereference('data/binary.jpg')
+    assert_nil crate.dereference('data/info.txt')
+    assert_nil crate.dereference('data/nested.txt')
+  end
 end

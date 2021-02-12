@@ -62,6 +62,34 @@ module ROCrate
     end
 
     ##
+    # Recursively add the contents of the given source directory at the root of the crate.
+    # Useful for quickly RO-Crate-ifying a directory.
+    # Creates data entities for each file/directory discovered (excluding the top level directory itself) if `create_entities` is true.
+    #
+    # @param source_directory [String, Pathname, ::File,] The source directory that will be included in the crate.
+    # @param create_entities [Boolean] Whether to create data entities for the added content, or just include them anonymously.
+    #
+    # @return [Array<DataEntity>] Any entities that were created from the directory contents. Will be empty if `create_entities` was false.
+    def add_all(source_directory, create_entities = true)
+      added = []
+
+      Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
+        source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
+        if create_entities
+          if source_path.directory?
+            added << add_directory(source_path, rel_path)
+          else
+            added << add_file(source_path, rel_path)
+          end
+        else
+          populate_entries(Pathname.new(::File.expand_path(source_directory)))
+        end
+      end
+
+      added
+    end
+
+    ##
     # Create a new ROCrate::Person and add it to the crate
     #
     # @param id [String, nil] An ID to identify this person, or blank to auto-generate an appropriate one,
@@ -186,6 +214,7 @@ module ROCrate
       entity.class.new(crate, entity.id, entity.raw_properties)
     end
 
+    alias_method :own_entries, :entries
     ##
     # A map of all the files/directories contained in the RO crate, where the key is the destination path within the crate
     # and the value is an Entry where the source data can be read.
@@ -195,8 +224,7 @@ module ROCrate
       entries = {}
 
       (default_entities | data_entities).each do |entity|
-        next if entity == self
-        entity.entries.each do |path, io|
+        (entity == self ? own_entries : entity.entries).each do |path, io|
           entries[path] = io
         end
       end

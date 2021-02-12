@@ -99,4 +99,17 @@ class WriterTest < Test::Unit::TestCase
       end
     end
   end
+
+  test 'should write out same contents that it was created with' do
+    crate = ROCrate::Crate.new
+    crate.add_all(fixture_file('directory').path, false)
+
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+      assert ::File.exist?(::File.join(dir, ROCrate::Metadata::IDENTIFIER))
+      assert ::File.exist?(::File.join(dir, ROCrate::Preview::IDENTIFIER))
+      assert_equal 5, ::File.size(::File.join(dir, 'info.txt'))
+      assert_equal 2529, ::File.size(::File.join(dir, 'data', 'binary.jpg'))
+    end
+  end
 end

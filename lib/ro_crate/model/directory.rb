@@ -20,14 +20,9 @@ module ROCrate
       @directory_entries = {}
 
       if source_directory
-        raise 'Not a directory' unless ::File.directory?(source_directory)
         source_directory = Pathname.new(::File.expand_path(source_directory))
+        populate_entries(source_directory)
         crate_path = source_directory.basename.to_s if crate_path.nil?
-
-        Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
-          source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
-          @directory_entries[rel_path] = Entry.new(source_path)
-        end
       end
 
       super(crate, crate_path, properties)
@@ -49,6 +44,24 @@ module ROCrate
     end
 
     private
+
+    ##
+    # Populate this directory with files/directories from a given source directory on disk.
+    #
+    # @param source_directory [Pathname] The source directory to populate from.
+    #
+    # @return [Hash{String => Entry}>] The files/directories that were populated.
+    #   The key is the relative path of the file/directory, and the value is an Entry object where data can be read etc.
+    def populate_entries(source_directory)
+      raise 'Not a directory' unless ::File.directory?(source_directory)
+      @directory_entries = {}
+      Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
+        source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
+        @directory_entries[rel_path] = Entry.new(source_path)
+      end
+
+      @directory_entries
+    end
 
     def default_properties
       super.merge(
