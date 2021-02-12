@@ -1,6 +1,6 @@
 module ROCrate
   ##
-  # A class to represent a reference within an RO crate, to a remote file held on the internet somewhere.
+  # A class to represent a reference within an RO-Crate, to a remote file held on the internet somewhere.
   # It handles the actual reading/writing of bytes.
   class RemoteEntry
     attr_reader :uri

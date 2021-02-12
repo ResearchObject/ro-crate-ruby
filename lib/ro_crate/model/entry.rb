@@ -1,6 +1,6 @@
 module ROCrate
   ##
-  # A class to represent a "physical" file or directory within an RO crate.
+  # A class to represent a "physical" file or directory within an RO-Crate.
   # It handles the actual reading/writing of bytes.
   class Entry
     attr_reader :source

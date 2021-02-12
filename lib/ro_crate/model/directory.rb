@@ -12,9 +12,9 @@ module ROCrate
     # Create a new Directory. PLEASE NOTE, the new directory will not be added to the crate. To do this, call
     # Crate#add_data_entity, or just use Crate#add_directory.
     #
-    # @param crate [Crate] The RO crate that owns this directory.
+    # @param crate [Crate] The RO-Crate that owns this directory.
     # @param source_directory [String, Pathname, ::File, nil] The source directory that will be included in the crate.
-    # @param crate_path [String] The relative path within the RO crate where this directory will be written.
+    # @param crate_path [String] The relative path within the RO-Crate where this directory will be written.
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this directory.
     def initialize(crate, source_directory = nil, crate_path = nil, properties = {})
       @directory_entries = {}

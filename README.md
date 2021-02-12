@@ -1,9 +1,9 @@
 # ro-crate-ruby
 
-This is a WIP gem for creating, manipulating and reading RO crates (conforming to version 1.1 of the specification).
+This is a WIP gem for creating, manipulating and reading RO-Crates (conforming to version 1.1 of the specification).
 
-* RO Crate - https://researchobject.github.io/ro-crate/
-* RO Crate spec (1.1) - https://researchobject.github.io/ro-crate/1.1/
+* RO-Crate - https://researchobject.github.io/ro-crate/
+* RO-Crate spec (1.1) - https://researchobject.github.io/ro-crate/1.1/
 
 ## Installation
 
@@ -41,7 +41,7 @@ ROCrate::Writer.new(crate).write_zip(File.new('ro_crate.zip', 'w'))
 # Write to a directory
 ROCrate::Writer.new(crate).write('./ro_crate_stuff')
 
-# Read an RO crate
+# Read an RO-Crate
 crate = ROCrate::Reader.read('./an_ro_crate_directory')
 
 # Make some changes
@@ -59,9 +59,9 @@ ext_file = crate.add_external_file('https://example.com/my_file.txt')
 ROCrate::Writer.new(crate).write('./an_ro_crate_directory')
 ```
 
-### RO Crate Preview
-A simple HTML preview page is generated when an RO Crate is written, containing a list of the crate's contents and some
-metadata. This preview is written to `ro-crate-preview.html` at the root of the RO Crate.
+### RO-Crate Preview
+A simple HTML preview page is generated when an RO-Crate is written, containing a list of the crate's contents and some
+metadata. This preview is written to `ro-crate-preview.html` at the root of the RO-Crate.
 
 The default template can be seen here [here](lib/ro_crate/ro-crate-preview.html.erb).
 

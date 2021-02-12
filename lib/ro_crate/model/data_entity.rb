@@ -1,6 +1,6 @@
 module ROCrate
   ##
-  # A class to represent a "Data Entity" within an RO Crate.
+  # A class to represent a "Data Entity" within an RO-Crate.
   # Data Entities are the actual physical files and directories within the Crate.
   class DataEntity < Entity
     def self.format_id(id)

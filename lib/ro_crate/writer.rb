@@ -1,10 +1,10 @@
 module ROCrate
   ##
-  # A class to handle writing of RO Crates to Zip files or directories.
+  # A class to handle writing of RO-Crates to Zip files or directories.
   class Writer
     ##
     # Initialize a new Writer for the given Crate.
-    # @param crate [Crate] The RO Crate to be written.
+    # @param crate [Crate] The RO-Crate to be written.
     def initialize(crate)
       @crate = crate
     end
@@ -35,7 +35,7 @@ module ROCrate
     ##
     # Write the crate to a zip file.
     #
-    # @param destination [String, ::File] The destination where to write the RO Crate zip.
+    # @param destination [String, ::File] The destination where to write the RO-Crate zip.
     def write_zip(destination)
       Zip::File.open(destination, Zip::File::CREATE) do |zip|
         @crate.entries.each do |path, entry|

@@ -1,6 +1,6 @@
 module ROCrate
   ##
-  # A Ruby abstraction of an RO Crate.
+  # A Ruby abstraction of an RO-Crate.
   class Crate < Directory
     IDENTIFIER = './'.freeze
     attr_reader :data_entities
@@ -13,7 +13,7 @@ module ROCrate
     end
 
     ##
-    # Initialize an empty RO Crate.
+    # Initialize an empty RO-Crate.
     def initialize(id = IDENTIFIER, properties = {})
       @data_entities = []
       @contextual_entities = []
@@ -24,7 +24,7 @@ module ROCrate
     # Create a new file and add it to the crate.
     #
     # @param source [String, Pathname, ::File, #read, nil] The source on the disk where this file will be read.
-    # @param crate_path [String] The relative path within the RO crate where this file will be written.
+    # @param crate_path [String] The relative path within the RO-Crate where this file will be written.
     # @param entity_class [Class] The class to use to instantiate the Entity,
     #   useful if you have created a subclass of ROCrate::File that you want to use. (defaults to ROCrate::File).
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this file.
@@ -51,7 +51,7 @@ module ROCrate
     # Create a new directory and add it to the crate.
     #
     # @param source_directory [String, Pathname, ::File, #read, nil] The source directory that will be included in the crate.
-    # @param crate_path [String] The relative path within the RO crate where this directory will be written.
+    # @param crate_path [String] The relative path within the RO-Crate where this directory will be written.
     # @param entity_class [Class] The class to use to instantiate the Entity,
     #   useful if you have created a subclass of ROCrate::Directory that you want to use. (defaults to ROCrate::Directory).
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this directory.
@@ -147,7 +147,7 @@ module ROCrate
     end
 
     ##
-    # The RO crate metadata file
+    # The RO-Crate metadata file
     #
     # @return [Metadata]
     def metadata
@@ -155,7 +155,7 @@ module ROCrate
     end
 
     ##
-    # The RO crate preview file
+    # The RO-Crate preview file
     #
     # @return [Preview]
     def preview
@@ -171,7 +171,7 @@ module ROCrate
     end
 
     ##
-    # Entities for the metadata file and crate itself, which should be present in all RO crates.
+    # Entities for the metadata file and crate itself, which should be present in all RO-Crates.
     #
     # @return [Array<Entity>]
     def default_entities
@@ -216,7 +216,7 @@ module ROCrate
 
     alias_method :own_entries, :entries
     ##
-    # A map of all the files/directories contained in the RO crate, where the key is the destination path within the crate
+    # A map of all the files/directories contained in the RO-Crate, where the key is the destination path within the crate
     # and the value is an Entry where the source data can be read.
     #
     # @return [Hash{String => Entry}>]

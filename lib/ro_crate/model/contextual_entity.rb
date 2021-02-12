@@ -1,6 +1,6 @@
 module ROCrate
   ##
-  # A class to represent a "Contextual Entity" within an RO Crate.
+  # A class to represent a "Contextual Entity" within an RO-Crate.
   # Contextual Entities are used to describe and provide context to the Data Entities within the crate.
   class ContextualEntity < Entity
     def self.format_id(id)

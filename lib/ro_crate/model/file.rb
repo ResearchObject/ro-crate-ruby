@@ -8,9 +8,9 @@ module ROCrate
     # Create a new ROCrate::File. PLEASE NOTE, the new file will not be added to the crate. To do this, call
     # Crate#add_data_entity, or just use Crate#add_file.
     #
-    # @param crate [Crate] The RO crate that owns this file.
+    # @param crate [Crate] The RO-Crate that owns this file.
     # @param source [String, Pathname, ::File, #read, URI, nil] The source on the disk (or on the internet if a URI) where this file will be read.
-    # @param crate_path [String] The relative path within the RO crate where this file will be written.
+    # @param crate_path [String] The relative path within the RO-Crate where this file will be written.
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this file.
     def initialize(crate, source, crate_path = nil, properties = {})
       if crate_path.is_a?(Hash) && properties.empty?

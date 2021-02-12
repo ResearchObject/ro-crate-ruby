@@ -1,7 +1,7 @@
 module ROCrate
   ##
-  # A generic "Entity" within an RO Crate. It has an identifier and a set of properties, and will be referenced in the
-  # RO Crate Metadata's @graph.
+  # A generic "Entity" within an RO-Crate. It has an identifier and a set of properties, and will be referenced in the
+  # RO-Crate Metadata's @graph.
   class Entity
     attr_reader :crate
     attr_reader :properties
@@ -60,7 +60,7 @@ module ROCrate
     ##
     # Automatically replace an Entity or Array of Entities with a reference or Array of references. Also associates
     # the Entity/Entities with the current crate. This is useful for maintaining the flat @graph of entities that the
-    # RO crate metadata file requires.
+    # RO-Crate metadata file requires.
     #
     # @param value [Entity, Array<Entity>, Object] A value that may be reference or array of references.
     # @return [Hash, Array<Hash>, Object] Return a reference, Array of references, or just the object itself if
