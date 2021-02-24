@@ -224,8 +224,8 @@ module ROCrate
       entries = {}
 
       (default_entities | data_entities).each do |entity|
-        (entity == self ? own_entries : entity.entries).each do |path, io|
-          entries[path] = io
+        (entity == self ? own_entries : entity.entries).each do |path, entry|
+          entries[path] = entry
         end
       end
 

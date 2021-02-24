@@ -21,7 +21,7 @@ module ROCrate
 
       if source_directory
         source_directory = Pathname.new(::File.expand_path(source_directory))
-        @entry = source_directory
+        @entry = Entry.new(source_directory)
         populate_entries(source_directory)
         crate_path = source_directory.basename.to_s if crate_path.nil?
       end

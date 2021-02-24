@@ -109,11 +109,13 @@ class ReaderTest < Test::Unit::TestCase
   test 'reading from directory with directories' do
     crate = ROCrate::Reader.read_directory(fixture_file('directory_crate').path)
 
+    assert crate.entries.values.all? { |e| e.is_a?(ROCrate::Entry) }
     assert crate.entries['fish/info.txt']
     assert_equal '1234', crate.entries['fish/info.txt'].source.read.chomp
-    assert crate.entries['fish/root.txt']
+    refute crate.entries['fish/root.txt'].directory?
+    assert crate.entries['fish/data'].directory?
     assert crate.entries['fish/data/info.txt']
-    assert crate.entries['fish/data/nested.txt']
+    refute crate.entries['fish/data/nested.txt'].remote?
     assert crate.entries['fish/data/binary.jpg']
     assert_equal ['./', 'fish/', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
   end
