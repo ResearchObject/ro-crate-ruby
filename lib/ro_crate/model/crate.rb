@@ -68,22 +68,23 @@ module ROCrate
     #
     # @param source_directory [String, Pathname, ::File,] The source directory that will be included in the crate.
     # @param create_entities [Boolean] Whether to create data entities for the added content, or just include them anonymously.
+    # @param include_hidden [Boolean] Whether to include hidden files, i.e. those prefixed by a `.` (period).
     #
     # @return [Array<DataEntity>] Any entities that were created from the directory contents. Will be empty if `create_entities` was false.
-    def add_all(source_directory, create_entities = true)
+    def add_all(source_directory, create_entities = true, include_hidden: false)
       added = []
 
-      list_all_files(source_directory).each do |rel_path|
-        source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
-        if create_entities
+      if create_entities
+        list_all_files(source_directory, include_hidden: include_hidden).each do |rel_path|
+          source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
           if source_path.directory?
             added << add_directory(source_path, rel_path)
           else
             added << add_file(source_path, rel_path)
           end
-        else
-          populate_entries(Pathname.new(::File.expand_path(source_directory)))
         end
+      else
+        populate_entries(Pathname.new(::File.expand_path(source_directory)), include_hidden: include_hidden)
       end
 
       added

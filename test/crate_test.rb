@@ -201,7 +201,7 @@ class CrateTest < Test::Unit::TestCase
 
   test 'can add an entire directory tree as data entities' do
     crate = ROCrate::Crate.new
-    entities = crate.add_all(fixture_file('directory').path)
+    entities = crate.add_all(fixture_file('directory').path, include_hidden: true)
 
     paths = crate.entries.keys
     assert_equal 11, paths.length
@@ -234,7 +234,7 @@ class CrateTest < Test::Unit::TestCase
 
   test 'can create an RO-Crate using content from a given directory' do
     crate = ROCrate::Crate.new
-    entities = crate.add_all(fixture_file('directory').path, false)
+    entities = crate.add_all(fixture_file('directory').path, false, include_hidden: true)
 
     assert_empty entities
 
@@ -260,5 +260,37 @@ class CrateTest < Test::Unit::TestCase
     assert_nil crate.dereference('data/info.txt')
     assert_nil crate.dereference('data/nested.txt')
     assert_nil crate.dereference('.dotfile')
+  end
+
+  test 'can create an RO-Crate using content from a given directory, excluding hidden files' do
+    crate = ROCrate::Crate.new
+    entities = crate.add_all(fixture_file('directory').path)
+
+    paths = crate.entries.keys
+    assert_equal 8, paths.length
+    assert_includes paths, 'data'
+    assert_includes paths, 'root.txt'
+    assert_includes paths, 'info.txt'
+    assert_includes paths, 'data/binary.jpg'
+    assert_includes paths, 'data/info.txt'
+    assert_includes paths, 'data/nested.txt'
+    assert_not_includes paths, '.dotfile'
+    assert_not_includes paths, '.dir'
+    assert_not_includes paths, '.dir/test.txt'
+    assert_includes paths, 'ro-crate-metadata.json'
+    assert_includes paths, 'ro-crate-preview.html'
+
+    assert_equal 6, entities.length
+    assert_equal 'ROCrate::Directory', crate.dereference('data/').class.name
+    assert_equal 'ROCrate::File', crate.dereference('root.txt').class.name
+    assert_equal 'ROCrate::File', crate.dereference('info.txt').class.name
+    assert_equal 'ROCrate::File', crate.dereference('data/binary.jpg').class.name
+    assert_equal 'ROCrate::File', crate.dereference('data/info.txt').class.name
+    assert_equal 'ROCrate::File', crate.dereference('data/nested.txt').class.name
+    assert_nil crate.dereference('.dotfile')
+    assert_nil crate.dereference('.dir/')
+    assert_nil crate.dereference('.dir/test.txt')
+
+    assert_equal "5678\n", crate.dereference('data/info.txt').source.read
   end
 end

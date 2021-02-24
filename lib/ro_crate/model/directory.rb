@@ -51,13 +51,14 @@ module ROCrate
     # Populate this directory with files/directories from a given source directory on disk.
     #
     # @param source_directory [Pathname] The source directory to populate from.
+    # @param include_hidden [Boolean] Whether to include hidden files, i.e. those prefixed by a `.` (period).
     #
     # @return [Hash{String => Entry}>] The files/directories that were populated.
     #   The key is the relative path of the file/directory, and the value is an Entry object where data can be read etc.
-    def populate_entries(source_directory)
+    def populate_entries(source_directory, include_hidden: false)
       raise 'Not a directory' unless ::File.directory?(source_directory)
       @directory_entries = {}
-      list_all_files(source_directory).each do |rel_path|
+      list_all_files(source_directory, include_hidden: include_hidden).each do |rel_path|
         source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
         @directory_entries[rel_path] = Entry.new(source_path)
       end
@@ -69,8 +70,10 @@ module ROCrate
       ::File.join(filepath, relative_path)
     end
 
-    def list_all_files(source_directory)
-      Dir.chdir(source_directory) { Dir.glob('**/*', ::File::FNM_DOTMATCH) }.reject do |path|
+    def list_all_files(source_directory, include_hidden: false)
+      args = ['**/*']
+      args << ::File::FNM_DOTMATCH if include_hidden
+      Dir.chdir(source_directory) { Dir.glob(*args) }.reject do |path|
         path == '.' || path == '..' || path.end_with?('/.')
       end
     end
