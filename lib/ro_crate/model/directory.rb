@@ -57,7 +57,7 @@ module ROCrate
     def populate_entries(source_directory)
       raise 'Not a directory' unless ::File.directory?(source_directory)
       @directory_entries = {}
-      Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
+      list_all_files(source_directory).each do |rel_path|
         source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
         @directory_entries[rel_path] = Entry.new(source_path)
       end
@@ -67,6 +67,12 @@ module ROCrate
 
     def full_entry_path(relative_path)
       ::File.join(filepath, relative_path)
+    end
+
+    def list_all_files(source_directory)
+      Dir.chdir(source_directory) { Dir.glob('**/*', ::File::FNM_DOTMATCH) }.reject do |path|
+        path == '.' || path == '..' || path.end_with?('/.')
+      end
     end
 
     def default_properties

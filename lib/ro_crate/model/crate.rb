@@ -73,7 +73,7 @@ module ROCrate
     def add_all(source_directory, create_entities = true)
       added = []
 
-      Dir.chdir(source_directory) { Dir.glob('**/*') }.each do |rel_path|
+      list_all_files(source_directory).each do |rel_path|
         source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path
         if create_entities
           if source_path.directory?
