@@ -203,6 +203,17 @@ class CrateTest < Test::Unit::TestCase
     crate = ROCrate::Crate.new
     entities = crate.add_all(fixture_file('directory').path)
 
+    paths = crate.entries.keys
+    assert_equal 8, paths.length
+    assert_includes paths, 'data'
+    assert_includes paths, 'root.txt'
+    assert_includes paths, 'info.txt'
+    assert_includes paths, 'data/binary.jpg'
+    assert_includes paths, 'data/info.txt'
+    assert_includes paths, 'data/nested.txt'
+    assert_includes paths, 'ro-crate-metadata.json'
+    assert_includes paths, 'ro-crate-preview.html'
+
     assert_equal 6, entities.length
     assert_equal 'ROCrate::Directory', crate.dereference('data/').class.name
     assert_equal 'ROCrate::File', crate.dereference('root.txt').class.name
@@ -219,6 +230,17 @@ class CrateTest < Test::Unit::TestCase
     entities = crate.add_all(fixture_file('directory').path, false)
 
     assert_empty entities
+
+    paths = crate.entries.keys
+    assert_equal 8, paths.length
+    assert_includes paths, 'data'
+    assert_includes paths, 'root.txt'
+    assert_includes paths, 'info.txt'
+    assert_includes paths, 'data/binary.jpg'
+    assert_includes paths, 'data/info.txt'
+    assert_includes paths, 'data/nested.txt'
+    assert_includes paths, 'ro-crate-metadata.json'
+    assert_includes paths, 'ro-crate-preview.html'
 
     # Should not create any data entities
     assert_nil crate.dereference('data/')

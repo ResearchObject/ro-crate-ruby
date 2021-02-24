@@ -21,6 +21,7 @@ module ROCrate
 
       if source_directory
         source_directory = Pathname.new(::File.expand_path(source_directory))
+        @entry = source_directory
         populate_entries(source_directory)
         crate_path = source_directory.basename.to_s if crate_path.nil?
       end
@@ -35,9 +36,10 @@ module ROCrate
     # @return [Hash{String => Entry}>]
     def entries
       entries = {}
+      entries[filepath.chomp('/')] = @entry if @entry
 
       @directory_entries.each do |rel_path, entry|
-        entries[::File.join(filepath, rel_path)] = entry
+        entries[full_entry_path(rel_path)] = entry
       end
 
       entries
@@ -61,6 +63,10 @@ module ROCrate
       end
 
       @directory_entries
+    end
+
+    def full_entry_path(relative_path)
+      ::File.join(filepath, relative_path)
     end
 
     def default_properties

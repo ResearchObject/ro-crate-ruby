@@ -235,5 +235,11 @@ module ROCrate
     def get_binding
       binding
     end
+
+    private
+
+    def full_entry_path(relative_path)
+      relative_path
+    end
   end
 end
