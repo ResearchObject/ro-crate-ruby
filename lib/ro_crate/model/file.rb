@@ -52,7 +52,9 @@ module ROCrate
     end
 
     ##
-    # A map of all the files/directories associated with this File. Should only be a single key and value.
+    # The "payload". A map with a single key and value, of the relative filepath within the crate, to the source on disk
+    # where the actual bytes of the file can be read. Blank if remote.
+    #
     # (for compatibility with Directory#entries)
     #
     # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.

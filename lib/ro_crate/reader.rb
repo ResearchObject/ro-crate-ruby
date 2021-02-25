@@ -107,6 +107,7 @@ module ROCrate
         crate.metadata.properties = entity_hash.delete(ROCrate::Metadata::IDENTIFIER)
         preview_properties = entity_hash.delete(ROCrate::Preview::IDENTIFIER)
         crate.preview.properties = preview_properties if preview_properties
+        crate.add_all(source, false)
         extract_data_entities(crate, source, entity_hash).each do |entity|
           crate.add_data_entity(entity)
         end

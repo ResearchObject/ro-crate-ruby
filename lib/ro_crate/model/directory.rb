@@ -30,8 +30,8 @@ module ROCrate
     end
 
     ##
-    # A map of all the files/directories under this directory, where the key is the destination path within the crate
-    # and the value is an Entry where the source data can be read.
+    # The "payload" of this directory - a map of all the files/directories, where the key is the destination path
+    # within the crate and the value is an Entry where the source data can be read.
     #
     # @return [Hash{String => Entry}>]
     def entries

@@ -112,4 +112,24 @@ class WriterTest < Test::Unit::TestCase
       assert_equal 2529, ::File.size(::File.join(dir, 'data', 'binary.jpg'))
     end
   end
+
+  test 'reading and writing out a directory crate produces an identical crate' do
+    fixture = fixture_file('sparse_directory_crate').path
+    Dir.mktmpdir do |dir|
+      dir = ::File.join(dir, 'new_directory')
+      crate = ROCrate::Reader.read(fixture)
+
+      ROCrate::Writer.new(crate).write(dir)
+      expected_files = Dir.chdir(fixture) { Dir.glob('**/*') }
+      actual_files =  Dir.chdir(dir) { Dir.glob('**/*') }
+      assert_equal expected_files, actual_files
+      expected_files.each do |file|
+        next if file == 'ro-crate-metadata.jsonld' # Expected context gets updated.
+        next if file == 'ro-crate-preview.html' # RO-Crate preview format changed
+        abs_file_path = ::File.join(fixture, file)
+        next if ::File.directory?(abs_file_path)
+        assert_equal ::File.read(abs_file_path), ::File.read(::File.join(dir, file)), "#{file} didn't match"
+      end
+    end
+  end
 end

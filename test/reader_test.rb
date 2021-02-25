@@ -163,4 +163,36 @@ class ReaderTest < Test::Unit::TestCase
     assert_equal 'http://example.com/external_ref.txt', ext_file.id
     assert_equal 'file contents', ext_file.source.read
   end
+
+  test 'reading from directory with unlisted files' do
+    crate = ROCrate::Reader.read_directory(fixture_file('sparse_directory_crate').path)
+
+    assert_equal 11, crate.entries.count
+    assert crate.entries['listed_file.txt']
+    assert crate.entries['unlisted_file.txt']
+    assert crate.entries['fish']
+    assert_equal '1234', crate.entries['fish/info.txt'].source.read.chomp
+    refute crate.entries['fish/root.txt'].directory?
+    assert crate.entries['fish/data'].directory?
+    assert crate.entries['fish/data/info.txt']
+    refute crate.entries['fish/data/nested.txt'].remote?
+    assert crate.entries['fish/data/binary.jpg']
+    assert_equal ['./', 'listed_file.txt', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
+  end
+
+  test 'reading from a zip with unlisted files' do
+    crate = ROCrate::Reader.read_zip(fixture_file('sparse_directory_crate.zip').path)
+
+    assert_equal 11, crate.entries.count
+    assert crate.entries['listed_file.txt']
+    assert crate.entries['unlisted_file.txt']
+    assert crate.entries['fish']
+    assert_equal '1234', crate.entries['fish/info.txt'].source.read.chomp
+    refute crate.entries['fish/root.txt'].directory?
+    assert crate.entries['fish/data'].directory?
+    assert crate.entries['fish/data/info.txt']
+    refute crate.entries['fish/data/nested.txt'].remote?
+    assert crate.entries['fish/data/binary.jpg']
+    assert_equal ['./', 'listed_file.txt', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
+  end
 end
