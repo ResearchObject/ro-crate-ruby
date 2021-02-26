@@ -3,17 +3,56 @@ module ROCrate
   # A class to handle reading of RO-Crates from Zip files or directories.
   class Reader
     ##
-    # Reads an RO-Crate from a directory of zip file.
+    # Reads an RO-Crate from a directory or zip file.
     #
-    # @param source [String, ::File, Pathname] The source location for the crate.
+    # @param source [String, ::File, Pathname, #read] The location of the zip or directory, or an IO-like object containing a zip.
     # @param target_dir [String, ::File, Pathname] The target directory where the crate should be unzipped (if its a Zip file).
     # @return [Crate] The RO-Crate.
     def self.read(source, target_dir: Dir.mktmpdir)
       raise "Not a directory!" unless ::File.directory?(target_dir)
-      if ::File.directory?(source)
+      begin
+        is_dir = ::File.directory?(source)
+      rescue TypeError
+        is_dir = false
+      end
+
+      if is_dir
         read_directory(source)
       else
         read_zip(source, target_dir: target_dir)
+      end
+    end
+
+    ##
+    # Extract the contents of the given Zip file/data to the given directory.
+    #
+    # @param source [String, ::File, Pathname, #read] The location of the zip file, or an IO-like object.
+    # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
+    def self.unzip_to(source, target)
+      source = Pathname.new(::File.expand_path(source)) if source.is_a?(String)
+
+      if source.is_a?(Pathname) || source.is_a?(::File)
+        unzip_file_to(source, target)
+      else
+        unzip_io_to(source, target)
+      end
+    end
+
+    ##
+    # Extract the given Zip file data to the given directory.
+    #
+    # @param source [#read] An IO-like object containing a Zip file.
+    # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
+    def self.unzip_io_to(io, target)
+      Dir.chdir(target) do
+        Zip::InputStream.open(io) do |input|
+          while (entry = input.get_next_entry)
+            unless ::File.exist?(entry.name) || entry.name_is_directory?
+              FileUtils::mkdir_p(::File.dirname(entry.name))
+              ::File.write(entry.name, input.read)
+            end
+          end
+        end
       end
     end
 
@@ -22,10 +61,9 @@ module ROCrate
     #
     # @param source [String, ::File, Pathname] The location of the zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
-    def self.unzip_to(source, target)
-      source = ::File.expand_path(source)
+    def self.unzip_file_to(file_or_path, target)
       Dir.chdir(target) do
-        Zip::File.open(source) do |zipfile|
+        Zip::File.open(file_or_path) do |zipfile|
           zipfile.each do |entry|
             unless ::File.exist?(entry.name)
               FileUtils::mkdir_p(::File.dirname(entry.name))
@@ -40,7 +78,7 @@ module ROCrate
     # Reads an RO-Crate from a zip file. It first extracts the Zip file to a temporary directory, and then calls
     # #read_directory.
     #
-    # @param source [String, ::File, Pathname] The location of the zip file.
+    # @param source [String, ::File, Pathname, #read] The location of the zip file, or an IO-like object.
     # @param target_dir [String, ::File, Pathname] The target directory where the crate should be unzipped.
     # @return [Crate] The RO-Crate.
     def self.read_zip(source, target_dir: Dir.mktmpdir)
@@ -55,6 +93,8 @@ module ROCrate
     # @param source [String, ::File, Pathname] The location of the directory.
     # @return [Crate] The RO-Crate.
     def self.read_directory(source)
+      raise "Not a directory!" unless ::File.directory?(source)
+
       source = ::File.expand_path(source)
       metadata_file = Dir.entries(source).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER ||
           entry == ROCrate::Metadata::IDENTIFIER_1_0 }

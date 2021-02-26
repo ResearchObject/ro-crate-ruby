@@ -195,4 +195,24 @@ class ReaderTest < Test::Unit::TestCase
     assert crate.entries['fish/data/binary.jpg']
     assert_equal ['./', 'listed_file.txt', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
   end
+
+  test 'reading a zip from various object types' do
+    string_io = StringIO.new
+    string_io.write(::File.read(fixture_file('sparse_directory_crate.zip').path))
+    string_io.rewind
+    assert string_io.is_a?(StringIO)
+    assert_equal 11, ROCrate::Reader.read_zip(string_io).entries.count
+
+    path = Pathname.new(fixture_file('sparse_directory_crate.zip').path)
+    assert path.is_a?(Pathname)
+    assert_equal 11, ROCrate::Reader.read_zip(path).entries.count
+
+    file = ::File.open(fixture_file('sparse_directory_crate.zip').path)
+    assert file.is_a?(::File)
+    assert_equal 11, ROCrate::Reader.read_zip(file).entries.count
+
+    string = fixture_file('sparse_directory_crate.zip').path
+    assert string.is_a?(String)
+    assert_equal 11, ROCrate::Reader.read_zip(string).entries.count
+  end
 end
