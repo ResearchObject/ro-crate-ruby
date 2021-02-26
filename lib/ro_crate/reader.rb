@@ -49,7 +49,7 @@ module ROCrate
           while (entry = input.get_next_entry)
             unless ::File.exist?(entry.name) || entry.name_is_directory?
               FileUtils::mkdir_p(::File.dirname(entry.name))
-              ::File.write(entry.name, input.read)
+              ::File.binwrite(entry.name, input.read)
             end
           end
         end
