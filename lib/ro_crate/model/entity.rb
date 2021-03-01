@@ -29,12 +29,34 @@ module ROCrate
     end
 
     ##
-    # Format the given ID with rules appropriate for this type.
+    # Format the given ID with rules appropriate for this type if it is local/relative, leave as-is if absolute.
+    #
+    # @param id [String] The candidate ID to be formatted.
+    # @return [String] The formatted ID.
+    def self.format_id(id)
+      begin
+        uri = URI(id)
+      rescue ArgumentError, URI::InvalidURIError
+        uri = nil
+      end
+
+      if uri&.absolute?
+        id
+      else
+        format_local_id(id)
+      end
+    end
+
+    ##
+    # Format the given local ID with rules appropriate for this type.
     # For example:
     #  * contextual entities MUST be absolute URIs, or begin with: #
     #  * files MUST NOT begin with ./
     #  * directories MUST NOT begin with ./ (except for the crate itself), and MUST end with /
-    def self.format_id(id)
+    #
+    # @param id [String] The candidate local ID to be formatted.
+    # @return [String] The formatted local ID.
+    def self.format_local_id(id)
       Addressable::URI.escape(id.sub(/\A\.\//, '')) # Remove initial ./ if present
     end
 

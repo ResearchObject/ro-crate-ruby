@@ -70,4 +70,25 @@ class EntityTest < Test::Unit::TestCase
     assert_equal({ '@id' => '#fred' }, person.reference)
     assert_equal(person.canonical_id, crate.author.canonical_id)
   end
+
+  test 'format various IDs' do
+    assert_equal "#Hello%20World/Goodbye%20World", ROCrate::ContextualEntity.format_id('#Hello World/Goodbye World')
+    assert_equal "#Hello%20World/Goodbye%20World", ROCrate::ContextualEntity.format_id('Hello World/Goodbye World')
+    assert_equal "#%F0%9F%98%8A", ROCrate::ContextualEntity.format_id("😊")
+
+    assert_equal "test123/hello.txt", ROCrate::File.format_id('./test123/hello.txt')
+    assert_equal "test123/hello.txt", ROCrate::File.format_id('./test123/hello.txt/')
+    assert_equal "http://www.data.com/my%20data.txt", ROCrate::File.format_id('http://www.data.com/my%20data.txt')
+    assert_equal "http://www.data.com/my%20data.txt/", ROCrate::File.format_id('http://www.data.com/my%20data.txt/'), 'Should not modify absolute URI for DataEntity'
+
+    assert_equal "my%20directory/", ROCrate::Directory.format_id('my directory')
+    assert_equal "my%20directory/", ROCrate::Directory.format_id('my directory/')
+    assert_equal 'http://www.data.com/my%20directory', ROCrate::Directory.format_id('http://www.data.com/my%20directory'), 'Should not modify absolute URI for DataEntity'
+    assert_equal 'http://www.data.com/my%20directory/', ROCrate::Directory.format_id('http://www.data.com/my%20directory/'), 'Should not modify absolute URI for DataEntity'
+
+    assert_equal "./", ROCrate::Crate.format_id('./')
+    assert_equal "cool%20crate/", ROCrate::Crate.format_id('./cool crate')
+    assert_equal "http://www.data.com/my%20crate/", ROCrate::Crate.format_id('http://www.data.com/my%20crate'), 'Crate ID should end with /'
+    assert_equal "http://www.data.com/my%20crate/", ROCrate::Crate.format_id('http://www.data.com/my%20crate/')
+  end
 end

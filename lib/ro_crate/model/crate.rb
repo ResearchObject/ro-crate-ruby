@@ -8,6 +8,11 @@ module ROCrate
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
     def self.format_id(id)
+      i = super(id)
+      i.end_with?('/') ? i : "#{i}/"
+    end
+
+    def self.format_local_id(id)
       return id if id == IDENTIFIER
       super
     end

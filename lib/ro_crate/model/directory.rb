@@ -4,7 +4,7 @@ module ROCrate
   class Directory < DataEntity
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
 
-    def self.format_id(id)
+    def self.format_local_id(id)
       super + '/'
     end
 
