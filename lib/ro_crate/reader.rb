@@ -31,7 +31,7 @@ module ROCrate
     def self.unzip_to(source, target)
       source = Pathname.new(::File.expand_path(source)) if source.is_a?(String)
 
-      if source.is_a?(Pathname) || source.is_a?(::File)
+      if source.is_a?(Pathname) || source.respond_to?(:path)
         unzip_file_to(source, target)
       else
         unzip_io_to(source, target)
