@@ -84,7 +84,10 @@ module ROCrate
     def self.read_zip(source, target_dir: Dir.mktmpdir)
       unzip_to(source, target_dir)
 
-      read_directory(target_dir)
+      # Traverse the unzipped directory to try and find the crate's root
+      root_dir = detect_root_directory(target_dir)
+
+      read_directory(root_dir)
     end
 
     ##
@@ -251,6 +254,24 @@ module ROCrate
       root_id = entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')
       raise "Metadata entity does not reference any root entity" unless root_id
       entities.delete(root_id)
+    end
+
+    ##
+    # Finds an RO-Crate's root directory (where `ro-crate-metdata.json` is located) within a given directory.
+    #
+    # @param source [String, ::File, Pathname] The location of the directory.
+    # @return [Pathname, nil] The path to the root, or nil if not found.
+    def self.detect_root_directory(source)
+      Pathname(source).find do |entry|
+        if entry.file?
+          name = entry.basename.to_s
+          if name == ROCrate::Metadata::IDENTIFIER || name == ROCrate::Metadata::IDENTIFIER_1_0
+            return entry.parent
+          end
+        end
+      end
+
+      nil
     end
   end
 end

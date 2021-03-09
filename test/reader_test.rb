@@ -215,4 +215,16 @@ class ReaderTest < Test::Unit::TestCase
     assert string.is_a?(String)
     assert_equal 11, ROCrate::Reader.read_zip(string).entries.count
   end
+
+  test 'reading from zip where the crate root is nested somewhere within' do
+    crate = ROCrate::Reader.read_zip(fixture_file('nested_directory.zip'))
+
+    assert crate.entries['fish/info.txt']
+    assert_equal '1234', crate.entries['fish/info.txt'].source.read.chomp
+    assert crate.entries['fish/root.txt']
+    assert crate.entries['fish/data/info.txt']
+    assert crate.entries['fish/data/nested.txt']
+    assert crate.entries['fish/data/binary.jpg']
+    assert_equal ['./', 'fish/', 'ro-crate-metadata.json', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
+  end
 end
