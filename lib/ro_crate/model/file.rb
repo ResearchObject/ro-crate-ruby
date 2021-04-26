@@ -9,7 +9,7 @@ module ROCrate
     # Crate#add_data_entity, or just use Crate#add_file.
     #
     # @param crate [Crate] The RO-Crate that owns this file.
-    # @param source [String, Pathname, ::File, #read, URI, nil] The source on the disk (or on the internet if a URI) where this file will be read.
+    # @param source [String, Pathname, ::File, URI, nil, #read] The source on the disk (or on the internet if a URI) where this file will be read.
     # @param crate_path [String] The relative path within the RO-Crate where this file will be written.
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this file.
     def initialize(crate, source, crate_path = nil, properties = {})

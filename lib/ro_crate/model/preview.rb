@@ -13,25 +13,12 @@ module ROCrate
     attr_accessor :template
 
     def initialize(crate, source = nil, properties = {})
-      @preview_source = source
+      source ||= PreviewGenerator.new(self)
       @template = nil
       super(crate, source, IDENTIFIER, properties)
     end
 
-    ##
-    # Generate the crate's `ro-crate-preview.html`.
-    # @return [String] The rendered HTML as a string.
-    def generate
-      b = crate.get_binding
-      renderer = ERB.new(template || ::File.read(DEFAULT_TEMPLATE))
-      renderer.result(b)
-    end
-
     private
-
-    def source
-      @preview_source ? super : Entry.new(StringIO.new(generate))
-    end
 
     def default_properties
       {
