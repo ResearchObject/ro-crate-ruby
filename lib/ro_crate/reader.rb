@@ -103,8 +103,12 @@ module ROCrate
           entry == ROCrate::Metadata::IDENTIFIER_1_0 }
 
       if metadata_file
-        entities = entities_from_metadata(::File.read(::File.join(source, metadata_file)))
-        build_crate(entities, source)
+        metadata_json = ::File.read(::File.join(source, metadata_file))
+        metadata = JSON.parse(metadata_json)
+        entities = entities_from_metadata(metadata)
+        context = metadata['@context']
+
+        build_crate(entities, source, context: context)
       else
         raise 'No metadata found!'
       end
@@ -113,10 +117,9 @@ module ROCrate
     ##
     # Extracts all the entities from the @graph of the RO-Crate Metadata.
     #
-    # @param metadata_json [String] A string containing the metadata JSON.
+    # @param metadata [Hash] A Hash containing the parsed metadata JSON.
     # @return [Hash{String => Hash}] A Hash of all the entities, mapped by their @id.
-    def self.entities_from_metadata(metadata_json)
-      metadata = JSON.parse(metadata_json)
+    def self.entities_from_metadata(metadata)
       graph = metadata['@graph']
 
       if graph
@@ -129,6 +132,7 @@ module ROCrate
         # Do some normalization...
         entities[ROCrate::Metadata::IDENTIFIER] = extract_metadata_entity(entities)
         raise "No metadata entity found in @graph!" unless entities[ROCrate::Metadata::IDENTIFIER]
+        entities[ROCrate::Preview::IDENTIFIER] = extract_preview_entity(entities)
         entities[ROCrate::Crate::IDENTIFIER] = extract_root_entity(entities)
         raise "No root entity (with @id: #{entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')}) found in @graph!" unless entities[ROCrate::Crate::IDENTIFIER]
 
@@ -139,25 +143,49 @@ module ROCrate
     end
 
     ##
-    # Create a crate from the given set of entities.
+    # Create and populate crate from the given set of entities.
     #
     # @param entity_hash [Hash{String => Hash}] A Hash containing all the entities in the @graph, mapped by their @id.
     # @param source [String, ::File, Pathname] The location of the RO-Crate being read.
+    # @param crate_class [Class] The class to use to instantiate the crate,
+    #   useful if you have created a subclass of ROCrate::Crate that you want to use. (defaults to ROCrate::Crate).
+    # @param context [nil, String, Array, Hash] A custom JSON-LD @context (parsed), or nil to use default.
     # @return [Crate] The RO-Crate.
-    def self.build_crate(entity_hash, source)
-      ROCrate::Crate.new.tap do |crate|
+    def self.build_crate(entity_hash, source, crate_class: ROCrate::Crate, context:)
+      crate = initialize_crate(entity_hash, source, crate_class: crate_class, context: context)
+
+      extract_data_entities(crate, source, entity_hash).each do |entity|
+        crate.add_data_entity(entity)
+      end
+
+      # The remaining entities in the hash must be contextual.
+      extract_contextual_entities(crate, entity_hash).each do |entity|
+        crate.add_contextual_entity(entity)
+      end
+
+      crate
+    end
+
+    ##
+    # Initialize a crate from the given set of entities.
+    #
+    # @param entity_hash [Hash{String => Hash}] A Hash containing all the entities in the @graph, mapped by their @id.
+    # @param source [String, ::File, Pathname] The location of the RO-Crate being read.
+    # @param crate_class [Class] The class to use to instantiate the crate,
+    #   useful if you have created a subclass of ROCrate::Crate that you want to use. (defaults to ROCrate::Crate).
+    # @param context [nil, String, Array, Hash] A custom JSON-LD @context (parsed), or nil to use default.
+    # @return [Crate] The RO-Crate.
+    def self.initialize_crate(entity_hash, source, crate_class: ROCrate::Crate, context:)
+      crate_class.new.tap do |crate|
         crate.properties = entity_hash.delete(ROCrate::Crate::IDENTIFIER)
         crate.metadata.properties = entity_hash.delete(ROCrate::Metadata::IDENTIFIER)
+        crate.metadata.context = context
         preview_properties = entity_hash.delete(ROCrate::Preview::IDENTIFIER)
-        crate.preview.properties = preview_properties if preview_properties
+        if preview_properties
+          preview_path = ::File.join(source, ROCrate::Preview::IDENTIFIER)
+          crate.preview = ROCrate::Preview.new(crate, ::File.exists?(preview_path) ? Pathname.new(preview_path) : nil, preview_properties)
+        end
         crate.add_all(source, false)
-        extract_data_entities(crate, source, entity_hash).each do |entity|
-          crate.add_data_entity(entity)
-        end
-        # The remaining entities in the hash must be contextual.
-        extract_contextual_entities(crate, entity_hash).each do |entity|
-          crate.add_contextual_entity(entity)
-        end
       end
     end
 
@@ -229,8 +257,8 @@ module ROCrate
     ##
     # Extract the metadata entity from the entity hash, according to the rules defined here:
     # https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity
-    # @return [Hash{String => Hash}] A Hash containing (hopefully) one value, the metadata entity's properties,
-    # mapped by its @id.
+    # @return [nil, Hash{String => Hash}] A Hash containing (hopefully) one value, the metadata entity's properties
+    # mapped by its @id, or nil if nothing is found.
     def self.extract_metadata_entity(entities)
       key = entities.detect do |_, props|
         props.dig('conformsTo', '@id')&.start_with?(ROCrate::Metadata::RO_CRATE_BASE)
@@ -243,6 +271,13 @@ module ROCrate
           entities.delete(ROCrate::Metadata::IDENTIFIER) ||
           entities.delete("./#{ROCrate::Metadata::IDENTIFIER_1_0}") ||
           entities.delete(ROCrate::Metadata::IDENTIFIER_1_0))
+    end
+
+    ##
+    # Extract the ro-crate-preview entity from the entity hash.
+    # @return [Hash{String => Hash}] A Hash containing the preview entity's properties mapped by its @id, or nil if nothing is found.
+    def self.extract_preview_entity(entities)
+      entities.delete("./#{ROCrate::Preview::IDENTIFIER}") || entities.delete(ROCrate::Preview::IDENTIFIER)
     end
 
     ##

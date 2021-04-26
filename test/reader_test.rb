@@ -227,4 +227,28 @@ class ReaderTest < Test::Unit::TestCase
     assert crate.entries['fish/data/binary.jpg']
     assert_equal ['./', 'fish/', 'ro-crate-metadata.json', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
   end
+
+  test 'reading preserves any additions to @context' do
+    crate = ROCrate::Reader.read_directory(fixture_file('ro-crate-galaxy-sortchangecase').path)
+
+    context = crate.metadata.context
+    assert_equal [
+                     'https://w3id.org/ro/crate/1.1/context',
+                     {
+                         'TestSuite' => 'https://w3id.org/ro/terms/test#TestSuite',
+                         'TestInstance' => 'https://w3id.org/ro/terms/test#TestInstance',
+                         'TestService' => 'https://w3id.org/ro/terms/test#TestService',
+                         'TestDefinition' => 'https://w3id.org/ro/terms/test#TestDefinition',
+                         'PlanemoEngine' => 'https://w3id.org/ro/terms/test#PlanemoEngine',
+                         'JenkinsService' => 'https://w3id.org/ro/terms/test#JenkinsService',
+                         'TravisService' => 'https://w3id.org/ro/terms/test#TravisService',
+                         'GithubService' => 'https://w3id.org/ro/terms/test#GithubService',
+                         'instance' => 'https://w3id.org/ro/terms/test#instance',
+                         'runsOn' => 'https://w3id.org/ro/terms/test#runsOn',
+                         'resource' => 'https://w3id.org/ro/terms/test#resource',
+                         'definition' => 'https://w3id.org/ro/terms/test#definition',
+                         'engineVersion' => 'https://w3id.org/ro/terms/test#engineVersion'
+                     }
+                 ], context
+  end
 end

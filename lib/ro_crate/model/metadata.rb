@@ -17,7 +17,15 @@ module ROCrate
     # @return [String] The rendered JSON-LD as a "prettified" string.
     def generate
       graph = crate.entities.map(&:properties).reject(&:empty?)
-      JSON.pretty_generate('@context' => CONTEXT, '@graph' => graph)
+      JSON.pretty_generate('@context' => context, '@graph' => graph)
+    end
+
+    def context
+      @context || CONTEXT
+    end
+
+    def context= c
+      @context = c
     end
 
     private

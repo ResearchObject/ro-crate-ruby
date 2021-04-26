@@ -12,9 +12,10 @@ module ROCrate
     # @return [String]
     attr_accessor :template
 
-    def initialize(crate, properties = {})
+    def initialize(crate, source = nil, properties = {})
+      @preview_source = source
       @template = nil
-      super(crate, nil, IDENTIFIER, properties)
+      super(crate, source, IDENTIFIER, properties)
     end
 
     ##
@@ -29,7 +30,7 @@ module ROCrate
     private
 
     def source
-      Entry.new(StringIO.new(generate))
+      @preview_source ? super : Entry.new(StringIO.new(generate))
     end
 
     def default_properties

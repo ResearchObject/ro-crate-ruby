@@ -169,6 +169,15 @@ module ROCrate
     end
 
     ##
+    # Set the RO-Crate preview file
+    # @param preview [Preview] the preview to set.
+    #
+    # @return [Preview]
+    def preview=(preview)
+      @preview = claim(preview)
+    end
+
+    ##
     # All the entities within the crate. Includes contextual entities, data entities, the crate itself and its metadata file.
     #
     # @return [Array<Entity>]

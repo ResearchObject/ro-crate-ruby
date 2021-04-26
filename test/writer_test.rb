@@ -124,11 +124,31 @@ class WriterTest < Test::Unit::TestCase
       actual_files =  Dir.chdir(dir) { Dir.glob('**/*') }
       assert_equal expected_files, actual_files
       expected_files.each do |file|
-        next if file == 'ro-crate-metadata.jsonld' # Expected context gets updated.
-        next if file == 'ro-crate-preview.html' # RO-Crate preview format changed
         abs_file_path = ::File.join(fixture, file)
         next if ::File.directory?(abs_file_path)
         assert_equal ::File.read(abs_file_path), ::File.read(::File.join(dir, file)), "#{file} didn't match"
+      end
+    end
+  end
+
+  test 'reading/writing multiple times does not change the crate' do
+    input_dir = fixture_file('sparse_directory_crate').path
+    Dir.mktmpdir do |dir|
+      3.times do |i|
+        output_dir = ::File.join(dir, "new_directory_#{i}")
+        crate = ROCrate::Reader.read(input_dir)
+
+        ROCrate::Writer.new(crate).write(output_dir)
+        expected_files = Dir.chdir(input_dir) { Dir.glob('**/*') }
+        actual_files =  Dir.chdir(output_dir) { Dir.glob('**/*') }
+        assert_equal expected_files, actual_files
+        expected_files.each do |file|
+          abs_file_path = ::File.join(input_dir, file)
+          next if ::File.directory?(abs_file_path)
+          assert_equal ::File.read(abs_file_path), ::File.read(::File.join(output_dir, file)), "#{file} didn't match"
+        end
+
+        input_dir = output_dir
       end
     end
   end
