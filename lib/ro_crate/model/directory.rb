@@ -2,8 +2,6 @@ module ROCrate
   ##
   # A data entity that represents a directory of potentially many files and subdirectories (or none).
   class Directory < DataEntity
-    properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
-
     def self.format_local_id(id)
       super + '/'
     end

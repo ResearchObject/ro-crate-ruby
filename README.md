@@ -17,6 +17,43 @@ and run `bundle install`.
 
 ## Usage
 
+This gem consists a hierarchy of classes to model RO-Crate "entities": the crate itself, data entities 
+(files and directory) and contextual entities (with a limited set of specializations, such as `ROCrate::Person`). 
+They are all descendents of the `ROCrate::Entity` class, with the `ROCrate::Crate` class representing the crate itself. 
+
+The `ROCrate::Reader` class handles reading of RO-Crates into the above model, from a Zip file or directory.
+
+The `ROCrate::Writer` class can write out an `ROCrate::Crate` instance into a Zip file or directory.
+
+**Note:** for performance reasons, the gem is currently not linked-data aware and will allow you to set properties that 
+are not semantically valid.
+
+### Entities
+Entities correspond to entries in the `@graph` of the RO-Crate's metadata JSON-LD file. Each entity class is 
+basically a wrapper around a set of JSON properties, with some convenience methods for getting/setting some 
+commonly used properties (`crate.name = "My first crate"`).
+ 
+These convenience getter/setter methods will automatically handle turning objects into references and adding them to the 
+`@graph` if necessary.
+
+##### Getting/Setting Arbitrary Properties of Entities
+As well as using the pre-defined getter/setter methods, you can get/set arbitrary properties like so.
+
+To set the "creativeWorkStatus" property of the RO-Crate itself to a string literal:
+```ruby
+crate['creativeWorkStatus'] = 'work-in-progress'
+```
+
+If you want to reference other entities in the crate, you can get a JSON-LD reference from an entity object by using the `reference` method:
+```ruby
+joe = crate.add_person('joe', { name: 'Joe Bloggs' }) # Add the entity to the @graph
+crate.properties['copyrightHolder'] = joe.reference # Reference the entity from the "copyrightHolder" property
+```
+and to resolve those references back to the object, use the `dereference` method:
+```ruby
+joe = crate.properties['copyrightHolder'].dereference
+```
+
 ### Documentation
 
 [Click here for API documentation](https://www.researchobject.org/ro-crate-ruby/).

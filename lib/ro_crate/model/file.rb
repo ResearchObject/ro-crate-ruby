@@ -2,8 +2,6 @@ module ROCrate
   ##
   # A data entity that represents a single file.
   class File < DataEntity
-    properties(%w[name contentSize dateModified encodingFormat identifier sameAs])
-
     ##
     # Create a new ROCrate::File. PLEASE NOTE, the new file will not be added to the crate. To do this, call
     # Crate#add_data_entity, or just use Crate#add_file.

@@ -164,6 +164,18 @@ class CrateTest < Test::Unit::TestCase
     assert_equal 2, crate1.contextual_entities.first.properties['cats']
   end
 
+  test 'sharing entities' do
+    crate = ROCrate::Crate.new
+    info = crate.add_file(fixture_file('info.txt'),'the_info.txt')
+    bob = crate.add_person('bob', name: 'Bob Jones')
+    crate.author = bob
+    info.author = bob
+
+    assert_equal [bob], crate.contextual_entities
+    assert_equal bob, info.author
+    assert_equal bob, crate.author
+  end
+
   test 'external files' do
     crate = ROCrate::Crate.new
     local = crate.add_file(fixture_file('info.txt'))
