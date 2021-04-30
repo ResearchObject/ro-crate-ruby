@@ -15,8 +15,6 @@ module ROCrate
     # @return [Class]
     def self.specialize(props)
       type = props['@type']
-      id = props['@id']
-      abs = URI(id)&.absolute? rescue false
       type = [type] unless type.is_a?(Array)
       if type.include?('Dataset')
         ROCrate::Directory
