@@ -47,11 +47,11 @@ crate['creativeWorkStatus'] = 'work-in-progress'
 If you want to reference other entities in the crate, you can get a JSON-LD reference from an entity object by using the `reference` method:
 ```ruby
 joe = crate.add_person('joe', { name: 'Joe Bloggs' }) # Add the entity to the @graph
-crate.properties['copyrightHolder'] = joe.reference # Reference the entity from the "copyrightHolder" property
+crate['copyrightHolder'] = joe.reference # Reference the entity from the "copyrightHolder" property
 ```
 and to resolve those references back to the object, use the `dereference` method:
 ```ruby
-joe = crate.properties['copyrightHolder'].dereference
+joe = crate['copyrightHolder'].dereference
 ```
 
 ### Documentation
