@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A class to handle reading of RO Crates from Zip files or directories.</p>
+<p>A class to handle reading of RO-Crates from Zip files or directories.</p>
 
 
   </div>
@@ -128,7 +128,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#build_crate-class_method" title="build_crate (class method)">.<strong>build_crate</strong>(entity_hash, source)  &#x21d2; Crate </a>
+      <a href="#build_crate-class_method" title="build_crate (class method)">.<strong>build_crate</strong>(entity_hash, source, crate_class: ROCrate::Crate, context:)  &#x21d2; Crate </a>
     
 
     
@@ -143,7 +143,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Create a crate from the given set of entities.</p>
+<p>Create and populate crate from the given set of entities.</p>
 </div></span>
   
 </li>
@@ -176,7 +176,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#entities_from_metadata-class_method" title="entities_from_metadata (class method)">.<strong>entities_from_metadata</strong>(metadata_json)  &#x21d2; Hash{String =&gt; Hash} </a>
+      <a href="#detect_root_directory-class_method" title="detect_root_directory (class method)">.<strong>detect_root_directory</strong>(source)  &#x21d2; Pathname<sup>?</sup> </a>
     
 
     
@@ -191,7 +191,31 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Extracts all the entities from the @graph of the RO Crate Metadata.</p>
+<p>Finds an RO-Crate&#39;s root directory (where `ro-crate-metdata.json` is located) within a given directory.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#entities_from_metadata-class_method" title="entities_from_metadata (class method)">.<strong>entities_from_metadata</strong>(metadata)  &#x21d2; Hash{String =&gt; Hash} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extracts all the entities from the @graph of the RO-Crate Metadata.</p>
 </div></span>
   
 </li>
@@ -215,8 +239,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Create appropriately specialized ContextualEntity objects from the given
-hash of entities and their properties.</p>
+<p>Create appropriately specialized ContextualEntity objects from the given hash of entities and their properties.</p>
 </div></span>
   
 </li>
@@ -240,8 +263,7 @@ hash of entities and their properties.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Discover data entities from the `hasPart` property of a crate, and create
-DataEntity objects for them.</p>
+<p>Discover data entities from the `hasPart` property of a crate, and create DataEntity objects for them.</p>
 </div></span>
   
 </li>
@@ -250,7 +272,7 @@ DataEntity objects for them.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#extract_metadata_entity-class_method" title="extract_metadata_entity (class method)">.<strong>extract_metadata_entity</strong>(entities)  &#x21d2; Hash{String =&gt; Hash} </a>
+      <a href="#extract_metadata_entity-class_method" title="extract_metadata_entity (class method)">.<strong>extract_metadata_entity</strong>(entities)  &#x21d2; nil, Hash{String =&gt; Hash} </a>
     
 
     
@@ -265,10 +287,31 @@ DataEntity objects for them.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Extract the metadata entity from the entity hash, according to the rules
-defined here: <a
-href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a>
-mapped by its @id.</p>
+<p>Extract the metadata entity from the entity hash, according to the rules defined here: <a href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a> mapped by its @id, or nil if nothing is found.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_preview_entity-class_method" title="extract_preview_entity (class method)">.<strong>extract_preview_entity</strong>(entities)  &#x21d2; Hash{String =&gt; Hash} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extract the ro-crate-preview entity from the entity hash.</p>
 </div></span>
   
 </li>
@@ -292,10 +335,31 @@ mapped by its @id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Extract the root entity from the entity hash, according to the rules
-defined here: <a
-href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a>
-mapped by its @id.</p>
+<p>Extract the root entity from the entity hash, according to the rules defined here: <a href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a> mapped by its @id.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_crate-class_method" title="initialize_crate (class method)">.<strong>initialize_crate</strong>(entity_hash, source, crate_class: ROCrate::Crate, context:)  &#x21d2; Crate </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize a crate from the given set of entities.</p>
 </div></span>
   
 </li>
@@ -319,7 +383,7 @@ mapped by its @id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Reads an RO Crate from a directory of zip file.</p>
+<p>Reads an RO-Crate from a directory or zip file.</p>
 </div></span>
   
 </li>
@@ -343,7 +407,7 @@ mapped by its @id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Reads an RO Crate from a directory.</p>
+<p>Reads an RO-Crate from a directory.</p>
 </div></span>
   
 </li>
@@ -367,7 +431,55 @@ mapped by its @id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Reads an RO Crate from a zip file.</p>
+<p>Reads an RO-Crate from a zip file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unzip_file_to-class_method" title="unzip_file_to (class method)">.<strong>unzip_file_to</strong>(file_or_path, target)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extract the contents of the given Zip file to the given directory.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unzip_io_to-class_method" title="unzip_io_to (class method)">.<strong>unzip_io_to</strong>(io, target)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extract the given Zip file data to the given directory.</p>
 </div></span>
   
 </li>
@@ -391,7 +503,7 @@ mapped by its @id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Extract the contents of the given Zip file to the given directory.</p>
+<p>Extract the contents of the given Zip file/data to the given directory.</p>
 </div></span>
   
 </li>
@@ -409,7 +521,7 @@ mapped by its @id.</p>
       <div class="method_details first">
   <h3 class="signature first" id="build_crate-class_method">
   
-    .<strong>build_crate</strong>(entity_hash, source)  &#x21d2; <tt><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></tt> 
+    .<strong>build_crate</strong>(entity_hash, source, crate_class: ROCrate::Crate, context:)  &#x21d2; <tt><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></tt> 
   
 
   
@@ -418,7 +530,7 @@ mapped by its @id.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Create a crate from the given set of entities.</p>
+<p>Create and populate crate from the given set of entities.</p>
 
 
   </div>
@@ -454,7 +566,41 @@ mapped by its @id.</p>
       
         &mdash;
         <div class='inline'>
-<p>The location of the RO Crate being read.</p>
+<p>The location of the RO-Crate being read.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>crate_class</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>ROCrate::Crate</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The class to use to instantiate the crate, useful if you have created a subclass of ROCrate::Crate that you want to use. (defaults to ROCrate::Crate).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>context</span>
+      
+      
+        <span class='type'>(<tt>nil</tt>, <tt>String</tt>, <tt>Array</tt>, <tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom JSON-LD @context (parsed), or nil to use default.</p>
 </div>
       
     </li>
@@ -473,7 +619,7 @@ mapped by its @id.</p>
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate.</p>
+<p>The RO-Crate.</p>
 </div>
       
     </li>
@@ -486,35 +632,37 @@ mapped by its @id.</p>
       <pre class="lines">
 
 
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116</pre>
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 154</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_build_crate'>build_crate</span><span class='lparen'>(</span><span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Crate.html#initialize-instance_method" title="ROCrate::Crate#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_crate'>crate</span><span class='op'>|</span>
-    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html#IDENTIFIER-constant" title="ROCrate::Crate::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_metadata'>metadata</span><span class='period'>.</span><span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_extract_data_entities'>extract_data_entities</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entity'>entity</span><span class='op'>|</span>
-      <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_add_data_entity'>add_data_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-    <span class='comment'># The remaining entities in the hash must be contextual.
-</span>    <span class='id identifier rubyid_extract_contextual_entities'>extract_contextual_entities</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entity'>entity</span><span class='op'>|</span>
-      <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_build_crate'>build_crate</span><span class='lparen'>(</span><span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>crate_class:</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='comma'>,</span> <span class='label'>context:</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_crate'>crate</span> <span class='op'>=</span> <span class='id identifier rubyid_initialize_crate'>initialize_crate</span><span class='lparen'>(</span><span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>crate_class:</span> <span class='id identifier rubyid_crate_class'>crate_class</span><span class='comma'>,</span> <span class='label'>context:</span> <span class='id identifier rubyid_context'>context</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_extract_data_entities'>extract_data_entities</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entity'>entity</span><span class='op'>|</span>
+    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_add_data_entity'>add_data_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+
+  <span class='comment'># The remaining entities in the hash must be contextual.
+</span>  <span class='id identifier rubyid_extract_contextual_entities'>extract_contextual_entities</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entity'>entity</span><span class='op'>|</span>
+    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_add_contextual_entity'>add_contextual_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_crate'>crate</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -553,7 +701,7 @@ mapped by its @id.</p>
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate being read.</p>
+<p>The RO-Crate being read.</p>
 </div>
       
     </li>
@@ -569,7 +717,7 @@ mapped by its @id.</p>
       
         &mdash;
         <div class='inline'>
-<p>The location of the RO Crate being read.</p>
+<p>The location of the RO-Crate being read.</p>
 </div>
       
     </li>
@@ -604,8 +752,7 @@ mapped by its @id.</p>
       
         &mdash;
         <div class='inline'>
-<p>The DataEntity object, or nil if it referenced a local file that wasn&#39;t
-found.</p>
+<p>The DataEntity object, or nil if it referenced a local file that wasn&#39;t found.</p>
 </div>
       
     </li>
@@ -618,30 +765,30 @@ found.</p>
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180</pre>
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 234</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_data_entity'>create_data_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_class'>entity_class</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_props'>entity_props</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_entity_props'>entity_props</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@id</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -670,9 +817,9 @@ found.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="entities_from_metadata-class_method">
+  <h3 class="signature " id="detect_root_directory-class_method">
   
-    .<strong>entities_from_metadata</strong>(metadata_json)  &#x21d2; <tt>Hash{String =&gt; Hash}</tt> 
+    .<strong>detect_root_directory</strong>(source)  &#x21d2; <tt>Pathname</tt><sup>?</sup> 
   
 
   
@@ -681,7 +828,7 @@ found.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Extracts all the entities from the @graph of the RO Crate Metadata.</p>
+<p>Finds an RO-Crate&#39;s root directory (where `ro-crate-metdata.json` is located) within a given directory.</p>
 
 
   </div>
@@ -692,16 +839,113 @@ found.</p>
   
     <li>
       
-        <span class='name'>metadata_json</span>
+        <span class='name'>source</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>A string containing the metadata JSON.</p>
+<p>The location of the directory.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Pathname</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The path to the root, or nil if not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 299</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_detect_root_directory'>detect_root_directory</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+  <span class='const'>Pathname</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span>
+      <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span> <span class='op'>||</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER_1_0-constant" title="ROCrate::Metadata::IDENTIFIER_1_0 (constant)">IDENTIFIER_1_0</a></span></span>
+        <span class='kw'>return</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="entities_from_metadata-class_method">
+  
+    .<strong>entities_from_metadata</strong>(metadata)  &#x21d2; <tt>Hash{String =&gt; Hash}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extracts all the entities from the @graph of the RO-Crate Metadata.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>metadata</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A Hash containing the parsed metadata JSON.</p>
 </div>
       
     </li>
@@ -733,34 +977,33 @@ found.</p>
       <pre class="lines">
 
 
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96</pre>
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 122</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_entities_from_metadata'>entities_from_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_metadata_json'>metadata_json</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_metadata'>metadata</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_metadata_json'>metadata_json</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_entities_from_metadata'>entities_from_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_metadata'>metadata</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_graph'>graph</span> <span class='op'>=</span> <span class='id identifier rubyid_metadata'>metadata</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@graph</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_graph'>graph</span>
@@ -773,6 +1016,7 @@ found.</p>
     <span class='comment'># Do some normalization...
 </span>    <span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_extract_metadata_entity'>extract_metadata_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No metadata entity found in @graph!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html#IDENTIFIER-constant" title="ROCrate::Preview::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_extract_preview_entity'>extract_preview_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html#IDENTIFIER-constant" title="ROCrate::Crate::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_extract_root_entity'>extract_root_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No root entity (with @id: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>about</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@id</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>) found in @graph!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html#IDENTIFIER-constant" title="ROCrate::Crate::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span>
 
@@ -798,8 +1042,7 @@ found.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Create appropriately specialized ContextualEntity objects from the given
-hash of entities and their properties.</p>
+<p>Create appropriately specialized ContextualEntity objects from the given hash of entities and their properties.</p>
 
 
   </div>
@@ -819,7 +1062,7 @@ hash of entities and their properties.</p>
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate being read.</p>
+<p>The RO-Crate being read.</p>
 </div>
       
     </li>
@@ -867,20 +1110,20 @@ hash of entities and their properties.</p>
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151</pre>
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 215</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_contextual_entities'>extract_contextual_entities</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_entities'>entities</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -910,9 +1153,7 @@ hash of entities and their properties.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Discover data entities from the `hasPart` property of a crate, and create
-DataEntity objects for them. Entities are looked up in the given
-`entity_hash` (and then removed from it).</p>
+<p>Discover data entities from the `hasPart` property of a crate, and create DataEntity objects for them. Entities are looked up in the given `entity_hash` (and then removed from it).</p>
 
 
   </div>
@@ -932,7 +1173,7 @@ DataEntity objects for them. Entities are looked up in the given
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate being read.</p>
+<p>The RO-Crate being read.</p>
 </div>
       
     </li>
@@ -948,7 +1189,7 @@ DataEntity objects for them. Entities are looked up in the given
       
         &mdash;
         <div class='inline'>
-<p>The location of the RO Crate being read.</p>
+<p>The location of the RO-Crate being read.</p>
 </div>
       
     </li>
@@ -996,19 +1237,19 @@ DataEntity objects for them. Entities are looked up in the given
       <pre class="lines">
 
 
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 199</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_data_entities'>extract_data_entities</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_raw_properties'>raw_properties</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hasPart</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ref'>ref</span><span class='op'>|</span>
@@ -1028,7 +1269,7 @@ DataEntity objects for them. Entities are looked up in the given
       <div class="method_details ">
   <h3 class="signature " id="extract_metadata_entity-class_method">
   
-    .<strong>extract_metadata_entity</strong>(entities)  &#x21d2; <tt>Hash{String =&gt; Hash}</tt> 
+    .<strong>extract_metadata_entity</strong>(entities)  &#x21d2; <tt>nil</tt>, <tt>Hash{String =&gt; Hash}</tt> 
   
 
   
@@ -1037,10 +1278,7 @@ DataEntity objects for them. Entities are looked up in the given
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Extract the metadata entity from the entity hash, according to the rules
-defined here: <a
-href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a>
-mapped by its @id.</p>
+<p>Extract the metadata entity from the entity hash, according to the rules defined here: <a href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a> mapped by its @id, or nil if nothing is found.</p>
 
 
   </div>
@@ -1053,14 +1291,13 @@ mapped by its @id.</p>
     <li>
       
       
-        <span class='type'>(<tt>Hash{String =&gt; Hash}</tt>)</span>
+        <span class='type'>(<tt>nil</tt>, <tt>Hash{String =&gt; Hash}</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>A Hash containing (hopefully) one value, the metadata entity&#39;s
-properties,</p>
+<p>A Hash containing (hopefully) one value, the metadata entity&#39;s properties</p>
 </div>
       
     </li>
@@ -1073,22 +1310,22 @@ properties,</p>
       <pre class="lines">
 
 
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200</pre>
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 262</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_metadata_entity'>extract_metadata_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_entities'>entities</span><span class='period'>.</span><span class='id identifier rubyid_detect'>detect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_props'>props</span><span class='op'>|</span>
@@ -1109,6 +1346,65 @@ properties,</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="extract_preview_entity-class_method">
+  
+    .<strong>extract_preview_entity</strong>(entities)  &#x21d2; <tt>Hash{String =&gt; Hash}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extract the ro-crate-preview entity from the entity hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash{String =&gt; Hash}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A Hash containing the preview entity&#39;s properties mapped by its @id, or nil if nothing is found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+279
+280
+281</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 279</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_preview_entity'>extract_preview_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_entities'>entities</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html#IDENTIFIER-constant" title="ROCrate::Preview::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_entities'>entities</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html#IDENTIFIER-constant" title="ROCrate::Preview::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="extract_root_entity-class_method">
   
     .<strong>extract_root_entity</strong>(entities)  &#x21d2; <tt>Hash{String =&gt; Hash}</tt> 
@@ -1120,10 +1416,7 @@ properties,</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Extract the root entity from the entity hash, according to the rules
-defined here: <a
-href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a>
-mapped by its @id.</p>
+<p>Extract the root entity from the entity hash, according to the rules defined here: <a href="https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity">www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity</a> mapped by its @id.</p>
 
 
   </div>
@@ -1155,14 +1448,14 @@ mapped by its @id.</p>
       <pre class="lines">
 
 
-207
-208
-209
-210
-211</pre>
+288
+289
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 288</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_root_entity'>extract_root_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_root_id'>root_id</span> <span class='op'>=</span> <span class='id identifier rubyid_entities'>entities</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>about</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@id</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -1175,9 +1468,9 @@ mapped by its @id.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="read-class_method">
+  <h3 class="signature " id="initialize_crate-class_method">
   
-    .<strong>read</strong>(source, target_dir: Dir.mktmpdir)  &#x21d2; <tt><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></tt> 
+    .<strong>initialize_crate</strong>(entity_hash, source, crate_class: ROCrate::Crate, context:)  &#x21d2; <tt><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></tt> 
   
 
   
@@ -1186,7 +1479,7 @@ mapped by its @id.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Reads an RO Crate from a directory of zip file.</p>
+<p>Initialize a crate from the given set of entities.</p>
 
 
   </div>
@@ -1194,6 +1487,22 @@ mapped by its @id.</p>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
+  
+    <li>
+      
+        <span class='name'>entity_hash</span>
+      
+      
+        <span class='type'>(<tt>Hash{String =&gt; Hash}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A Hash containing all the entities in the @graph, mapped by their @id.</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -1206,26 +1515,41 @@ mapped by its @id.</p>
       
         &mdash;
         <div class='inline'>
-<p>The source location for the crate.</p>
+<p>The location of the RO-Crate being read.</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>target_dir</span>
+        <span class='name'>crate_class</span>
       
       
-        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>)</span>
+        <span class='type'>(<tt>Class</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Dir.mktmpdir</tt>)</em>
+        <em class="default">(defaults to: <tt>ROCrate::Crate</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>The target directory where the crate should be unzipped (if its a Zip
-file).</p>
+<p>The class to use to instantiate the crate, useful if you have created a subclass of ROCrate::Crate that you want to use. (defaults to ROCrate::Crate).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>context</span>
+      
+      
+        <span class='type'>(<tt>nil</tt>, <tt>String</tt>, <tt>Array</tt>, <tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom JSON-LD @context (parsed), or nil to use default.</p>
 </div>
       
     </li>
@@ -1244,7 +1568,124 @@ file).</p>
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate.</p>
+<p>The RO-Crate.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_initialize_crate'>initialize_crate</span><span class='lparen'>(</span><span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>crate_class:</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='comma'>,</span> <span class='label'>context:</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_crate_class'>crate_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_crate'>crate</span><span class='op'>|</span>
+    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Crate.html#IDENTIFIER-constant" title="ROCrate::Crate::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_metadata'>metadata</span><span class='period'>.</span><span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_metadata'>metadata</span><span class='period'>.</span><span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='id identifier rubyid_context'>context</span>
+    <span class='id identifier rubyid_preview_properties'>preview_properties</span> <span class='op'>=</span> <span class='id identifier rubyid_entity_hash'>entity_hash</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html#IDENTIFIER-constant" title="ROCrate::Preview::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_preview_properties'>preview_properties</span>
+      <span class='id identifier rubyid_preview_path'>preview_path</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html#IDENTIFIER-constant" title="ROCrate::Preview::IDENTIFIER (constant)">IDENTIFIER</a></span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_preview'>preview</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Preview.html" title="ROCrate::Preview (class)">Preview</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Preview.html#initialize-instance_method" title="ROCrate::Preview#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_preview_path'>preview_path</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_preview_path'>preview_path</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_preview_properties'>preview_properties</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_add_all'>add_all</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read-class_method">
+  
+    .<strong>read</strong>(source, target_dir: Dir.mktmpdir)  &#x21d2; <tt><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reads an RO-Crate from a directory or zip file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>source</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>, <tt>#<span class='object_link'><a href="#read-class_method" title="ROCrate::Reader.read (method)">read</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The location of the zip or directory, or an IO-like object containing a zip.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>target_dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Dir.mktmpdir</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The target directory where the crate should be unzipped (if its a Zip file).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Crate.html" title="ROCrate::Crate (class)">Crate</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The RO-Crate.</p>
 </div>
       
     </li>
@@ -1264,14 +1705,26 @@ file).</p>
 15
 16
 17
-18</pre>
+18
+19
+20
+21
+22
+23
+24</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>target_dir:</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mktmpdir'>mktmpdir</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not a directory!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_is_dir'>is_dir</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>TypeError</span>
+    <span class='id identifier rubyid_is_dir'>is_dir</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_is_dir'>is_dir</span>
     <span class='id identifier rubyid_read_directory'>read_directory</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_read_zip'>read_zip</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>target_dir:</span> <span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
@@ -1294,7 +1747,7 @@ file).</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Reads an RO Crate from a directory.</p>
+<p>Reads an RO-Crate from a directory.</p>
 
 
   </div>
@@ -1333,7 +1786,7 @@ file).</p>
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate.</p>
+<p>The RO-Crate.</p>
 </div>
       
     </li>
@@ -1346,30 +1799,42 @@ file).</p>
       <pre class="lines">
 
 
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_directory'>read_directory</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not a directory!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+
   <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_metadata_file'>metadata_file</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_entries'>entries</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_detect'>detect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span> <span class='id identifier rubyid_entry'>entry</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER-constant" title="ROCrate::Metadata::IDENTIFIER (constant)">IDENTIFIER</a></span></span> <span class='op'>||</span>
       <span class='id identifier rubyid_entry'>entry</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html" title="ROCrate::Metadata (class)">Metadata</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Metadata.html#IDENTIFIER_1_0-constant" title="ROCrate::Metadata::IDENTIFIER_1_0 (constant)">IDENTIFIER_1_0</a></span></span> <span class='rbrace'>}</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_metadata_file'>metadata_file</span>
-    <span class='id identifier rubyid_entities'>entities</span> <span class='op'>=</span> <span class='id identifier rubyid_entities_from_metadata'>entities_from_metadata</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_metadata_file'>metadata_file</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_build_crate'>build_crate</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_metadata_json'>metadata_json</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_metadata_file'>metadata_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_metadata'>metadata</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_metadata_json'>metadata_json</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_entities'>entities</span> <span class='op'>=</span> <span class='id identifier rubyid_entities_from_metadata'>entities_from_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_metadata'>metadata</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='id identifier rubyid_metadata'>metadata</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@context</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_build_crate'>build_crate</span><span class='lparen'>(</span><span class='id identifier rubyid_entities'>entities</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>context:</span> <span class='id identifier rubyid_context'>context</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No metadata found!</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
@@ -1391,8 +1856,7 @@ file).</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Reads an RO Crate from a zip file. It first extracts the Zip file to a
-temporary directory, and then calls #read_directory.</p>
+<p>Reads an RO-Crate from a zip file. It first extracts the Zip file to a temporary directory, and then calls #read_directory.</p>
 
 
   </div>
@@ -1406,13 +1870,13 @@ temporary directory, and then calls #read_directory.</p>
         <span class='name'>source</span>
       
       
-        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>)</span>
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>, <tt>#<span class='object_link'><a href="#read-class_method" title="ROCrate::Reader.read (method)">read</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The location of the zip file.</p>
+<p>The location of the zip file, or an IO-like object.</p>
 </div>
       
     </li>
@@ -1449,7 +1913,7 @@ temporary directory, and then calls #read_directory.</p>
       
         &mdash;
         <div class='inline'>
-<p>The RO Crate.</p>
+<p>The RO-Crate.</p>
 </div>
       
     </li>
@@ -1462,19 +1926,25 @@ temporary directory, and then calls #read_directory.</p>
       <pre class="lines">
 
 
-46
-47
-48
-49
-50</pre>
+84
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_zip'>read_zip</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>target_dir:</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mktmpdir'>mktmpdir</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_unzip_to'>unzip_to</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_read_directory'>read_directory</span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
+  <span class='comment'># Traverse the unzipped directory to try and find the crate&#39;s root
+</span>  <span class='id identifier rubyid_root_dir'>root_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_detect_root_directory'>detect_root_directory</span><span class='lparen'>(</span><span class='id identifier rubyid_target_dir'>target_dir</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_read_directory'>read_directory</span><span class='lparen'>(</span><span class='id identifier rubyid_root_dir'>root_dir</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1482,9 +1952,9 @@ temporary directory, and then calls #read_directory.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="unzip_to-class_method">
+  <h3 class="signature " id="unzip_file_to-class_method">
   
-    .<strong>unzip_to</strong>(source, target)  &#x21d2; <tt>Object</tt> 
+    .<strong>unzip_file_to</strong>(file_or_path, target)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1543,27 +2013,25 @@ temporary directory, and then calls #read_directory.</p>
       <pre class="lines">
 
 
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37</pre>
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 64</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unzip_to'>unzip_to</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unzip_file_to'>unzip_file_to</span><span class='lparen'>(</span><span class='id identifier rubyid_file_or_path'>file_or_path</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span>
   <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span> <span class='kw'>do</span>
-    <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_zipfile'>zipfile</span><span class='op'>|</span>
+    <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_file_or_path'>file_or_path</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_zipfile'>zipfile</span><span class='op'>|</span>
       <span class='id identifier rubyid_zipfile'>zipfile</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
         <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
           <span class='const'>FileUtils</span><span class='op'>::</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1578,14 +2046,198 @@ temporary directory, and then calls #read_directory.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="unzip_io_to-class_method">
+  
+    .<strong>unzip_io_to</strong>(io, target)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extract the given Zip file data to the given directory.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>source</span>
+      
+      
+        <span class='type'>(<tt>#<span class='object_link'><a href="#read-class_method" title="ROCrate::Reader.read (method)">read</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IO-like object containing a Zip file.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>target</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The target directory where the file should be unzipped.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unzip_io_to'>unzip_io_to</span><span class='lparen'>(</span><span class='id identifier rubyid_io'>io</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='const'>Zip</span><span class='op'>::</span><span class='const'>InputStream</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_io'>io</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_input'>input</span><span class='op'>|</span>
+      <span class='kw'>while</span> <span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_get_next_entry'>get_next_entry</span><span class='rparen'>)</span>
+        <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_name_is_directory?'>name_is_directory?</span>
+          <span class='const'>FileUtils</span><span class='op'>::</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+          <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_binwrite'>binwrite</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unzip_to-class_method">
+  
+    .<strong>unzip_to</strong>(source, target)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extract the contents of the given Zip file/data to the given directory.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>source</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>, <tt>#<span class='object_link'><a href="#read-class_method" title="ROCrate::Reader.read (method)">read</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The location of the zip file, or an IO-like object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>target</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>::File</tt>, <tt>Pathname</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The target directory where the file should be unzipped.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/reader.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unzip_to'>unzip_to</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Pathname</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:path</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_unzip_file_to'>unzip_file_to</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_unzip_io_to'>unzip_io_to</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 20 15:13:04 2020 by
+  Generated on Fri Apr 30 17:13:16 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25 (ruby-2.4.9).
+  0.9.25 (ruby-2.6.6).
 </div>
 
     </div>
