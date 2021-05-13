@@ -1,5 +1,7 @@
 # ro-crate-ruby
 
+![Tests](https://github.com/ResearchObject/ro-crate-ruby/actions/workflows/tests.yml/badge.svg)
+
 This is a WIP gem for creating, manipulating and reading RO-Crates (conforming to version 1.1 of the specification).
 
 * RO-Crate - https://researchobject.github.io/ro-crate/
