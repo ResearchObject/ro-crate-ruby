@@ -238,21 +238,21 @@ module ROCrate
       entity.class.new(crate, entity.id, entity.raw_properties)
     end
 
-    alias_method :own_entries, :entries
+    alias_method :own_payload, :payload
     ##
-    # # The RO-Crate's "payload" of the crate - a map of all the files/directories contained in the RO-Crate, where the
-    # key is the destination path within the crate and the value is an Entry where the source data can be read.
+    # The file payload of the RO-Crate - a map of all the files/directories contained in the RO-Crate, where the
+    # key is the path relative to the crate's root, and the value is an Entry where the source data can be read.
     #
     # @return [Hash{String => Entry}>]
-    def entries
+    def payload
       # Gather a map of entries, starting from the crate itself, then any directory data entities, then finally any
       # file data entities. This ensures in the case of a conflict, the more "specific" data entities take priority.
-      entries = own_entries
+      entries = own_payload
       non_self_entities = default_entities.reject { |e| e == self }
       sorted_entities = (non_self_entities | data_entities).sort_by { |e| e.is_a?(ROCrate::Directory) ? 0 : 1 }
 
       sorted_entities.each do |entity|
-        entity.entries.each do |path, entry|
+        entity.payload.each do |path, entry|
           entries[path] = entry
         end
       end

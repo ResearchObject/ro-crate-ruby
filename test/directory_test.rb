@@ -5,41 +5,41 @@ class DirectoryTest < Test::Unit::TestCase
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory'))
 
-    entries = crate.entries
+    payload = crate.payload
     base_path = ::File.dirname(fixture_file('directory'))
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), entries['directory/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), entries['directory/root.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), entries['directory/data'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), entries['directory/data/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), entries['directory/data/nested.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['directory/data/binary.jpg'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), payload['directory/info.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), payload['directory/root.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), payload['directory/data'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), payload['directory/data/info.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), payload['directory/data/nested.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), payload['directory/data/binary.jpg'].path
   end
 
   test 'adding directory via path' do
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory').path.to_s)
 
-    entries = crate.entries
+    payload = crate.payload
     base_path = ::File.dirname(fixture_file('directory'))
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), entries['directory/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), entries['directory/root.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), entries['directory/data'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), entries['directory/data/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), entries['directory/data/nested.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['directory/data/binary.jpg'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), payload['directory/info.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), payload['directory/root.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), payload['directory/data'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), payload['directory/data/info.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), payload['directory/data/nested.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), payload['directory/data/binary.jpg'].path
   end
 
   test 'adding to given path' do
     crate = ROCrate::Crate.new
     crate.add_directory(fixture_file('directory').path.to_s, 'fish')
 
-    entries = crate.entries
+    payload = crate.payload
     base_path = ::File.dirname(fixture_file('directory'))
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), entries['fish/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), entries['fish/root.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), entries['fish/data'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), entries['fish/data/info.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), entries['fish/data/nested.txt'].path
-    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), entries['fish/data/binary.jpg'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/info.txt')), payload['fish/info.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/root.txt')), payload['fish/root.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data')), payload['fish/data'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/info.txt')), payload['fish/data/info.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/nested.txt')), payload['fish/data/nested.txt'].path
+    assert_equal ::File.expand_path(::File.join(base_path, 'directory/data/binary.jpg')), payload['fish/data/binary.jpg'].path
   end
 end

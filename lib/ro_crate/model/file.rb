@@ -56,7 +56,7 @@ module ROCrate
     # (for compatibility with Directory#entries)
     #
     # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.
-    def entries
+    def payload
       remote? ? {} : { filepath => source }
     end
 

@@ -47,8 +47,12 @@ class WriterTest < Test::Unit::TestCase
   end
 
   test 'writing to zip' do
+    # Remote entries should not be written, so this 500 error should not affect anything.
+    stub_request(:get, 'http://example.com/external_ref.txt').to_return(status: 500)
+
     crate = ROCrate::Crate.new
     crate.add_file(fixture_file('info.txt'))
+    crate.add_file('http://example.com/external_ref.txt')
     crate.add_file(fixture_file('data.csv'), 'directory/data.csv')
 
     Tempfile.create do |file|
@@ -57,6 +61,7 @@ class WriterTest < Test::Unit::TestCase
       Zip::File.open(file) do |zipfile|
         assert zipfile.file.exist?(ROCrate::Metadata::IDENTIFIER)
         assert zipfile.file.exist?(ROCrate::Preview::IDENTIFIER)
+        refute zipfile.file.exist?('external_ref.txt')
         assert_equal 6, zipfile.file.size('info.txt')
         assert_equal 20, zipfile.file.size('directory/data.csv')
       end
@@ -150,6 +155,21 @@ class WriterTest < Test::Unit::TestCase
 
         input_dir = output_dir
       end
+    end
+  end
+
+  test 'writing with conflicting paths in payload obeys specificity rules' do
+    crate = ROCrate::Crate.new
+    crate.add_all(fixture_file('directory').path, false)
+    crate.add_directory(fixture_file('conflicting_data_directory').path.to_s, 'data')
+    crate.add_file(StringIO.new('xyz'), 'data/info.txt')
+
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+
+      assert_equal 'xyz', ::File.read(::File.join(dir, 'data', 'info.txt')), 'File payload should take priority over Crate and Directory.'
+      assert_equal "No, I am nested!\n", ::File.read(::File.join(dir, 'data', 'nested.txt')), 'Directory payload should take priority over Crate.'
+      assert ::File.exist?(::File.join(dir, 'data', 'binary.jpg'))
     end
   end
 end

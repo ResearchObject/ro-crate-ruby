@@ -14,10 +14,10 @@ module ROCrate
     end
 
     ##
-    # Write the source to the destination via a buffer.
+    # Write the entry's source to the destination via a buffer.
     #
     # @param dest [#write] An IO-like destination to write to.
-    def write(dest)
+    def write_to(dest)
       input = source
       input = input.open('rb') if input.is_a?(Pathname)
       while (buff = input.read(4096))

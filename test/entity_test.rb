@@ -133,4 +133,76 @@ class EntityTest < Test::Unit::TestCase
     assert_not_include crate.entities, file
     assert_include crate.entities, person
   end
+
+  test 'creating files in various ways' do
+    stub_request(:get, 'http://example.com/external_ref.txt').to_return(status: 200, body: 'file contents')
+
+    crate = ROCrate::Crate.new
+
+    f1 = nil
+    Dir.chdir(fixture_dir) { f1 = ROCrate::File.new(crate, 'data.csv') }
+    refute f1.source.remote?
+    refute f1.source.directory?
+    assert_equal 20, f1.source.read.length
+    t = Tempfile.new('tf1')
+    f1.source.write_to(t)
+    t.rewind
+    assert_equal 20, t.read.length
+
+    f2 = ROCrate::File.new(crate, fixture_file('info.txt'), { author: crate.add_person('bob', name: 'Bob').reference })
+    refute f2.source.remote?
+    refute f2.source.directory?
+    assert f2.source.read
+    assert_equal 6, f2.source.read.length
+    t = Tempfile.new('tf2')
+    f2.source.write_to(t)
+    t.rewind
+    assert_equal 6, t.read.length
+
+    f3 = ROCrate::File.new(crate, 'http://example.com/external_ref.txt')
+    assert f3.source.remote?
+    refute f3.source.directory?
+    assert f3.source.read
+    assert_equal 13, f3.source.read.length
+    t = Tempfile.new('tf3')
+    f3.source.write_to(t)
+    t.rewind
+    assert_equal 13, t.read.length
+
+    f3 = ROCrate::File.new(crate, 'http://example.com/external_ref.txt')
+    assert f3.source.remote?
+    refute f3.source.directory?
+    assert f3.source.read
+    assert_equal 13, f3.source.read.length
+    t = Tempfile.new('tf3')
+    f3.source.write_to(t)
+    t.rewind
+    assert_equal 13, t.read.length
+  end
+
+  test 'assigning and checking type' do
+    crate = ROCrate::Crate.new
+    file = ROCrate::File.new(crate, 'data.csv')
+
+    assert file.has_type?('File')
+
+    file.type = ['File', 'Workflow']
+
+    assert file.has_type?('Workflow')
+    assert file.has_type?('File')
+    refute file.has_type?('Banana')
+  end
+
+  test 'inspecting object truncates very long property list' do
+    crate = ROCrate::Crate.new
+    entity = ROCrate::ContextualEntity.new(crate, 'hello')
+
+    assert entity.inspect.start_with?("<#ROCrate::ContextualEntity arcp://uuid,")
+
+    entity['veryLong'] = ('123456789a' * 100)
+
+    ins = entity.inspect
+    assert ins.length < 1000
+    assert ins.end_with?('...>')
+  end
 end

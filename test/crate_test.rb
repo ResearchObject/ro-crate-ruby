@@ -215,7 +215,7 @@ class CrateTest < Test::Unit::TestCase
     crate = ROCrate::Crate.new
     entities = crate.add_all(fixture_file('directory').path, include_hidden: true)
 
-    paths = crate.entries.keys
+    paths = crate.payload.keys
     assert_equal 11, paths.length
     assert_includes paths, 'data'
     assert_includes paths, 'root.txt'
@@ -250,7 +250,7 @@ class CrateTest < Test::Unit::TestCase
 
     assert_empty entities
 
-    paths = crate.entries.keys
+    paths = crate.payload.keys
     assert_equal 11, paths.length
     assert_includes paths, 'data'
     assert_includes paths, 'root.txt'
@@ -278,7 +278,7 @@ class CrateTest < Test::Unit::TestCase
     crate = ROCrate::Crate.new
     entities = crate.add_all(fixture_file('directory').path)
 
-    paths = crate.entries.keys
+    paths = crate.payload.keys
     assert_equal 8, paths.length
     assert_includes paths, 'data'
     assert_includes paths, 'root.txt'

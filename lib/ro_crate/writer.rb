@@ -16,14 +16,14 @@ module ROCrate
     # @param overwrite [Boolean] Whether or not to overwrite existing files.
     def write(dir, overwrite: true)
       FileUtils.mkdir_p(dir) # Make any parent directories
-      @crate.entries.each do |path, entry|
+      @crate.payload.each do |path, entry|
         fullpath = ::File.join(dir, path)
         next if !overwrite && ::File.exist?(fullpath)
         next if entry.directory?
         FileUtils.mkdir_p(::File.dirname(fullpath))
         temp = Tempfile.new('ro-crate-temp')
         begin
-          entry.write(temp)
+          entry.write_to(temp)
           temp.close
           FileUtils.mv(temp, fullpath)
         ensure
@@ -38,9 +38,9 @@ module ROCrate
     # @param destination [String, ::File] The destination where to write the RO-Crate zip.
     def write_zip(destination)
       Zip::File.open(destination, Zip::File::CREATE) do |zip|
-        @crate.entries.each do |path, entry|
+        @crate.payload.each do |path, entry|
           next if entry.directory?
-          zip.get_output_stream(path) { |s| entry.write(s) }
+          zip.get_output_stream(path) { |s| entry.write_to(s) }
         end
       end
     end

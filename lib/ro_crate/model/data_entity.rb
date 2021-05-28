@@ -24,12 +24,13 @@ module ROCrate
     end
 
     ##
-    # A map of all the files/directories associated with this DataEntity.
+    # The payload of all the files/directories associated with this DataEntity, mapped by their relative file path.
     #
     # @return [Hash{String => Entry}>] The key is the location within the crate, and the value is an Entry.
-    def entries
+    def payload
       {}
     end
+    alias_method :entries, :payload
 
     ##
     # A disk-safe filepath based on the ID of this DataEntity.

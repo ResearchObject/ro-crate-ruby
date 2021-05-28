@@ -131,6 +131,7 @@ module ROCrate
     def dereference(id)
       crate.dereference(id)
     end
+    alias_method :get, :dereference
 
     ##
     # Remove this entity from the RO-Crate.
@@ -141,8 +142,6 @@ module ROCrate
     def delete(remove_orphaned: true)
       crate.delete(self, remove_orphaned: remove_orphaned)
     end
-
-    alias_method :get, :dereference
 
     def id
       @properties['@id']

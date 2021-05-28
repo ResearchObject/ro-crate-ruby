@@ -28,11 +28,11 @@ module ROCrate
     end
 
     ##
-    # The "payload" of this directory - a map of all the files/directories, where the key is the destination path
+    # The payload of this directory - a map of all the files/directories, where the key is the destination path
     # within the crate and the value is an Entry where the source data can be read.
     #
     # @return [Hash{String => Entry}>]
-    def entries
+    def payload
       entries = {}
       entries[filepath.chomp('/')] = @entry if @entry
 
