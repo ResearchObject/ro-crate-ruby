@@ -149,6 +149,7 @@ module ROCrate
     end
 
     def id=(id)
+      @canonical_id = nil
       @properties['@id'] = self.class.format_id(id)
     end
 
@@ -200,7 +201,7 @@ module ROCrate
     #
     # @return [Addressable::URI]
     def canonical_id
-      crate.resolve_id(id)
+      @canonical_id ||= crate.resolve_id(id)
     end
 
     ##
