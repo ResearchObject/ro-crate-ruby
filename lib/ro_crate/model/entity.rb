@@ -129,7 +129,17 @@ module ROCrate
     # @param id [String] The ID to query.
     # @return [Entity, nil]
     def dereference(id)
-      crate.entities.detect { |e| e.canonical_id == crate.resolve_id(id) } if id
+      crate.dereference(id)
+    end
+
+    ##
+    # Remove this entity from the RO-Crate.
+    #
+    # @param remove_orphaned [Boolean] Should linked contextual entities also be removed from the crate (if nothing else is linked to them)?
+    #
+    # @return [Entity, nil] This entity, or nil if nothing was deleted.
+    def delete(remove_orphaned: true)
+      crate.delete(self, remove_orphaned: remove_orphaned)
     end
 
     alias_method :get, :dereference
@@ -196,7 +206,7 @@ module ROCrate
     ##
     # Is this entity local to the crate or an external reference?
     #
-    # @return [boolean]
+    # @return [Boolean]
     def external?
       crate.canonical_id.host != canonical_id.host
     end
@@ -224,6 +234,33 @@ module ROCrate
     # @return [Boolean]
     def has_type?(type)
       @properties.has_type?(type)
+    end
+
+    ##
+    # Gather a list of entities linked to this one through its properties.
+    # @param deep [Boolean] If false, only consider direct links, otherwise consider transitive links.
+    # @param linked [Hash{String => Entity}] Discovered entities, mapped by their ID, to avoid loops when recursing.
+    # @return [Array<Entity>]
+    def linked_entities(deep: false, linked: {})
+      properties.each do |key, value|
+        value = [value] if value.is_a?(JSONLDHash)
+
+        if value.is_a?(Array)
+          value.each do |v|
+            if v.is_a?(JSONLDHash) && !linked.key?(v['@id'])
+              entity = v.dereference
+              linked[entity.id] = entity if entity
+              if deep
+                entity.linked_entities(deep: true, linked: linked).each do |e|
+                  linked[e.id] = e
+                end
+              end
+            end
+          end
+        end
+      end
+
+      linked.values.compact
     end
 
     private

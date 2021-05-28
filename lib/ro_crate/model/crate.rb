@@ -26,6 +26,15 @@ module ROCrate
     end
 
     ##
+    # Lookup an Entity using the given ID (in this Entity's crate).
+    #
+    # @param id [String] The ID to query.
+    # @return [Entity, nil]
+    def dereference(id)
+      entities.detect { |e| e.canonical_id == crate.resolve_id(id) } if id
+    end
+
+    ##
     # Create a new file and add it to the crate.
     #
     # @param source [String, Pathname, ::File, #read, nil] The source on the disk where this file will be read.
@@ -253,6 +262,29 @@ module ROCrate
 
     def get_binding
       binding
+    end
+
+    ##
+    # Remove the entity from the RO-Crate.
+    #
+    # @param entity [Entity, String] The entity or ID of an entity to remove from the crate.
+    # @param remove_orphaned [Boolean] Should linked contextual entities also be removed from the crate they are left
+    #                                   dangling (nothing else is linked to them)?
+    #
+    # @return [Entity, nil] The entity that was deleted, or nil if nothing was deleted.
+    def delete(entity, remove_orphaned: true)
+      entity = dereference(entity) if entity.is_a?(String)
+      return unless entity
+
+      deleted = data_entities.delete(entity) || contextual_entities.delete(entity)
+
+      if deleted && remove_orphaned
+        crate_entities = crate.linked_entities(deep: true)
+        to_remove = (entity.linked_entities(deep: true) - crate_entities)
+        to_remove.each(&:delete)
+      end
+
+      deleted
     end
 
     private

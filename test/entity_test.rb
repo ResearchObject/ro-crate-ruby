@@ -91,4 +91,46 @@ class EntityTest < Test::Unit::TestCase
     assert_equal "http://www.data.com/my%20crate/", ROCrate::Crate.format_id('http://www.data.com/my%20crate'), 'Crate ID should end with /'
     assert_equal "http://www.data.com/my%20crate/", ROCrate::Crate.format_id('http://www.data.com/my%20crate/')
   end
+
+  test 'linked entities' do
+    crate = ROCrate::Crate.new
+    file = crate.add_file(StringIO.new(''), 'file')
+    person = crate.add_person('#bob', { name: 'Bob' })
+    file.author = person
+
+    linked = file.linked_entities
+    assert_include linked, person
+    assert_equal 1, linked.length
+
+    linked = crate.linked_entities
+    assert_include linked, file
+    assert_equal 1, linked.length
+
+    linked = crate.linked_entities(deep: true)
+    assert_include linked, file
+    assert_include linked, person
+    assert_equal 2, linked.length
+  end
+
+  test 'deleting entities removes linked entities' do
+    crate = ROCrate::Crate.new
+    file = crate.add_file(StringIO.new(''), 'file')
+    person = crate.add_person('#bob', { name: 'Bob' })
+    file.author = person
+
+    assert file.delete
+    assert_not_include crate.entities, file
+    assert_not_include crate.entities, person
+  end
+
+  test 'deleting entities does not remove dangling entities if option set' do
+    crate = ROCrate::Crate.new
+    file = crate.add_file(StringIO.new(''), 'file')
+    person = crate.add_person('#bob', { name: 'Bob' })
+    file.author = person
+
+    assert file.delete(remove_orphaned: false)
+    assert_not_include crate.entities, file
+    assert_include crate.entities, person
+  end
 end

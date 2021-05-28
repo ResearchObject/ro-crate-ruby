@@ -305,4 +305,26 @@ class CrateTest < Test::Unit::TestCase
 
     assert_equal "5678\n", crate.dereference('data/info.txt').source.read
   end
+
+  test 'can delete entities' do
+    crate = ROCrate::Crate.new
+    file = crate.add_file(StringIO.new(''), 'file')
+    person = crate.add_person('#bob', { name: 'Bob' })
+    file.author = person
+
+    assert crate.delete(file)
+    assert_not_include crate.entities, file
+    assert_not_include crate.entities, person
+  end
+
+  test 'can delete entities by id' do
+    crate = ROCrate::Crate.new
+    file = crate.add_file(StringIO.new(''), 'file')
+    person = crate.add_person('#bob', { name: 'Bob' })
+    file.author = person
+
+    assert crate.delete('file')
+    assert_not_include crate.entities, file
+    assert_not_include crate.entities, person
+  end
 end
