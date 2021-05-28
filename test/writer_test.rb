@@ -160,10 +160,27 @@ class WriterTest < Test::Unit::TestCase
 
   test 'writing with conflicting paths in payload obeys specificity rules' do
     crate = ROCrate::Crate.new
-    crate.add_all(fixture_file('directory').path, false)
-    crate.add_directory(fixture_file('conflicting_data_directory').path.to_s, 'data')
-    crate.add_file(StringIO.new('xyz'), 'data/info.txt')
 
+    # Payload from crate
+    crate.add_all(fixture_file('directory').path, false)
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+
+      assert_equal "5678\n", ::File.read(::File.join(dir, 'data', 'info.txt'))
+    end
+
+    # Payload from crate + directory
+    crate.add_directory(fixture_file('conflicting_data_directory').path.to_s, 'data')
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+
+      assert_equal 'abcd', ::File.read(::File.join(dir, 'data', 'info.txt')), 'Directory payload should take priority over Crate.'
+      assert_equal "No, I am nested!\n", ::File.read(::File.join(dir, 'data', 'nested.txt')), 'Directory payload should take priority over Crate.'
+      assert ::File.exist?(::File.join(dir, 'data', 'binary.jpg'))
+    end
+
+    # Payload from crate + directory + file
+    crate.add_file(StringIO.new('xyz'), 'data/info.txt')
     Dir.mktmpdir do |dir|
       ROCrate::Writer.new(crate).write(dir)
 
