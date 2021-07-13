@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/ResearchObject/ro-crate-ruby'
   s.require_paths = ['lib']
   s.licenses    = ['MIT']
-  s.add_runtime_dependency 'addressable', '~> 2.7.0'
+  s.add_runtime_dependency 'addressable', '>= 2.7', '< 2.9'
   s.add_runtime_dependency 'rubyzip', '~> 2.0.0'
   s.add_development_dependency 'rake', '~> 13.0.0'
   s.add_development_dependency 'test-unit', '~> 3.2.3'
