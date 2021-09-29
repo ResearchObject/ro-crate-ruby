@@ -162,6 +162,7 @@ class ReaderTest < Test::Unit::TestCase
     assert ext_file.source.is_a?(ROCrate::RemoteEntry)
     assert_equal 'http://example.com/external_ref.txt', ext_file.id
     assert_equal 'file contents', ext_file.source.read
+    assert crate.preview.source.source.is_a?(ROCrate::PreviewGenerator)
   end
 
   test 'reading from directory with unlisted files' do
@@ -250,5 +251,11 @@ class ReaderTest < Test::Unit::TestCase
                          'engineVersion' => 'https://w3id.org/ro/terms/test#engineVersion'
                      }
                  ], context
+  end
+
+  test 'existing preview is used even if not mentioned in metadata' do
+    crate = ROCrate::Reader.read_zip(fixture_file('biobb_hpc_workflows-condapack.zip').path)
+    assert crate.preview.source.source.is_a?(Pathname)
+    assert_equal 80526, crate.preview.source.read.length
   end
 end
