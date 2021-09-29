@@ -327,4 +327,25 @@ class CrateTest < Test::Unit::TestCase
     assert_not_include crate.entities, file
     assert_not_include crate.entities, person
   end
+
+  test 'legacy entries method still returns same result as payload' do
+    crate = ROCrate::Crate.new
+    crate.add_all(fixture_file('directory').path)
+
+    paths = crate.entries.keys
+    assert_equal 8, paths.length
+    assert_includes paths, 'data'
+    assert_includes paths, 'root.txt'
+    assert_includes paths, 'info.txt'
+    assert_includes paths, 'data/binary.jpg'
+    assert_includes paths, 'data/info.txt'
+    assert_includes paths, 'data/nested.txt'
+    assert_not_includes paths, '.dotfile'
+    assert_not_includes paths, '.dir'
+    assert_not_includes paths, '.dir/test.txt'
+    assert_includes paths, 'ro-crate-metadata.json'
+    assert_includes paths, 'ro-crate-preview.html'
+
+    assert_equal crate.payload.keys, crate.entries.keys
+  end
 end

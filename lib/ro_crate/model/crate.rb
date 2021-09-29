@@ -259,6 +259,7 @@ module ROCrate
 
       entries
     end
+    alias_method :entries, :payload
 
     def get_binding
       binding
