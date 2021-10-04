@@ -4,12 +4,13 @@ class ReaderTest < Test::Unit::TestCase
   test 'reading from directory' do
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0').path)
 
-    refute crate.dereference('.ssh/id_rsa')
+    refute crate.dereference('~/.ssh/id_rsa')
 
     entity = crate.dereference('workflow/workflow.knime')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('workflow/')
     assert_not_nil entity
@@ -19,22 +20,26 @@ class ReaderTest < Test::Unit::TestCase
     entity = crate.dereference('tools/RetroPath2.cwl')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('workflow/workflow.svg')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'ImageObject', entity.type
+    assert entity.has_type?('ImageObject')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('Dockerfile')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('test/test.sh')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     # Example is broken
     # entity = crate.dereference('README.md')
@@ -46,12 +51,13 @@ class ReaderTest < Test::Unit::TestCase
   test 'reading from zip' do
     crate = ROCrate::Reader.read(fixture_file('workflow-0.2.0.zip'))
 
-    refute crate.dereference('.ssh/id_rsa')
+    refute crate.dereference('~/.ssh/id_rsa')
 
     entity = crate.dereference('workflow/workflow.knime')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('workflow/')
     assert_not_nil entity
@@ -61,22 +67,26 @@ class ReaderTest < Test::Unit::TestCase
     entity = crate.dereference('tools/RetroPath2.cwl')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('workflow/workflow.svg')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'ImageObject', entity.type
+    assert entity.has_type?('ImageObject')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('Dockerfile')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     entity = crate.dereference('test/test.sh')
     assert_not_nil entity
     assert entity.is_a?(ROCrate::File)
-    assert_equal 'SoftwareSourceCode', entity.type
+    assert entity.has_type?('SoftwareSourceCode')
+    assert entity.has_type?('File')
 
     # Example is broken
     # entity = crate.dereference('README.md')
@@ -257,5 +267,16 @@ class ReaderTest < Test::Unit::TestCase
     crate = ROCrate::Reader.read_zip(fixture_file('biobb_hpc_workflows-condapack.zip').path)
     assert crate.preview.source.source.is_a?(Pathname)
     assert_equal 80526, crate.preview.source.read.length
+  end
+
+  test 'read crate with data entity that is neither file or directory' do
+    crate = ROCrate::Reader.read_directory(fixture_file('misc_data_entity_crate').path)
+
+    entity = crate.get('#collection')
+    assert entity.is_a?(ROCrate::DataEntity)
+    refute entity.is_a?(ROCrate::File)
+    refute entity.is_a?(ROCrate::Directory)
+    assert entity.has_type?('RepositoryCollection')
+    assert entity.payload.empty?
   end
 end

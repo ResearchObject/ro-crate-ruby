@@ -123,7 +123,7 @@
         },
         {
             "@id": "workflow/workflow.knime",
-            "@type": "SoftwareSourceCode",
+            "@type": ["File", "SoftwareSourceCode"],
             "additionalType": {
                 "@id": "wfdesc:Workflow"
             },
@@ -161,7 +161,7 @@
         },
         {
             "@id": "tools/RetroPath2.cwl",
-            "@type": "SoftwareSourceCode",
+            "@type": ["File", "SoftwareSourceCode"],
             "additionalType": {
                 "@id": "wfdesc:Workflow"
             },
@@ -188,7 +188,7 @@
         },
         {
             "@id": "workflow/workflow.svg",
-            "@type": "ImageObject",
+            "@type": ["File", "ImageObject"],
             "additionalType": {"@id": "roterms:Sketch"},
             "encodingFormat": "image/svg+xml",
             "description": "Diagram of RetroPath2.0 workflow",
@@ -201,7 +201,7 @@
         },
         {
             "@id": "Dockerfile",
-            "@type": "SoftwareSourceCode",
+            "@type": ["File", "SoftwareSourceCode"],
             "url": {
                 "@id": "https://hub.docker.com/r/ibisba/retropath2/"
             },
@@ -220,7 +220,7 @@
         },
         {
             "@id": "test/test.sh",
-            "@type": "SoftwareSourceCode",
+            "@type": ["File", "SoftwareSourceCode"],
             "additionalType": {
                 "@id": "wf4ever:Script"
             },

@@ -245,10 +245,10 @@ module ROCrate
           fullpath = ::File.join(source, i)
           path = Pathname.new(fullpath) if ::File.exist?(fullpath)
         end
-        unless path
-          warn "Missing file/directory: #{id}, skipping..."
-          return nil
-        end
+        # unless path
+        #   warn "Missing file/directory: #{id}, skipping..."
+        #   return nil
+        # end
       end
 
       entity_class.new(crate, path, decoded_id, entity_props)

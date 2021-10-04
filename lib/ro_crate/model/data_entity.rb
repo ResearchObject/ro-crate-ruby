@@ -5,10 +5,6 @@ module ROCrate
   class DataEntity < Entity
     properties(%w[name contentSize dateModified encodingFormat identifier sameAs author])
 
-    def self.format_local_id(id)
-      super.chomp('/')
-    end
-
     ##
     # Return an appropriate specialization of DataEntity for the given properties.
     # @param props [Hash] Set of properties to try and infer the type from.
@@ -18,9 +14,25 @@ module ROCrate
       type = [type] unless type.is_a?(Array)
       if type.include?('Dataset')
         ROCrate::Directory
-      else
+      elsif type.include?('File')
         ROCrate::File
+      else
+        self
       end
+    end
+
+    ##
+    # Create a new ROCrate::DataEntity. This entity represents something that is neither a file or directory, but
+    # still constitutes part of the crate.
+    # PLEASE NOTE, the new data entity will not be added to the crate. To do this, call Crate#add_data_entity.
+    #
+    # @param crate [Crate] The RO-Crate that owns this directory.
+    # @param source [nil] Ignored. For compatibility with the File and Directory constructor signatures.
+    # @param id [String, nil] An ID to identify this DataEntity, or nil to auto-generate an appropriate one,
+    #   (or determine via the properties param)
+    # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this DataEntity.
+    def initialize(crate, source = nil, id = nil, properties = {})
+      super(crate, id, properties)
     end
 
     ##

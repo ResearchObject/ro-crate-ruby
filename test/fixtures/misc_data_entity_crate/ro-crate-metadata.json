@@ -1,0 +1,33 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "@vocab": "http://schema.org/"
+    },
+    {
+      "@base": null
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "#collection",
+      "@type": "RepositoryCollection",
+      "name": "Test collection"
+    },
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "hasFile": [],
+      "hasPart": [{"@id": "#collection"}],
+      "name": "testing hasPart"
+    },
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "identifier": "ro-crate-metadata.json"
+    }
+  ]
+}

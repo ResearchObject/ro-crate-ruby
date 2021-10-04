@@ -2,6 +2,10 @@ module ROCrate
   ##
   # A data entity that represents a single file.
   class File < DataEntity
+    def self.format_local_id(id)
+      super.chomp('/')
+    end
+
     ##
     # Create a new ROCrate::File. PLEASE NOTE, the new file will not be added to the crate. To do this, call
     # Crate#add_data_entity, or just use Crate#add_file.
@@ -32,7 +36,7 @@ module ROCrate
         crate_path = source.to_s if source.is_a?(URI) && source.absolute?
       end
 
-      super(crate, crate_path, properties)
+      super(crate, nil, crate_path, properties)
 
       if source.is_a?(URI) && source.absolute?
         @entry = RemoteEntry.new(source)

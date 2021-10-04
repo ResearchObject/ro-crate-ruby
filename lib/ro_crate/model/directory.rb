@@ -3,11 +3,11 @@ module ROCrate
   # A data entity that represents a directory of potentially many files and subdirectories (or none).
   class Directory < DataEntity
     def self.format_local_id(id)
-      super + '/'
+      super.chomp('/') + '/'
     end
 
     ##
-    # Create a new Directory. PLEASE NOTE, the new directory will not be added to the crate. To do this, call
+    # Create a new ROCrate::Directory. PLEASE NOTE, the new directory will not be added to the crate. To do this, call
     # Crate#add_data_entity, or just use Crate#add_directory.
     #
     # @param crate [Crate] The RO-Crate that owns this directory.
@@ -24,7 +24,7 @@ module ROCrate
         crate_path = source_directory.basename.to_s if crate_path.nil?
       end
 
-      super(crate, crate_path, properties)
+      super(crate, nil, crate_path, properties)
     end
 
     ##

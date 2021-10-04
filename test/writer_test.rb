@@ -189,4 +189,15 @@ class WriterTest < Test::Unit::TestCase
       assert ::File.exist?(::File.join(dir, 'data', 'binary.jpg'))
     end
   end
+
+  test 'write crate with data entity that is neither file or directory' do
+    crate = ROCrate::Reader.read_directory(fixture_file('misc_data_entity_crate').path)
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+      Dir.chdir(dir) do
+      file_list = Dir.glob('*').sort
+      assert_equal ["ro-crate-metadata.json", "ro-crate-preview.html"], file_list
+    end
+    end
+  end
 end
