@@ -262,7 +262,9 @@ module ROCrate
     # mapped by its @id, or nil if nothing is found.
     def self.extract_metadata_entity(entities)
       key = entities.detect do |_, props|
-        props.dig('conformsTo', '@id')&.start_with?(ROCrate::Metadata::RO_CRATE_BASE)
+        conforms = props['conformsTo']
+        conforms = [conforms] unless conforms.is_a?(Array)
+        conforms.compact.any? { |c| c['@id']&.start_with?(ROCrate::Metadata::RO_CRATE_BASE) }
       end&.first
 
       return entities.delete(key) if key

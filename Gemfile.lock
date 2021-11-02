@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ro-crate (0.4.13)
+    ro-crate (0.4.14)
       addressable (>= 2.7, < 2.9)
       rubyzip (~> 2.0.0)
 
