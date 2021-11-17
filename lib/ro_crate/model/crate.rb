@@ -288,6 +288,20 @@ module ROCrate
       deleted
     end
 
+    ##
+    # Remove any contextual entities that are not linked from any other entity.
+    # Optionally takes a block to decide whether the given entity should be removed or not, otherwise removes all
+    # unlinked entities.
+    # @yieldparam [ContextualEntity] entity An unlinked contextual entity.
+    # @yieldparam [Boolean] remove Should this entity be removed?
+    #
+    # @return [Array<ContextualEntity>] The entities that were removed.
+    def gc(&block)
+      unlinked_entities = contextual_entities - metadata.linked_entities(deep: true)
+
+      unlinked_entities.select(&block).each { |e| e.delete(remove_orphaned: false) }
+    end
+
     private
 
     def full_entry_path(relative_path)

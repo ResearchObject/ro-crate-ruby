@@ -348,4 +348,32 @@ class CrateTest < Test::Unit::TestCase
 
     assert_equal crate.payload.keys, crate.entries.keys
   end
+
+  test 'can garbage collect unlinked entities' do
+    crate = ROCrate::Reader.read(fixture_file('unlinked_entity_crate').path)
+
+    unlinked = crate.gc
+    assert_equal 2, unlinked.length
+    ids = unlinked.map(&:id)
+    assert_includes ids, '#joe'
+    assert_includes ids, '#joehouse'
+    assert_not_includes crate.contextual_entities, unlinked.first
+    assert_not_includes crate.contextual_entities, unlinked.last
+    assert_nil crate.get('#joe')
+    assert_nil crate.get('#joehouse')
+  end
+
+  test 'can conditionally garbage collect unlinked entities using a block' do
+    crate = ROCrate::Reader.read(fixture_file('unlinked_entity_crate').path)
+
+    unlinked = crate.gc do |entity|
+      entity.is_a?(ROCrate::Person)
+    end
+    assert_equal 1, unlinked.length
+    ids = unlinked.map(&:id)
+    assert_includes ids, '#joe'
+    assert_not_includes crate.contextual_entities, unlinked.first
+    assert_nil crate.get('#joe')
+    assert crate.get('#joehouse')
+  end
 end
