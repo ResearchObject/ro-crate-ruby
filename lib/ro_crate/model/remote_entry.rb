@@ -17,7 +17,7 @@ module ROCrate
     # @return [IO] An IO object for the remote resource.
     #
     def source
-      open(uri)
+      uri.open
     end
 
     ##
