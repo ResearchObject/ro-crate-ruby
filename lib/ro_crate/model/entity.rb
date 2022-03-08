@@ -57,7 +57,12 @@ module ROCrate
     # @param id [String] The candidate local ID to be formatted.
     # @return [String] The formatted local ID.
     def self.format_local_id(id)
-      Addressable::URI.encode_component(id.sub(/\A\.\//, '')) # Remove initial ./ if present
+      if id.start_with?('#')
+        '#' + Addressable::URI.encode_component(id[1..-1], Addressable::URI::CharacterClasses::QUERY)
+      else
+        # Remove initial ./ if present
+        Addressable::URI.encode_component(id.sub(/\A\.\//, ''), Addressable::URI::CharacterClasses::PATH)
+      end
     end
 
     ##

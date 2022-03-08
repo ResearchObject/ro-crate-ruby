@@ -76,7 +76,7 @@ class EntityTest < Test::Unit::TestCase
     assert_equal "#Hello%20World/Goodbye%20World", ROCrate::ContextualEntity.format_id('#Hello World/Goodbye World')
     assert_equal "#Hello%20World/Goodbye%20World", ROCrate::ContextualEntity.format_id('Hello World/Goodbye World')
     assert_equal "#%F0%9F%98%8A", ROCrate::ContextualEntity.format_id("😊")
-    assert_equal "#the%20something%20is://this", ROCrate::ContextualEntity.format_id("the something is://this")
+    assert_equal "https://orcid.org/0000-0002-0048-3300", ROCrate::ContextualEntity.format_id("https://orcid.org/0000-0002-0048-3300")
 
     assert_equal "test123/hello.txt", ROCrate::File.format_id('./test123/hello.txt')
     assert_equal "test123/hello.txt", ROCrate::File.format_id('./test123/hello.txt/')

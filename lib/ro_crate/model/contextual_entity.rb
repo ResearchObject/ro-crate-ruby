@@ -4,8 +4,7 @@ module ROCrate
   # Contextual Entities are used to describe and provide context to the Data Entities within the crate.
   class ContextualEntity < Entity
     def self.format_local_id(id)
-      i = super
-      i.start_with?('#') ? i : "##{i}"
+      super(id.start_with?('#') ? id : "##{id}")
     end
 
     ##
