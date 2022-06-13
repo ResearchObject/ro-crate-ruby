@@ -39,6 +39,12 @@ module ROCrate
     end
 
     ##
+    # Does this Entry point to a symlink on the disk?
+    def symlink?
+      ::File.symlink?(source) rescue false
+    end
+
+    ##
     # Does this Entry point to a remote resource?
     def remote?
       false

@@ -21,13 +21,17 @@ module ROCrate
         next if !overwrite && ::File.exist?(fullpath)
         next if entry.directory?
         FileUtils.mkdir_p(::File.dirname(fullpath))
-        temp = Tempfile.new('ro-crate-temp')
-        begin
-          entry.write_to(temp)
-          temp.close
-          FileUtils.mv(temp, fullpath)
-        ensure
-          temp.unlink
+        if entry.symlink?
+          ::File.symlink(entry.source.readlink, fullpath)
+        else
+          temp = Tempfile.new('ro-crate-temp')
+          begin
+            entry.write_to(temp)
+            temp.close
+            FileUtils.mv(temp, fullpath)
+          ensure
+            temp.unlink
+          end
         end
       end
     end
@@ -40,7 +44,11 @@ module ROCrate
       Zip::File.open(destination, Zip::File::CREATE) do |zip|
         @crate.payload.each do |path, entry|
           next if entry.directory?
-          zip.get_output_stream(path) { |s| entry.write_to(s) }
+          if entry.symlink?
+            zip.add(path, entry.path) if entry.path
+          else
+            zip.get_output_stream(path) { |s| entry.write_to(s) }
+          end
         end
       end
     end

@@ -1,0 +1,151 @@
+{
+    "a_galaxy_workflow": "true",
+    "annotation": "",
+    "creator": [
+        {
+            "class": "Person",
+            "identifier": "",
+            "name": "Finn Bacall"
+        }
+    ],
+    "format-version": "0.1",
+    "license": "MIT",
+    "name": "Concat two files",
+    "steps": {
+        "0": {
+            "annotation": "",
+            "content_id": null,
+            "errors": null,
+            "id": 0,
+            "input_connections": {},
+            "inputs": [
+                {
+                    "description": "",
+                    "name": "input1"
+                }
+            ],
+            "label": "input1",
+            "name": "Input dataset",
+            "outputs": [],
+            "position": {
+                "bottom": 254.1999969482422,
+                "height": 61.19999694824219,
+                "left": 393,
+                "right": 593,
+                "top": 193,
+                "width": 200,
+                "x": 393,
+                "y": 193
+            },
+            "tool_id": null,
+            "tool_state": "{\"optional\": false}",
+            "tool_version": null,
+            "type": "data_input",
+            "uuid": "7a90b91e-b143-4aa3-923d-fbcca5994d60",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "1a510a60-afcc-4491-911b-3519da79f22d"
+                }
+            ]
+        },
+        "1": {
+            "annotation": "",
+            "content_id": null,
+            "errors": null,
+            "id": 1,
+            "input_connections": {},
+            "inputs": [
+                {
+                    "description": "",
+                    "name": "input2"
+                }
+            ],
+            "label": "input2",
+            "name": "Input dataset",
+            "outputs": [],
+            "position": {
+                "bottom": 374.1999969482422,
+                "height": 61.19999694824219,
+                "left": 393,
+                "right": 593,
+                "top": 313,
+                "width": 200,
+                "x": 393,
+                "y": 313
+            },
+            "tool_id": null,
+            "tool_state": "{\"optional\": false}",
+            "tool_version": null,
+            "type": "data_input",
+            "uuid": "baa13f22-7e0c-4533-b12c-7d31caf0c9b3",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "output",
+                    "uuid": "1ded3ee7-d176-4385-8d1e-09b74af213fe"
+                }
+            ]
+        },
+        "2": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0",
+            "errors": null,
+            "id": 2,
+            "input_connections": {
+                "inputs": {
+                    "id": 0,
+                    "output_name": "output"
+                },
+                "queries_0|inputs2": {
+                    "id": 1,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Concatenate datasets",
+            "outputs": [
+                {
+                    "name": "out_file1",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "bottom": 336.1999969482422,
+                "height": 143.1999969482422,
+                "left": 613,
+                "right": 813,
+                "top": 193,
+                "width": 200,
+                "x": 613,
+                "y": 193
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0",
+            "tool_shed_repository": {
+                "changeset_revision": "ddf54b12c295",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"txt\", \"chromInfo\": \"/opt/galaxy/tool-data/shared/ucsc/chrom/?.len\", \"inputs\": {\"__class__\": \"ConnectedValue\"}, \"queries\": [{\"__index__\": 0, \"inputs2\": {\"__class__\": \"ConnectedValue\"}}], \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "0.1.0",
+            "type": "tool",
+            "uuid": "b2de7621-8ea3-4384-8f79-766ef38ebcfe",
+            "workflow_outputs": [
+                {
+                    "label": null,
+                    "output_name": "out_file1",
+                    "uuid": "cba40c62-d9bd-49e0-b636-48cfab67c107"
+                }
+            ]
+        }
+    },
+    "tags": [
+        "cat"
+    ],
+    "uuid": "94a9a580-75d1-434f-b2af-02017de43e23",
+    "version": 1
+}

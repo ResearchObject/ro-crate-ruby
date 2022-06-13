@@ -21,8 +21,14 @@ module ROCrate
     end
 
     ##
-    # Does this RemoteEntry point to a directory on the disk?
+    # Does this RemoteEntry point to a directory
     def directory?
+      false
+    end
+
+    ##
+    # Does this RemoteEntry point to a symlink
+    def symlink?
       false
     end
 

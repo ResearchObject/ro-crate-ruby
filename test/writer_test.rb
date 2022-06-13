@@ -195,9 +195,36 @@ class WriterTest < Test::Unit::TestCase
     Dir.mktmpdir do |dir|
       ROCrate::Writer.new(crate).write(dir)
       Dir.chdir(dir) do
-      file_list = Dir.glob('*').sort
-      assert_equal ["ro-crate-metadata.json", "ro-crate-preview.html"], file_list
+        file_list = Dir.glob('*').sort
+        assert_equal ["ro-crate-metadata.json", "ro-crate-preview.html"], file_list
+      end
     end
+  end
+
+  test 'write crate with data entity refers to a symlink as directory' do
+    crate = ROCrate::Crate.new
+    crate.add_all(fixture_file('workflow-test-fixture-symlink').path)
+    assert crate.payload['images/workflow-diagram.png'].source.symlink?
+
+    Dir.mktmpdir do |dir|
+      ROCrate::Writer.new(crate).write(dir)
+      Dir.chdir(dir) do
+        assert File.symlink?('images/workflow-diagram.png')
+      end
+    end
+  end
+
+  test 'write crate with data entity refers to a symlink as zip' do
+    crate = ROCrate::Crate.new
+    crate.add_all(fixture_file('workflow-test-fixture-symlink').path)
+    assert crate.payload['images/workflow-diagram.png'].source.symlink?
+
+    Tempfile.create do |file|
+      ROCrate::Writer.new(crate).write_zip(file)
+
+      Zip::File.open(file) do |zipfile|
+        assert zipfile.find_entry('images/workflow-diagram.png').symlink?
+      end
     end
   end
 end
