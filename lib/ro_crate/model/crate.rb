@@ -293,7 +293,7 @@ module ROCrate
     # Optionally takes a block to decide whether the given entity should be removed or not, otherwise removes all
     # unlinked entities.
     # @yieldparam [ContextualEntity] entity An unlinked contextual entity.
-    # @yieldparam [Boolean] remove Should this entity be removed?
+    # @yieldreturn [Boolean] remove Should this entity be removed?
     #
     # @return [Array<ContextualEntity>] The entities that were removed.
     def gc(&block)
