@@ -191,17 +191,17 @@ module ROCrate
     ##
     # All the entities within the crate. Includes contextual entities, data entities, the crate itself and its metadata file.
     #
-    # @return [Array<Entity>]
+    # @return [Set<Entity>]
     def entities
-      default_entities | data_entities.to_a | contextual_entities.to_a
+      default_entities | data_entities | contextual_entities
     end
 
     ##
     # Entities for the metadata file and crate itself, which should be present in all RO-Crates.
     #
-    # @return [Array<Entity>]
+    # @return [Set<Entity>]
     def default_entities
-      [metadata, preview, self]
+      Set.new([metadata, preview, self])
     end
 
     def properties
@@ -250,8 +250,7 @@ module ROCrate
       # Gather a map of entries, starting from the crate itself, then any directory data entities, then finally any
       # file data entities. This ensures in the case of a conflict, the more "specific" data entities take priority.
       entries = own_payload
-      non_self_entities = default_entities.reject { |e| e == self }
-      sorted_entities = (non_self_entities | data_entities.to_a).sort_by { |e| e.is_a?(ROCrate::Directory) ? 0 : 1 }
+      sorted_entities = (default_entities.delete(self) | data_entities).sort_by { |e| e.is_a?(ROCrate::Directory) ? 0 : 1 }
 
       sorted_entities.each do |entity|
         entity.payload.each do |path, entry|
