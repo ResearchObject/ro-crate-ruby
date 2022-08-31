@@ -251,7 +251,7 @@ module ROCrate
         value = properties[key] # We're doing this to call the JSONLDHash#[] method which wraps
         value = [value] if value.is_a?(JSONLDHash)
 
-        if value.is_a?(Array)
+        if value.respond_to?(:each)
           value.each do |v|
             if v.is_a?(JSONLDHash) && !linked.key?(v['@id'])
               entity = v.dereference

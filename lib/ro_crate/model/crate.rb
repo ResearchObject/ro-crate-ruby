@@ -1,3 +1,5 @@
+require 'set'
+
 module ROCrate
   ##
   # A Ruby abstraction of an RO-Crate.
@@ -20,8 +22,8 @@ module ROCrate
     ##
     # Initialize an empty RO-Crate.
     def initialize(id = IDENTIFIER, properties = {})
-      @data_entities = []
-      @contextual_entities = []
+      @data_entities = Set.new
+      @contextual_entities = Set.new
       super(self, nil, id, properties)
     end
 
@@ -144,8 +146,8 @@ module ROCrate
     # @return [Entity] the entity itself, or a clone of the entity "owned" by this crate.
     def add_contextual_entity(entity)
       entity = claim(entity)
-      contextual_entities.delete(entity) # Remove (then re-add) the entity if it exists
-      contextual_entities.push(entity)
+      contextual_entities.delete?(entity) # Remove (then re-add) the entity if it exists
+      contextual_entities.add(entity)
       entity
     end
 
@@ -156,8 +158,8 @@ module ROCrate
     # @return [Entity] the entity itself, or a clone of the entity "owned" by this crate.
     def add_data_entity(entity)
       entity = claim(entity)
-      data_entities.delete(entity) # Remove (then re-add) the entity if it exists
-      data_entities.push(entity)
+      data_entities.delete?(entity) # Remove (then re-add) the entity if it exists
+      data_entities.add(entity)
       entity
     end
 
@@ -191,7 +193,7 @@ module ROCrate
     #
     # @return [Array<Entity>]
     def entities
-      default_entities | data_entities | contextual_entities
+      default_entities | data_entities.to_a | contextual_entities.to_a
     end
 
     ##
@@ -249,7 +251,7 @@ module ROCrate
       # file data entities. This ensures in the case of a conflict, the more "specific" data entities take priority.
       entries = own_payload
       non_self_entities = default_entities.reject { |e| e == self }
-      sorted_entities = (non_self_entities | data_entities).sort_by { |e| e.is_a?(ROCrate::Directory) ? 0 : 1 }
+      sorted_entities = (non_self_entities | data_entities.to_a).sort_by { |e| e.is_a?(ROCrate::Directory) ? 0 : 1 }
 
       sorted_entities.each do |entity|
         entity.payload.each do |path, entry|
@@ -277,7 +279,7 @@ module ROCrate
       entity = dereference(entity) if entity.is_a?(String)
       return unless entity
 
-      deleted = data_entities.delete(entity) || contextual_entities.delete(entity)
+      deleted = data_entities.delete?(entity) || contextual_entities.delete?(entity)
 
       if deleted && remove_orphaned
         crate_entities = crate.linked_entities(deep: true)

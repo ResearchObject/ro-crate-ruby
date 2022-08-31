@@ -171,7 +171,8 @@ class CrateTest < Test::Unit::TestCase
     crate.author = bob
     info.author = bob
 
-    assert_equal [bob], crate.contextual_entities
+    assert_includes crate.contextual_entities, bob
+    assert_equal 1, crate.contextual_entities.length
     assert_equal bob, info.author
     assert_equal bob, crate.author
   end
