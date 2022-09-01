@@ -182,7 +182,7 @@ module ROCrate
         crate.metadata.context = context
         preview_properties = entity_hash.delete(ROCrate::Preview::IDENTIFIER)
         preview_path = ::File.join(source, ROCrate::Preview::IDENTIFIER)
-        preview_path = ::File.exists?(preview_path) ? Pathname.new(preview_path) : nil
+        preview_path = ::File.exist?(preview_path) ? Pathname.new(preview_path) : nil
         if preview_properties || preview_path
           crate.preview = ROCrate::Preview.new(crate, preview_path, preview_properties || {})
         end
