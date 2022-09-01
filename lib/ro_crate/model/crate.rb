@@ -219,7 +219,7 @@ module ROCrate
     #
     # @return [Addressable::URI]
     def canonical_id
-      Addressable::URI.parse("arcp://uuid,#{uuid}").join(id)
+      @canonical_id ||= Addressable::URI.parse("arcp://uuid,#{uuid}").join(id)
     end
 
     ##
