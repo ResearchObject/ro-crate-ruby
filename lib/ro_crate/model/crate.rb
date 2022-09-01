@@ -5,8 +5,9 @@ module ROCrate
   # A Ruby abstraction of an RO-Crate.
   class Crate < Directory
     IDENTIFIER = './'.freeze
-    attr_reader :data_entities
-    attr_reader :contextual_entities
+    attr_reader :_data_entities
+    attr_reader :_contextual_entities
+    attr_reader :_entities
     properties(%w[name datePublished author license identifier distribution contactPoint publisher description url hasPart])
 
     def self.format_id(id)
@@ -22,8 +23,9 @@ module ROCrate
     ##
     # Initialize an empty RO-Crate.
     def initialize(id = IDENTIFIER, properties = {})
-      @data_entities = Set.new
-      @contextual_entities = Set.new
+      @_data_entities = {}
+      @_contextual_entities = {}
+      @_entities = {}
       super(self, nil, id, properties)
     end
 
@@ -33,7 +35,14 @@ module ROCrate
     # @param id [String] The ID to query.
     # @return [Entity, nil]
     def dereference(id)
-      entities.detect { |e| e.canonical_id == crate.resolve_id(id) } if id
+      if id
+        i = indexed_id(id)
+        @_entities[i] || default_entities.detect { |e| e.canonical_id.to_s == i }
+      end
+    end
+
+    def indexed_id(id)
+      crate.resolve_id(id).normalize.to_s
     end
 
     ##
@@ -139,6 +148,11 @@ module ROCrate
       add_contextual_entity(ROCrate::Organization.new(self, id, properties))
     end
 
+    def contextual_entities
+      @_contextual_entities.values
+    end
+
+
     ##
     # Add a contextual entity to the crate
     #
@@ -146,9 +160,14 @@ module ROCrate
     # @return [Entity] the entity itself, or a clone of the entity "owned" by this crate.
     def add_contextual_entity(entity)
       entity = claim(entity)
-      contextual_entities.delete?(entity) # Remove (then re-add) the entity if it exists
-      contextual_entities.add(entity)
+      i = indexed_id(entity.id)
+      @_entities[i] = entity
+      @_contextual_entities[i] = entity
       entity
+    end
+
+    def data_entities
+      @_data_entities.values
     end
 
     ##
@@ -158,8 +177,9 @@ module ROCrate
     # @return [Entity] the entity itself, or a clone of the entity "owned" by this crate.
     def add_data_entity(entity)
       entity = claim(entity)
-      data_entities.delete?(entity) # Remove (then re-add) the entity if it exists
-      data_entities.add(entity)
+      i = indexed_id(entity.id)
+      @_entities[i] = entity
+      @_data_entities[i] = entity
       entity
     end
 
@@ -193,7 +213,7 @@ module ROCrate
     #
     # @return [Set<Entity>]
     def entities
-      default_entities | data_entities | contextual_entities
+      default_entities | @_entities.values
     end
 
     ##
@@ -278,7 +298,10 @@ module ROCrate
       entity = dereference(entity) if entity.is_a?(String)
       return unless entity
 
-      deleted = data_entities.delete?(entity) || contextual_entities.delete?(entity)
+      i = indexed_id(entity.id)
+      deleted = @_entities.delete(i)
+      @_data_entities.delete(i) if entity.is_a?(ROCrate::DataEntity)
+      @_contextual_entities.delete(i) if entity.is_a?(ROCrate::ContextualEntity)
 
       if deleted && remove_orphaned
         crate_entities = crate.linked_entities(deep: true)
