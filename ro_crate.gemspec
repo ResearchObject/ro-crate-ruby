@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ro-crate'
-  s.version     = '0.4.17'
+  s.version     = '0.5.0'
   s.summary     = 'Create, manipulate, read RO-Crates.'
   s.authors     = ['Finn Bacall']
   s.email       = 'finn.bacall@manchester.ac.uk'
