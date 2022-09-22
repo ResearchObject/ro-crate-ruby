@@ -227,4 +227,39 @@ class WriterTest < Test::Unit::TestCase
       end
     end
   end
+
+  test 'write crate with remote files and directories' do
+    orig = ROCrate::Reader.read(fixture_file('uri_heavy_crate').path)
+      Tempfile.create do |file|
+        ROCrate::Writer.new(orig).write_zip(file)
+
+        Zip::File.open(file) do |zipfile|
+          refute zipfile.find_entry('nih:sha-256;3a2c-8d14-a40b-3755-4abc-5af8-a56d-ba3a-e159-d688-c9b3-f169-6751-4b88-fbd2-6a9f;7')
+        end
+
+        file.rewind
+
+        crate = ROCrate::Reader.read(file)
+
+        dir = crate.get('nih:sha-256;f70e-eb2e-89d0-b3dc-5c99-8541-fa4b-6e64-a194-cf9d-ebd8-ca58-24e7-c47a-553f-86fa;c/')
+        assert dir
+        assert dir.is_a?(ROCrate::Directory)
+        assert dir.remote?
+        assert_empty dir.payload
+
+        file = crate.get('nih:sha-256;3a2c-8d14-a40b-3755-4abc-5af8-a56d-ba3a-e159-d688-c9b3-f169-6751-4b88-fbd2-6a9f;7')
+        assert file
+        assert file.is_a?(ROCrate::File)
+        assert file.remote?
+        assert_empty file.payload
+
+        real_file = crate.get('main.nf')
+        assert real_file
+        assert real_file.is_a?(ROCrate::File)
+        refute real_file.remote?
+        assert_not_empty real_file.payload
+        refute real_file.payload.values.first.remote?
+        refute real_file.payload.values.first.directory?
+      end
+  end
 end

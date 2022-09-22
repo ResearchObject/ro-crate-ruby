@@ -11,20 +11,21 @@ module ROCrate
     # Crate#add_data_entity, or just use Crate#add_directory.
     #
     # @param crate [Crate] The RO-Crate that owns this directory.
-    # @param source_directory [String, Pathname, ::File, nil] The source directory that will be included in the crate.
-    # @param crate_path [String] The relative path within the RO-Crate where this directory will be written.
+    # @param source [String, Pathname, ::File, nil] The source directory that will be included in the crate.
+    # @param crate_path [String, nil] The relative path within the RO-Crate where this directory will be written.
     # @param properties [Hash{String => Object}] A hash of JSON-LD properties to associate with this directory.
-    def initialize(crate, source_directory = nil, crate_path = nil, properties = {})
+    def initialize(crate, source = nil, crate_path = nil, properties = {})
+      super(crate, source, crate_path, properties)
+
       @directory_entries = {}
-
-      if source_directory
-        source_directory = Pathname.new(::File.expand_path(source_directory))
-        @entry = Entry.new(source_directory)
-        populate_entries(source_directory)
-        crate_path = source_directory.basename.to_s if crate_path.nil?
+      if @source
+        if @source.is_a?(URI) && @source.absolute?
+          @entry = RemoteEntry.new(@source, directory: true)
+        else
+          @entry = Entry.new(@source)
+          populate_entries(@source)
+        end
       end
-
-      super(crate, nil, crate_path, properties)
     end
 
     ##
@@ -34,13 +35,17 @@ module ROCrate
     # @return [Hash{String => Entry}>]
     def payload
       entries = {}
-      entries[filepath.chomp('/')] = @entry if @entry
+      entries[filepath.chomp('/')] = @entry if @entry && !remote?
 
       @directory_entries.each do |rel_path, entry|
         entries[full_entry_path(rel_path)] = entry
       end
 
       entries
+    end
+
+    def remote?
+      @entry.remote?
     end
 
     private

@@ -9,8 +9,9 @@ module ROCrate
     # Create a new RemoteEntry.
     #
     # @param uri [URI] An absolute URI.
-    def initialize(uri)
+    def initialize(uri, directory: false)
       @uri = uri
+      @directory = directory
     end
 
     ##
@@ -23,7 +24,7 @@ module ROCrate
     ##
     # Does this RemoteEntry point to a directory
     def directory?
-      false
+      @directory
     end
 
     ##
