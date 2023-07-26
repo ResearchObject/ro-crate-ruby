@@ -399,60 +399,18 @@
 22
 23
 24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46</pre>
+25</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_crate_path'>crate_path</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_crate_path'>crate_path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_properties'>properties</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-    <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='id identifier rubyid_crate_path'>crate_path</span>
-    <span class='id identifier rubyid_crate_path'>crate_path</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='kw'>end</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_crate_path'>crate_path</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_absolute?'>absolute?</span>
-      <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span>
-    <span class='kw'>end</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_crate_path'>crate_path</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='id identifier rubyid_crate_path'>crate_path</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:basename</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_crate_path'>crate_path</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>URI</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_absolute?'>absolute?</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_crate_path'>crate_path</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>URI</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_absolute?'>absolute?</span>
-    <span class='ivar'>@entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RemoteEntry.html" title="ROCrate::RemoteEntry (class)">RemoteEntry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RemoteEntry.html#initialize-instance_method" title="ROCrate::RemoteEntry#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>URI</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@source</span><span class='period'>.</span><span class='id identifier rubyid_absolute?'>absolute?</span>
+    <span class='ivar'>@entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RemoteEntry.html" title="ROCrate::RemoteEntry (class)">RemoteEntry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RemoteEntry.html#initialize-instance_method" title="ROCrate::RemoteEntry#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@source</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
-    <span class='ivar'>@entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Entry.html" title="ROCrate::Entry (class)">Entry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Entry.html#initialize-instance_method" title="ROCrate::Entry#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+    <span class='ivar'>@entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Entry.html" title="ROCrate::Entry (class)">Entry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Entry.html#initialize-instance_method" title="ROCrate::Entry#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@source</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -549,12 +507,12 @@
       <pre class="lines">
 
 
-63
-64
-65</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload'>payload</span>
   <span class='id identifier rubyid_remote?'>remote?</span> <span class='op'>?</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='op'>:</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_filepath'>filepath</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_source'>source</span> <span class='rbrace'>}</span>
@@ -601,12 +559,12 @@
       <pre class="lines">
 
 
-67
-68
-69</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remote?'>remote?</span>
   <span class='ivar'>@entry</span><span class='period'>.</span><span class='id identifier rubyid_remote?'>remote?</span>
@@ -660,12 +618,12 @@
       <pre class="lines">
 
 
-52
-53
-54</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/model/file.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_source'>source</span>
   <span class='ivar'>@entry</span>
@@ -680,7 +638,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Sep  6 14:55:42 2022 by
+  Generated on Wed Jul 26 08:52:05 2023 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-3.0.4).
 </div>
