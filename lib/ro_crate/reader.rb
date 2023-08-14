@@ -9,7 +9,6 @@ module ROCrate
     # @param target_dir [String, ::File, Pathname] The target directory where the crate should be unzipped (if its a Zip file).
     # @return [Crate] The RO-Crate.
     def self.read(source, target_dir: Dir.mktmpdir)
-      raise "Not a directory!" unless ::File.directory?(target_dir)
       begin
         is_dir = ::File.directory?(source)
       rescue TypeError
@@ -82,6 +81,8 @@ module ROCrate
     # @param target_dir [String, ::File, Pathname] The target directory where the crate should be unzipped.
     # @return [Crate] The RO-Crate.
     def self.read_zip(source, target_dir: Dir.mktmpdir)
+      raise ROCrate::ReadException, "Target is not a directory!" unless ::File.directory?(target_dir)
+
       unzip_to(source, target_dir)
 
       # Traverse the unzipped directory to try and find the crate's root
@@ -96,7 +97,7 @@ module ROCrate
     # @param source [String, ::File, Pathname] The location of the directory.
     # @return [Crate] The RO-Crate.
     def self.read_directory(source)
-      raise "Not a directory!" unless ::File.directory?(source)
+      raise ROCrate::ReadException, "Source is not a directory!" unless ::File.directory?(source)
 
       source = ::File.expand_path(source)
       metadata_file = Dir.entries(source).detect { |entry| entry == ROCrate::Metadata::IDENTIFIER ||
@@ -104,13 +105,18 @@ module ROCrate
 
       if metadata_file
         metadata_json = ::File.read(::File.join(source, metadata_file))
-        metadata = JSON.parse(metadata_json)
+        begin
+          metadata = JSON.parse(metadata_json)
+        rescue JSON::ParserError => e
+          raise ROCrate::ReadException.new("Error parsing metadata", e)
+        end
+
         entities = entities_from_metadata(metadata)
         context = metadata['@context']
 
         build_crate(entities, source, context: context)
       else
-        raise 'No metadata found!'
+        raise ROCrate::ReadException, "No metadata found!"
       end
     end
 
@@ -131,14 +137,14 @@ module ROCrate
 
         # Do some normalization...
         entities[ROCrate::Metadata::IDENTIFIER] = extract_metadata_entity(entities)
-        raise "No metadata entity found in @graph!" unless entities[ROCrate::Metadata::IDENTIFIER]
+        raise ROCrate::ReadException, "No metadata entity found in @graph!" unless entities[ROCrate::Metadata::IDENTIFIER]
         entities[ROCrate::Preview::IDENTIFIER] = extract_preview_entity(entities)
         entities[ROCrate::Crate::IDENTIFIER] = extract_root_entity(entities)
-        raise "No root entity (with @id: #{entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')}) found in @graph!" unless entities[ROCrate::Crate::IDENTIFIER]
+        raise ROCrate::ReadException, "No root entity (with @id: #{entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')}) found in @graph!" unless entities[ROCrate::Crate::IDENTIFIER]
 
         entities
       else
-        raise "No @graph found in metadata!"
+        raise ROCrate::ReadException, "No @graph found in metadata!"
       end
     end
 
@@ -290,7 +296,7 @@ module ROCrate
     # mapped by its @id.
     def self.extract_root_entity(entities)
       root_id = entities[ROCrate::Metadata::IDENTIFIER].dig('about', '@id')
-      raise "Metadata entity does not reference any root entity" unless root_id
+      raise ROCrate::ReadException, "Metadata entity does not reference any root entity" unless root_id
       entities.delete(root_id)
     end
 

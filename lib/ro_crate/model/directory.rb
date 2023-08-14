@@ -59,7 +59,7 @@ module ROCrate
     # @return [Hash{String => Entry}>] The files/directories that were populated.
     #   The key is the relative path of the file/directory, and the value is an Entry object where data can be read etc.
     def populate_entries(source_directory, include_hidden: false)
-      raise 'Not a directory' unless ::File.directory?(source_directory)
+      raise TypeError, 'Not a directory' unless ::File.directory?(source_directory)
       @directory_entries = {}
       list_all_files(source_directory, include_hidden: include_hidden).each do |rel_path|
         source_path = Pathname.new(::File.join(source_directory, rel_path)).expand_path

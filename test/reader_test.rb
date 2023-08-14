@@ -303,4 +303,57 @@ class ReaderTest < Test::Unit::TestCase
     refute real_file.payload.values.first.remote?
     refute real_file.payload.values.first.directory?
   end
+
+  test 'handles exceptions' do
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('broken/no_graph'))
+    end
+    assert_include e.message, 'No @graph'
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('broken/no_metadata_entity'))
+    end
+    assert_include e.message, 'No metadata entity'
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('broken/no_metadata_file'))
+    end
+    assert_include e.message, 'No metadata found'
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('broken/no_root_entity'))
+    end
+    assert_include e.message, 'No root'
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('broken/not_json'))
+    end
+    assert_include e.message, 'Error parsing metadata: JSON::ParserError'
+    assert_equal JSON::ParserError, e.inner_exception.class
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('workflow-0.2.0.zip'), target_dir: fixture_file('workflow-0.2.0.zip'))
+    end
+    assert_include e.message, 'Target is not a directory!'
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read_directory(fixture_file('workflow-0.2.0.zip'))
+    end
+    assert_include e.message, 'Source is not a directory!'
+  end
+
+  private
+
+  def check_exception(exception_class)
+    e = nil
+    assert_raise(exception_class) do
+      begin
+        yield
+      rescue exception_class => e
+        raise e
+      end
+    end
+
+    e
+  end
 end

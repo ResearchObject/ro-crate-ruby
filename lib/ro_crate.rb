@@ -6,6 +6,8 @@ require 'zip/filesystem'
 require 'addressable'
 require 'open-uri'
 
+require 'ro_crate/model/exceptions/exception'
+require 'ro_crate/model/exceptions/read_exception'
 require 'ro_crate/json_ld_hash'
 require 'ro_crate/model/entity'
 require 'ro_crate/model/data_entity'
