@@ -2,11 +2,6 @@ module ROCrate
   ##
   # A wrapper class for Hash that adds methods to dereference Entities within an RO-Crate.
   class JSONLDHash < ::Hash
-    def self.[](graph, content = {})
-      @graph = graph
-      super(stringified(content))
-    end
-
     def initialize(graph, content = {})
       @graph = graph
       super()
