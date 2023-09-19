@@ -116,6 +116,19 @@ class ReaderTest < Test::Unit::TestCase
     end
   end
 
+  test 'reading from zip IO' do
+    io = StringIO.new(fixture_file('directory.zip').read)
+    crate = ROCrate::Reader.read(io)
+
+    assert crate.payload['fish/info.txt']
+    assert_equal '1234', crate.payload['fish/info.txt'].source.read.chomp
+    assert crate.payload['fish/root.txt']
+    assert crate.payload['fish/data/info.txt']
+    assert crate.payload['fish/data/nested.txt']
+    assert crate.payload['fish/data/binary.jpg']
+    assert_equal ['./', 'fish/', 'ro-crate-metadata.jsonld', 'ro-crate-preview.html'], crate.entities.map(&:id).sort
+  end
+
   test 'reading from directory with directories' do
     crate = ROCrate::Reader.read_directory(fixture_file('directory_crate').path)
 

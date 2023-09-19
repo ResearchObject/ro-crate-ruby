@@ -72,6 +72,23 @@ class EntityTest < Test::Unit::TestCase
     assert_equal(person.canonical_id, crate.author.canonical_id)
   end
 
+  test 'to_json' do
+    crate = ROCrate::Crate.new
+
+    crate['test'] = 'hello'
+    crate['test2'] = ['hello']
+    crate['test3'] = 123
+    crate['test4'] = { a: 'bc' }
+
+    json = crate.to_json
+    parsed = JSON.parse(json)
+
+    assert_equal 'hello', parsed['test']
+    assert_equal ['hello'], parsed['test2']
+    assert_equal 123, parsed['test3']
+    assert_equal({ 'a' => 'bc' }, parsed['test4'])
+  end
+
   test 'format various IDs' do
     assert_equal "#Hello%20World/Goodbye%20World", ROCrate::ContextualEntity.format_id('#Hello World/Goodbye World')
     assert_equal "#Hello%20World/Goodbye%20World", ROCrate::ContextualEntity.format_id('Hello World/Goodbye World')
