@@ -340,6 +340,11 @@ class ReaderTest < Test::Unit::TestCase
       ROCrate::Reader.read_directory(fixture_file('workflow-0.2.0.zip'))
     end
     assert_include e.message, 'Source is not a directory!'
+
+    e = check_exception(ROCrate::ReadException) do
+      ROCrate::Reader.read(fixture_file('broken/missing_file'))
+    end
+    assert_include e.message, 'not found in crate: file1.txt'
   end
 
   private

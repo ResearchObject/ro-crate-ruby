@@ -240,21 +240,21 @@ module ROCrate
     #          or nil if it referenced a local file that wasn't found.
     def self.create_data_entity(crate, entity_class, source, entity_props)
       id = entity_props.delete('@id')
+      raise ROCrate::ReadException, "Data Entity missing '@id': #{entity_props.inspect}" unless id
       decoded_id = URI.decode_www_form_component(id)
       path = nil
       uri = URI(id) rescue nil
       if uri&.absolute?
         path = uri
         decoded_id = nil
-      else
+      elsif !id.start_with?('#')
         [id, decoded_id].each do |i|
           fullpath = ::File.join(source, i)
           path = Pathname.new(fullpath) if ::File.exist?(fullpath)
         end
-        # unless path
-        #   warn "Missing file/directory: #{id}, skipping..."
-        #   return nil
-        # end
+        if path.nil?
+          raise ROCrate::ReadException, "Local Data Entity not found in crate: #{id}"
+        end
       end
 
       entity_class.new(crate, path, decoded_id, entity_props)
