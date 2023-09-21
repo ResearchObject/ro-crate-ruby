@@ -41,7 +41,7 @@ module ROCrate
     #
     # @param destination [String, ::File] The destination where to write the RO-Crate zip.
     def write_zip(destination)
-      Zip::File.open(destination, Zip::File::CREATE) do |zip|
+      Zip::File.open(destination, create: true) do |zip|
         @crate.payload.each do |path, entry|
           next if entry.directory?
           if entry.symlink?
