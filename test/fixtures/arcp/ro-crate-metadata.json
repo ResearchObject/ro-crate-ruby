@@ -1,0 +1,21 @@
+{
+    "@context": "https://w3id.org/ro/crate/1.1/context",
+    "@graph": [
+        {
+            "@id": "arcp://name,somethingsomething",
+            "@type": "Dataset",
+            "datePublished": "2024-01-31T10:47:17+00:00"
+            
+        },
+        {
+            "@id": "ro-crate-metadata.json",
+            "@type": "CreativeWork",
+            "about": {
+                "@id": "arcp://name,somethingsomething"
+            },
+            "conformsTo": {
+                "@id": "https://w3id.org/ro/crate/1.1"
+            }
+        }
+    ]
+}

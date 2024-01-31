@@ -204,7 +204,7 @@ module ROCrate
     # @param entity_hash [Hash] A Hash containing all the entities in the @graph, mapped by their @id.
     # @return [Array<ROCrate::File, ROCrate::Directory>] The extracted DataEntity objects.
     def self.extract_data_entities(crate, source, entity_hash)
-      crate.raw_properties['hasPart'].map do |ref|
+      (crate.raw_properties['hasPart'] || []).map do |ref|
         entity_props = entity_hash.delete(ref['@id'])
         next unless entity_props
         entity_class = ROCrate::DataEntity.specialize(entity_props)

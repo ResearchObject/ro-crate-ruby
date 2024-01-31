@@ -360,6 +360,13 @@ class ReaderTest < Test::Unit::TestCase
     assert_include e.message, 'not found in crate: file1.txt'
   end
 
+  test 'tolerates arcp identifier on root data entity (and missing hasPart)' do
+    crate = ROCrate::Reader.read(fixture_file('arcp').path)
+
+    assert_equal 'arcp://name,somethingsomething', crate.id
+    assert_empty crate.data_entities
+  end
+
   private
 
   def check_exception(exception_class)
