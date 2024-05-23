@@ -1,3 +1,23 @@
+<%
+  def entity_to_html(entity)
+    if entity.is_a?(Array)
+      if entity.length == 1
+        entity_to_html(entity.first)
+      else
+        "<ul><li>#{entity.map { |e| entity_to_html(e) }.join('</li><li>')}</li></ul>"
+      end
+    elsif entity.is_a?(ROCrate::Entity)
+      label = entity['name'] || entity.id
+      if entity.external?
+        "<a href=\"#{entity.id}\" target=\"_blank\">#{label}</a>"
+      else
+        label
+      end
+    else
+      entity
+    end
+  end
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,36 +38,32 @@
   <dl>
     <% if author %>
       <dt>Author</dt>
-      <dd><%= author %></dd>
+      <dd><%= entity_to_html author %></dd>
     <% end %>
     <% if contact_point %>
       <dt>Contact</dt>
-      <dd><%= contact_point %></dd>
+      <dd><%= entity_to_html contact_point %></dd>
     <% end %>
     <% if publisher %>
       <dt>Publisher</dt>
-      <dd><%= publisher %></dd>
+      <dd><%= entity_to_html publisher %></dd>
     <% end %>
     <% if license %>
       <dt>License</dt>
-      <dd><%= license %></dd>
+      <dd><%= entity_to_html license %></dd>
     <% end %>
   </dl>
 
   <h2>Contents</h2>
   <ul>
     <% data_entities.each do |data_entity| %>
-      <li id="__data_entity_<%= data_entity.id.gsub(/\s/, '-') %>">
-        <% if data_entity.external? %>
-          <strong><a href="<%= data_entity.id %>" target="_blank"><%= data_entity.name || data_entity.id %></a></strong>
-        <% else %>
-          <strong><%= data_entity.name || data_entity.id %></strong>
-        <% end %>
+      <li>
+        <strong><%= entity_to_html data_entity %></strong>
         <% if data_entity.content_size %>
-          <br/>Size: <%= data_entity.content_size %>
+          <br/>Size: <%= entity_to_html data_entity.content_size %>
         <% end %>
         <% if data_entity.encoding_format %>
-          <br/>Format: <%= data_entity.encoding_format %>
+          <br/>Format: <%= entity_to_html data_entity.encoding_format %>
         <% end %>
       </li>
     <% end %>
