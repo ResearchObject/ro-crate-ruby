@@ -367,6 +367,12 @@ class ReaderTest < Test::Unit::TestCase
     assert_empty crate.data_entities
   end
 
+  test 'reads first metadata file it encounters' do
+    crate = ROCrate::Reader.read(fixture_file('multi_metadata_crate.crate.zip').path)
+
+    assert_equal 'At the root', crate.name
+  end
+
   private
 
   def check_exception(exception_class)

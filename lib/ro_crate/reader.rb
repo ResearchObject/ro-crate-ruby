@@ -306,12 +306,16 @@ module ROCrate
     # @param source [String, ::File, Pathname] The location of the directory.
     # @return [Pathname, nil] The path to the root, or nil if not found.
     def self.detect_root_directory(source)
-      Pathname(source).find do |entry|
+      queue = [source]
+      until queue.empty?
+        entry = Pathname(queue.shift)
         if entry.file?
           name = entry.basename.to_s
           if name == ROCrate::Metadata::IDENTIFIER || name == ROCrate::Metadata::IDENTIFIER_1_0
             return entry.parent
           end
+        elsif entry.directory?
+          queue += entry.children
         end
       end
 
