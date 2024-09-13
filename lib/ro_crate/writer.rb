@@ -14,9 +14,11 @@ module ROCrate
     #
     # @param dir [String] A path for the directory for the crate to be written to. All parent directories will be created.
     # @param overwrite [Boolean] Whether or not to overwrite existing files.
-    def write(dir, overwrite: true)
+    # @param skip_preview [Boolean] Whether or not to skip generation of the RO-Crate preview HTML file.
+    def write(dir, overwrite: true, skip_preview: false)
       FileUtils.mkdir_p(dir) # Make any parent directories
       @crate.payload.each do |path, entry|
+        next if skip_preview && entry&.source.is_a?(ROCrate::PreviewGenerator)
         fullpath = ::File.join(dir, path)
         next if !overwrite && ::File.exist?(fullpath)
         next if entry.directory?
@@ -40,10 +42,12 @@ module ROCrate
     # Write the crate to a zip file.
     #
     # @param destination [String, ::File] The destination where to write the RO-Crate zip.
-    def write_zip(destination)
+    # @param skip_preview [Boolean] Whether or not to skip generation of the RO-Crate preview HTML file.
+    def write_zip(destination, skip_preview: false)
       Zip::File.open(destination, Zip::File::CREATE) do |zip|
         @crate.payload.each do |path, entry|
           next if entry.directory?
+          next if skip_preview && entry&.source.is_a?(ROCrate::PreviewGenerator)
           if entry.symlink?
             zip.add(path, entry.path) if entry.path
           else
