@@ -6,7 +6,7 @@
 <title>
   Class: ROCrate::Writer
   
-    &mdash; Documentation by YARD 0.9.36
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -154,7 +154,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#write-instance_method" title="#write (instance method)">#<strong>write</strong>(dir, overwrite: true)  &#x21d2; Object </a>
+      <a href="#write-instance_method" title="#write (instance method)">#<strong>write</strong>(dir, overwrite: true, skip_preview: false)  &#x21d2; Object </a>
     
 
     
@@ -178,7 +178,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#write_zip-instance_method" title="#write_zip (instance method)">#<strong>write_zip</strong>(destination)  &#x21d2; Object </a>
+      <a href="#write_zip-instance_method" title="#write_zip (instance method)">#<strong>write_zip</strong>(destination, skip_preview: false)  &#x21d2; Object </a>
     
 
     
@@ -276,7 +276,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="write-instance_method">
   
-    #<strong>write</strong>(dir, overwrite: true)  &#x21d2; <tt>Object</tt> 
+    #<strong>write</strong>(dir, overwrite: true, skip_preview: false)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -328,6 +328,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>skip_preview</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Whether or not to skip generation of the RO-Crate preview HTML file.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -337,7 +355,6 @@
       <pre class="lines">
 
 
-17
 18
 19
 20
@@ -357,14 +374,17 @@
 34
 35
 36
-37</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/writer.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/writer.rb', line 18</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='comma'>,</span> <span class='label'>overwrite:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='comma'>,</span> <span class='label'>overwrite:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>skip_preview:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='rparen'>)</span> <span class='comment'># Make any parent directories
 </span>  <span class='ivar'>@crate</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_skip_preview'>skip_preview</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_entry'>entry</span><span class='op'>&amp;.</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PreviewGenerator.html" title="ROCrate::PreviewGenerator (class)">PreviewGenerator</a></span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_fullpath'>fullpath</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
     <span class='kw'>next</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_overwrite'>overwrite</span> <span class='op'>&amp;&amp;</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_fullpath'>fullpath</span><span class='rparen'>)</span>
     <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span>
@@ -391,7 +411,7 @@
       <div class="method_details ">
   <h3 class="signature " id="write_zip-instance_method">
   
-    #<strong>write_zip</strong>(destination)  &#x21d2; <tt>Object</tt> 
+    #<strong>write_zip</strong>(destination, skip_preview: false)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -425,6 +445,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>skip_preview</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Whether or not to skip generation of the RO-Crate preview HTML file.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -434,9 +472,6 @@
       <pre class="lines">
 
 
-43
-44
-45
 46
 47
 48
@@ -445,15 +480,20 @@
 51
 52
 53
-54</pre>
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ro_crate/writer.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/ro_crate/writer.rb', line 46</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_write_zip'>write_zip</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_write_zip'>write_zip</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='label'>skip_preview:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='op'>::</span><span class='const'>CREATE</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_zip'>zip</span><span class='op'>|</span>
     <span class='ivar'>@crate</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
       <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span>
+      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_skip_preview'>skip_preview</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_entry'>entry</span><span class='op'>&amp;.</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PreviewGenerator.html" title="ROCrate::PreviewGenerator (class)">PreviewGenerator</a></span></span><span class='rparen'>)</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_symlink?'>symlink?</span>
         <span class='id identifier rubyid_zip'>zip</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span>
       <span class='kw'>else</span>
@@ -472,9 +512,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 16 09:02:17 2024 by
+  Generated on Thu Jan 30 15:45:39 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.36 (ruby-3.0.4).
+  0.9.37 (ruby-3.2.5).
 </div>
 
     </div>
