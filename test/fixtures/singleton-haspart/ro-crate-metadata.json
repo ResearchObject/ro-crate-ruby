@@ -1,0 +1,57 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    "https://w3id.org/ro/terms/workflow-run/context"
+  ],
+  "@graph": [
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "datePublished": "2025-01-28T02:44:51.523Z",
+      "hasPart": {
+        "@id": "a_file"
+      },
+      "dateCreated": "2025-01-28T02:45:05.906Z",
+      "dateModified": "2025-01-28T02:44:51.523Z",
+      "description": "Something",
+      "license": {
+        "@id": "https://spdx.org/licenses/MIT"
+      },
+      "mainEntity": {
+        "@id": "a_file"
+      },
+      "name": "An RO-Crate containing just a single item"
+    },
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "conformsTo": [
+        {
+          "@id": "https://w3id.org/ro/crate/1.1"
+        },
+        {
+          "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.0"
+        }
+      ],
+      "about": {
+        "@id": "./"
+      }
+    },
+    {
+      "@id": "a_file",
+      "@type": [
+        "File",
+        "ComputationalWorkflow",
+        "SoftwareSourceCode"
+      ],
+      "contentSize": 4,
+      "description": "A workflow",
+      "encodingFormat": "text/plain",
+      "name": "a_file",
+      "programmingLanguage": {
+        "@id": "https://example.com/workflow_format"
+      }
+    }
+  ]
+}
+

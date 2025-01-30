@@ -373,6 +373,14 @@ class ReaderTest < Test::Unit::TestCase
     assert_equal 'At the root', crate.name
   end
 
+  test 'reads crate with singleton hasPart' do
+    crate = ROCrate::Reader.read(fixture_file('singleton-haspart').path)
+
+    data = crate.data_entities
+    assert_equal 1, data.length
+    assert_equal 'a_file', data.first.name
+  end
+
   private
 
   def check_exception(exception_class)
