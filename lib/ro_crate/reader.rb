@@ -87,6 +87,7 @@ module ROCrate
 
       # Traverse the unzipped directory to try and find the crate's root
       root_dir = detect_root_directory(target_dir)
+      raise ROCrate::ReadException, "No metadata found!" unless root_dir
 
       read_directory(root_dir)
     end
@@ -303,7 +304,7 @@ module ROCrate
     end
 
     ##
-    # Finds an RO-Crate's root directory (where `ro-crate-metdata.json` is located) within a given directory.
+    # Finds an RO-Crate's root directory (where `ro-crate-metadata.json` is located) within a given directory.
     #
     # @param source [String, ::File, Pathname] The location of the directory.
     # @return [Pathname, nil] The path to the root, or nil if not found.
