@@ -21,9 +21,18 @@ module ROCrate
 
     ##
     # Initialize an empty RO-Crate.
-    def initialize(id = IDENTIFIER, properties = {})
+    #
+    # @param id [String] The crate's identifier.
+    # @param properties [Hash] Initial properties for the root data entity.
+    # @param version [String] RO-Crate spec version to declare (default: ROCrate::Metadata::DEFAULT_VERSION).
+    #   Must be one of ROCrate::Metadata::SUPPORTED_VERSIONS.
+    def initialize(id = IDENTIFIER, properties = {}, version: ROCrate::Metadata::DEFAULT_VERSION)
+      unless ROCrate::Metadata::SUPPORTED_VERSIONS.include?(version)
+        raise ArgumentError, "Unsupported RO-Crate version: #{version.inspect}. Supported: #{ROCrate::Metadata::SUPPORTED_VERSIONS.join(', ')}"
+      end
       @data_entities = Set.new
       @contextual_entities = Set.new
+      @metadata_version = version
       super(self, nil, id, properties)
     end
 
@@ -168,7 +177,7 @@ module ROCrate
     #
     # @return [Metadata]
     def metadata
-      @metadata ||= ROCrate::Metadata.new(self)
+      @metadata ||= ROCrate::Metadata.new(self, {}, version: @metadata_version || ROCrate::Metadata::DEFAULT_VERSION)
     end
 
     ##

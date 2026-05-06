@@ -266,7 +266,7 @@ module ROCrate
 
     ##
     # Extract the metadata entity from the entity hash, according to the rules defined here:
-    # https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity
+    # https://www.researchobject.org/ro-crate/specification/1.2/root-data-entity.html#finding-the-root-data-entity
     # @return [nil, Hash{String => Hash}] A Hash containing (hopefully) one value, the metadata entity's properties
     # mapped by its @id, or nil if nothing is found.
     def self.extract_metadata_entity(entities)
@@ -294,7 +294,7 @@ module ROCrate
 
     ##
     # Extract the root entity from the entity hash, according to the rules defined here:
-    # https://www.researchobject.org/ro-crate/1.1/root-data-entity.html#finding-the-root-data-entity
+    # https://www.researchobject.org/ro-crate/specification/1.2/root-data-entity.html#finding-the-root-data-entity
     # @return [Hash{String => Hash}] A Hash containing (hopefully) one value, the root entity's properties,
     # mapped by its @id.
     def self.extract_root_entity(entities)
