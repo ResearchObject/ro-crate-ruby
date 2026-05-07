@@ -377,4 +377,31 @@ class CrateTest < Test::Unit::TestCase
     assert_nil crate.get('#joe')
     assert crate.get('#joehouse')
   end
+
+  test 'defaults to RO-Crate spec 1.2' do
+    crate = ROCrate::Crate.new
+    assert_equal '1.2', crate.metadata.version
+    assert_equal 'https://w3id.org/ro/crate/1.2/context', crate.metadata.context
+    assert_equal 'https://w3id.org/ro/crate/1.2', crate.metadata.spec_url
+    assert_equal({ '@id' => 'https://w3id.org/ro/crate/1.2' }, crate.metadata.properties['conformsTo'])
+  end
+
+  test 'can write older spec version' do
+    crate = ROCrate::Crate.new(ROCrate::Crate::IDENTIFIER, {}, version: '1.1')
+    assert_equal '1.1', crate.metadata.version
+    assert_equal 'https://w3id.org/ro/crate/1.1/context', crate.metadata.context
+    assert_equal({ '@id' => 'https://w3id.org/ro/crate/1.1' }, crate.metadata.properties['conformsTo'])
+  end
+
+  test 'warns but accepts unrecognized spec version' do
+    original_stderr = $stderr
+    $stderr = StringIO.new
+    crate = ROCrate::Crate.new(ROCrate::Crate::IDENTIFIER, {}, version: '1.5')
+    err = $stderr.string
+    $stderr = original_stderr
+
+    assert_match(/Unrecognized RO-Crate version/, err)
+    assert_equal '1.5', crate.metadata.version
+    assert_equal 'https://w3id.org/ro/crate/1.5', crate.metadata.spec_url
+  end
 end

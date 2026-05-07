@@ -5,11 +5,44 @@ module ROCrate
     IDENTIFIER = 'ro-crate-metadata.json'.freeze
     IDENTIFIER_1_0 = 'ro-crate-metadata.jsonld'.freeze # 1.0 spec identifier
     RO_CRATE_BASE = 'https://w3id.org/ro/crate/'
-    CONTEXT = "#{RO_CRATE_BASE}1.1/context".freeze
-    SPEC = "#{RO_CRATE_BASE}1.1".freeze
 
-    def initialize(crate, properties = {})
+    SUPPORTED_VERSIONS = %w[1.0 1.0-DRAFT 1.1 1.1-DRAFT 1.2 1.2-DRAFT].freeze
+    DEFAULT_VERSION = '1.2'.freeze
+
+    CONTEXT = "#{RO_CRATE_BASE}#{DEFAULT_VERSION}/context".freeze
+    SPEC = "#{RO_CRATE_BASE}#{DEFAULT_VERSION}".freeze
+
+    attr_reader :version
+
+    ##
+    # Emit a warning if the given version is not in SUPPORTED_VERSIONS.
+    # Does not raise — unrecognized versions are still accepted so the library
+    # stays forward-compatible with future spec versions that need no changes.
+    def self.warn_unrecognized_version(v)
+      return if SUPPORTED_VERSIONS.include?(v)
+      warn "Unrecognized RO-Crate version: #{v.inspect}. Known versions: #{SUPPORTED_VERSIONS.join(', ')}"
+    end
+
+    def initialize(crate, properties = {}, version: DEFAULT_VERSION)
+      self.class.warn_unrecognized_version(version)
+      @version = version
       super(crate, nil, IDENTIFIER, properties)
+    end
+
+    ##
+    # Update the spec version this metadata declares.
+    # Used by the Reader to preserve the version of a parsed crate.
+    def version=(v)
+      self.class.warn_unrecognized_version(v)
+      @version = v
+    end
+
+    def context_url
+      "#{RO_CRATE_BASE}#{@version}/context"
+    end
+
+    def spec_url
+      "#{RO_CRATE_BASE}#{@version}"
     end
 
     ##
@@ -21,7 +54,7 @@ module ROCrate
     end
 
     def context
-      @context || CONTEXT
+      @context || context_url
     end
 
     def context= c
@@ -39,7 +72,7 @@ module ROCrate
         '@id' => IDENTIFIER,
         '@type' => 'CreativeWork',
         'about' => { '@id' => crate.id },
-        'conformsTo' => { '@id' => SPEC }
+        'conformsTo' => { '@id' => spec_url }
       }
     end
   end
