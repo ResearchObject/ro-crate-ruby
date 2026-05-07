@@ -185,7 +185,10 @@ module ROCrate
     def self.initialize_crate(entity_hash, source, crate_class: ROCrate::Crate, context:)
       crate_class.new.tap do |crate|
         crate.properties = entity_hash.delete(ROCrate::Crate::IDENTIFIER)
-        crate.metadata.properties = entity_hash.delete(ROCrate::Metadata::IDENTIFIER)
+        metadata_props = entity_hash.delete(ROCrate::Metadata::IDENTIFIER)
+        crate.metadata.properties = metadata_props
+        parsed_version = extract_version(metadata_props)
+        crate.metadata.version = parsed_version if parsed_version
         crate.metadata.context = context
         preview_properties = entity_hash.delete(ROCrate::Preview::IDENTIFIER)
         preview_path = ::File.join(source, ROCrate::Preview::IDENTIFIER)
@@ -283,6 +286,24 @@ module ROCrate
           entities.delete(ROCrate::Metadata::IDENTIFIER) ||
           entities.delete("./#{ROCrate::Metadata::IDENTIFIER_1_0}") ||
           entities.delete(ROCrate::Metadata::IDENTIFIER_1_0))
+    end
+
+    ##
+    # Extract the spec version from the metadata entity's `conformsTo`.
+    # Looks for an `@id` matching `https://w3id.org/ro/crate/<version>` and returns `<version>`.
+    # @param metadata_props [Hash, nil] The metadata entity's properties.
+    # @return [String, nil] The parsed version string, or nil if not found.
+    def self.extract_version(metadata_props)
+      return nil unless metadata_props
+      conforms = metadata_props['conformsTo']
+      conforms = [conforms] unless conforms.is_a?(Array)
+      conforms.compact.each do |c|
+        id = c.is_a?(Hash) ? c['@id'] : c
+        next unless id&.start_with?(ROCrate::Metadata::RO_CRATE_BASE)
+        version = id.sub(ROCrate::Metadata::RO_CRATE_BASE, '').split('/').first
+        return version if version && !version.empty?
+      end
+      nil
     end
 
     ##

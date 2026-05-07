@@ -27,9 +27,7 @@ module ROCrate
     # @param version [String] RO-Crate spec version to declare (default: ROCrate::Metadata::DEFAULT_VERSION).
     #   Must be one of ROCrate::Metadata::SUPPORTED_VERSIONS.
     def initialize(id = IDENTIFIER, properties = {}, version: ROCrate::Metadata::DEFAULT_VERSION)
-      unless ROCrate::Metadata::SUPPORTED_VERSIONS.include?(version)
-        raise ArgumentError, "Unsupported RO-Crate version: #{version.inspect}. Supported: #{ROCrate::Metadata::SUPPORTED_VERSIONS.join(', ')}"
-      end
+      ROCrate::Metadata.warn_unrecognized_version(version)
       @data_entities = Set.new
       @contextual_entities = Set.new
       @metadata_version = version

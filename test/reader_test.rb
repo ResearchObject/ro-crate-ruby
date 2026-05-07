@@ -400,4 +400,12 @@ class ReaderTest < Test::Unit::TestCase
 
     e
   end
+
+  test 'reads spec 1.1 RO-Crate and preserves version' do
+    crate = ROCrate::Reader.read(fixture_file('crate-spec1.1').path)
+
+    assert_equal '1.1', crate.metadata.version
+    assert_equal 'https://w3id.org/ro/crate/1.1', crate.metadata.spec_url
+    assert_equal 'https://w3id.org/ro/crate/1.1/context', crate.metadata.context_url
+  end
 end

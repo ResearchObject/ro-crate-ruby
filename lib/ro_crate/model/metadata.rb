@@ -14,12 +14,27 @@ module ROCrate
 
     attr_reader :version
 
+    ##
+    # Emit a warning if the given version is not in SUPPORTED_VERSIONS.
+    # Does not raise — unrecognized versions are still accepted so the library
+    # stays forward-compatible with future spec versions that need no changes.
+    def self.warn_unrecognized_version(v)
+      return if SUPPORTED_VERSIONS.include?(v)
+      warn "Unrecognized RO-Crate version: #{v.inspect}. Known versions: #{SUPPORTED_VERSIONS.join(', ')}"
+    end
+
     def initialize(crate, properties = {}, version: DEFAULT_VERSION)
-      unless SUPPORTED_VERSIONS.include?(version)
-        raise ArgumentError, "Unsupported RO-Crate version: #{version.inspect}. Supported: #{SUPPORTED_VERSIONS.join(', ')}"
-      end
+      self.class.warn_unrecognized_version(version)
       @version = version
       super(crate, nil, IDENTIFIER, properties)
+    end
+
+    ##
+    # Update the spec version this metadata declares.
+    # Used by the Reader to preserve the version of a parsed crate.
+    def version=(v)
+      self.class.warn_unrecognized_version(v)
+      @version = v
     end
 
     def context_url
