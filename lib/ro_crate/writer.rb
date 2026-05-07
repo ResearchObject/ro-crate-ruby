@@ -44,7 +44,7 @@ module ROCrate
     # @param destination [String, ::File] The destination where to write the RO-Crate zip.
     # @param skip_preview [Boolean] Whether or not to skip generation of the RO-Crate preview HTML file.
     def write_zip(destination, skip_preview: false)
-      Zip::File.open(destination, Zip::File::CREATE) do |zip|
+      Zip::File.open(destination, create: true) do |zip|
         @crate.payload.each do |path, entry|
           next if entry.directory?
           next if skip_preview && entry&.source.is_a?(ROCrate::PreviewGenerator)
