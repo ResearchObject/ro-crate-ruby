@@ -2,7 +2,7 @@
 
 ![Tests](https://github.com/ResearchObject/ro-crate-ruby/actions/workflows/tests.yml/badge.svg)
 
-This is a WIP gem for creating, manipulating and reading RO-Crates (conforming to version 1.2 of the specification). RO-Crates produced by older versions (1.0, 1.1) of the spec can still be read.
+This is a gem for creating, manipulating and reading RO-Crates (conforming to version 1.2 of the specification). RO-Crates produced by older versions (1.0, 1.1) of the spec can still be read.
 
 * RO-Crate - https://www.researchobject.org/ro-crate/
 * RO-Crate spec (1.2) - https://www.researchobject.org/ro-crate/specification/1.2/
