@@ -395,13 +395,15 @@ class CrateTest < Test::Unit::TestCase
 
   test 'warns but accepts unrecognized spec version' do
     original_stderr = $stderr
-    $stderr = StringIO.new
-    crate = ROCrate::Crate.new(ROCrate::Crate::IDENTIFIER, {}, version: '1.5')
-    err = $stderr.string
-    $stderr = original_stderr
-
-    assert_match(/Unrecognized RO-Crate version/, err)
-    assert_equal '1.5', crate.metadata.version
-    assert_equal 'https://w3id.org/ro/crate/1.5', crate.metadata.spec_url
+    begin
+      $stderr = StringIO.new
+      crate = ROCrate::Crate.new(ROCrate::Crate::IDENTIFIER, {}, version: '1.5')
+      err = $stderr.string
+      assert_match(/Unrecognized RO-Crate version/, err)
+      assert_equal '1.5', crate.metadata.version
+      assert_equal 'https://w3id.org/ro/crate/1.5', crate.metadata.spec_url
+    ensure
+      $stderr = original_stderr
+    end
   end
 end
