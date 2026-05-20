@@ -42,9 +42,9 @@ module ROCrate
     #
     # @param source [#read] An IO-like object containing a Zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
-    def self.unzip_io_to(io, target)
+    def self.unzip_io_to(source, target)
       Dir.chdir(target) do
-        Zip::InputStream.open(io) do |input|
+        Zip::InputStream.open(source) do |input|
           while (entry = input.get_next_entry)
             unless ::File.exist?(entry.name) || entry.name_is_directory?
               FileUtils::mkdir_p(::File.dirname(entry.name))
@@ -60,9 +60,9 @@ module ROCrate
     #
     # @param source [String, ::File, Pathname] The location of the zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
-    def self.unzip_file_to(file_or_path, target)
+    def self.unzip_file_to(source, target)
       Dir.chdir(target) do
-        Zip::File.open(file_or_path) do |zipfile|
+        Zip::File.open(source) do |zipfile|
           zipfile.each do |entry|
             unless ::File.exist?(entry.name)
               FileUtils::mkdir_p(::File.dirname(entry.name))
