@@ -75,7 +75,7 @@ module ROCrate
 
     def list_all_files(source_directory, include_hidden: false)
       flags = include_hidden ? ::File::FNM_DOTMATCH : 0
-      Dir.glob('**/*', flags: flags, base: source_directory).reject do |path|
+      Dir.glob('**/*', flags, base: source_directory).reject do |path|
         path == '.' || path == '..' || path.end_with?('/.')
       end
     end
