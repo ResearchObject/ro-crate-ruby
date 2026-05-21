@@ -386,19 +386,49 @@ class ReaderTest < Test::Unit::TestCase
     assert_equal 'a_file', data.first.name
   end
 
-  private
+  test 'protect against zip-slip' do
+    Dir.mktmpdir do |dir|
+      subdir = ::File.join(dir, 'subdir')
+      ::Dir.mkdir(subdir)
 
-  def check_exception(exception_class)
-    e = nil
-    assert_raise(exception_class) do
+      # Relative
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_file_to(fixture_file('unsafe/relative0.zip').path, subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: ../moo'
+      refute ::File.exist?(::File.join(dir, 'moo'))
+
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_io_to(fixture_file('unsafe/relative0.zip'), subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: ../moo'
+      refute ::File.exist?(::File.join(dir, 'moo'))
+
+      # Absolute
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_file_to(fixture_file('unsafe/absolute1.zip').path, subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
+
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_io_to(fixture_file('unsafe/absolute1.zip'), subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
+
+      # Simulate ArgumentError in safe_join
       begin
-        yield
-      rescue exception_class => e
-        raise e
+        original_expand_path = Pathname.instance_method(:expand_path)
+        Pathname.define_method(:expand_path) do |*args|
+          raise ArgumentError, 'Oh no'
+        end
+        e = check_exception(ROCrate::ReadException) do
+          ROCrate::Reader.unzip_file_to(fixture_file('unsafe/absolute1.zip').path, subdir)
+        end
+        assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
+      ensure
+        Pathname.define_method(:expand_path, original_expand_path)
       end
     end
-
-    e
   end
 
   test 'reads spec 1.1 RO-Crate and preserves version' do

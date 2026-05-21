@@ -1,7 +1,11 @@
+require 'zip/version'
+
 module ROCrate
   ##
   # A class to handle reading of RO-Crates from Zip files or directories.
   class Reader
+    LEGACY_EXTRACT = Zip::VERSION.start_with?('2.').freeze
+
     ##
     # Reads an RO-Crate from a directory or zip file.
     #
@@ -42,15 +46,15 @@ module ROCrate
     #
     # @param source [#read] An IO-like object containing a Zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
-    def self.unzip_io_to(io, target)
-      Dir.chdir(target) do
-        Zip::InputStream.open(io) do |input|
-          while (entry = input.get_next_entry)
-            unless ::File.exist?(entry.name) || entry.name_is_directory?
-              FileUtils::mkdir_p(::File.dirname(entry.name))
-              ::File.binwrite(entry.name, input.read)
-            end
-          end
+    def self.unzip_io_to(source, target)
+      target_path = Pathname(target)
+      Zip::InputStream.open(source) do |input|
+        while (entry = input.get_next_entry)
+          next if entry.name_is_directory?
+          dest = safe_join(target_path, entry.name)
+          next if dest.exist?
+          FileUtils.mkdir_p(dest.dirname)
+          ::File.binwrite(dest, input.read)
         end
       end
     end
@@ -60,15 +64,14 @@ module ROCrate
     #
     # @param source [String, ::File, Pathname] The location of the zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
-    def self.unzip_file_to(file_or_path, target)
-      Dir.chdir(target) do
-        Zip::File.open(file_or_path) do |zipfile|
-          zipfile.each do |entry|
-            unless ::File.exist?(entry.name)
-              FileUtils::mkdir_p(::File.dirname(entry.name))
-              zipfile.extract(entry, entry.name)
-            end
-          end
+    def self.unzip_file_to(source, target)
+      target_path = Pathname(target)
+      Zip::File.open(source) do |zipfile|
+        zipfile.each do |entry|
+          dest = safe_join(target_path, entry.name)
+          next if dest.exist?
+          FileUtils.mkdir_p(dest.dirname)
+          LEGACY_EXTRACT ? entry.extract(dest) : entry.extract(entry.name, destination_directory: target_path)
         end
       end
     end
@@ -344,6 +347,29 @@ module ROCrate
       end
 
       nil
+    end
+
+    ##
+    # Safely joins a desired file path onto a base directory, raising an exception if the path attempts to traverse
+    # outside it.
+    #
+    # @param base [Pathname] The base directory where the file will go.
+    # @param path [String] The desired file path.
+    #
+    # @raise [ROCrate::ReadException] Raised if an unsafe path is given.
+    #
+    # @return [Pathname] The safely joined base + path.
+    def self.safe_join(base, path)
+      dest = base.join(path)
+      # Guard against zip-slip attacks.
+      begin
+        unsafe = dest.expand_path.relative_path_from(base.expand_path).each_filename.first == '..'
+      rescue ArgumentError # Handle unjoinable paths, e.g. on different drives.
+        unsafe = true
+      end
+      raise ROCrate::ReadException, "Unsafe path in zip entry: #{path}" if unsafe
+
+      dest
     end
   end
 end

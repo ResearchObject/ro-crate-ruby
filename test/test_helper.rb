@@ -5,10 +5,37 @@ require 'test/unit'
 require 'ro_crate'
 require 'webmock/test_unit'
 
+class Test::Unit::TestCase
+  def teardown
+    self._opened_files.each do |f|
+      f.close unless f.closed?
+    end
+  end
+
+  def _opened_files
+    @opened_files ||= []
+  end
+end
+
 def fixture_file(name, *args)
-  ::File.open(::File.join(fixture_dir, name), *args)
+  f = ::File.open(::File.join(fixture_dir, name), *args)
+  self._opened_files << f
+  f
 end
 
 def fixture_dir
   ::File.join(::File.dirname(__FILE__), 'fixtures')
+end
+
+def check_exception(exception_class)
+  e = nil
+  assert_raise(exception_class) do
+    begin
+      yield
+    rescue exception_class => e
+      raise e
+    end
+  end
+
+  e
 end
