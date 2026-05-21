@@ -362,7 +362,13 @@ module ROCrate
     def self.safe_join(base, path)
       dest = base.join(path)
       # Guard against zip-slip attacks.
-      raise ROCrate::ReadException, "Unsafe path in zip entry: #{path}" if dest.relative_path_from(base).each_filename.first == '..'
+      begin
+        unsafe = dest.expand_path.relative_path_from(base.expand_path).each_filename.first == '..'
+      rescue ArgumentError # Handle unjoinable paths, e.g. on different drives.
+        unsafe = true
+      end
+      raise ROCrate::ReadException, "Unsafe path in zip entry: #{path}" if unsafe
+
       dest
     end
   end

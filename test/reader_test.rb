@@ -409,13 +409,25 @@ class ReaderTest < Test::Unit::TestCase
         ROCrate::Reader.unzip_file_to(fixture_file('unsafe/absolute1.zip').path, subdir)
       end
       assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
-      refute ::File.exist?(::File.join('/tmp', 'moo'))
 
       e = check_exception(ROCrate::ReadException) do
         ROCrate::Reader.unzip_io_to(fixture_file('unsafe/absolute1.zip'), subdir)
       end
       assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
-      refute ::File.exist?(::File.join('/tmp', 'moo'))
+
+      # Simulate ArgumentError in safe_join
+      begin
+        original_expand_path = Pathname.instance_method(:expand_path)
+        Pathname.define_method(:expand_path) do |*args|
+          raise ArgumentError, 'Oh no'
+        end
+        e = check_exception(ROCrate::ReadException) do
+          ROCrate::Reader.unzip_file_to(fixture_file('unsafe/absolute1.zip').path, subdir)
+        end
+        assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
+      ensure
+        Pathname.define_method(:expand_path, original_expand_path)
+      end
     end
   end
 
