@@ -5,12 +5,16 @@ require 'test/unit'
 require 'ro_crate'
 require 'webmock/test_unit'
 
-def teardown
-  self._opened_files.each(&:close)
-end
+class Test::Unit::TestCase
+  def teardown
+    self._opened_files.each do |f|
+      f.close unless f.closed?
+    end
+  end
 
-def _opened_files
-  @opened_files ||= []
+  def _opened_files
+    @opened_files ||= []
+  end
 end
 
 def fixture_file(name, *args)
