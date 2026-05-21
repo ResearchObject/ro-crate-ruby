@@ -47,11 +47,11 @@ module ROCrate
     # @param source [#read] An IO-like object containing a Zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
     def self.unzip_io_to(source, target)
-      target = Pathname(target)
+      target_path = Pathname(target)
       Zip::InputStream.open(source) do |input|
         while (entry = input.get_next_entry)
           next if entry.name_is_directory?
-          dest = target.join(entry.name)
+          dest = safe_join(target_path, entry.name)
           next if dest.exist?
           FileUtils.mkdir_p(dest.dirname)
           ::File.binwrite(dest, input.read)
@@ -65,14 +65,13 @@ module ROCrate
     # @param source [String, ::File, Pathname] The location of the zip file.
     # @param target [String, ::File, Pathname] The target directory where the file should be unzipped.
     def self.unzip_file_to(source, target)
-      target = Pathname(target)
+      target_path = Pathname(target)
       Zip::File.open(source) do |zipfile|
         zipfile.each do |entry|
-          next if entry.name_is_directory?
-          dest = target.join(entry.name)
+          dest = safe_join(target_path, entry.name)
           next if dest.exist?
           FileUtils.mkdir_p(dest.dirname)
-          LEGACY_EXTRACT ? entry.extract(dest) : entry.extract(entry.name, destination_directory: target)
+          LEGACY_EXTRACT ? entry.extract(dest) : entry.extract(entry.name, destination_directory: target_path)
         end
       end
     end
@@ -348,6 +347,23 @@ module ROCrate
       end
 
       nil
+    end
+
+    ##
+    # Safely joins a desired file path onto a base directory, raising an exception if the path attempts to traverse
+    # outside it.
+    #
+    # @param base [Pathname] The base directory where the file will go.
+    # @param path [String] The desired file path.
+    #
+    # @raise [ROCrate::ReadException] Raised if an unsafe path is given.
+    #
+    # @return [Pathname] The safely joined base + path.
+    def self.safe_join(base, path)
+      dest = base.join(path)
+      # Guard against zip-slip attacks.
+      raise ROCrate::ReadException, "Unsafe path in zip entry: #{path}" if dest.relative_path_from(base).each_filename.first == '..'
+      dest
     end
   end
 end

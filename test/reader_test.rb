@@ -386,6 +386,39 @@ class ReaderTest < Test::Unit::TestCase
     assert_equal 'a_file', data.first.name
   end
 
+  test 'protect against zip-slip' do
+    Dir.mktmpdir do |dir|
+      subdir = ::File.join(dir, 'subdir')
+      ::Dir.mkdir(subdir)
+
+      # Relative
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_file_to(fixture_file('unsafe/relative0.zip').path, subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: ../moo'
+      refute ::File.exist?(::File.join(dir, 'moo'))
+
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_io_to(fixture_file('unsafe/relative0.zip'), subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: ../moo'
+      refute ::File.exist?(::File.join(dir, 'moo'))
+
+      # Absolute
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_file_to(fixture_file('unsafe/absolute1.zip').path, subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
+      refute ::File.exist?(::File.join('/tmp', 'moo'))
+
+      e = check_exception(ROCrate::ReadException) do
+        ROCrate::Reader.unzip_io_to(fixture_file('unsafe/absolute1.zip'), subdir)
+      end
+      assert_include e.message, 'Unsafe path in zip entry: /tmp/moo'
+      refute ::File.exist?(::File.join('/tmp', 'moo'))
+    end
+  end
+
   private
 
   def check_exception(exception_class)
