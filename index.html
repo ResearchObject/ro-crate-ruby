@@ -6,13 +6,13 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "README";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -57,69 +59,47 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'>
-<h1 id="label-ro-crate-ruby">ro-crate-ruby</h1>
-
-<p><img src="https://github.com/ResearchObject/ro-crate-ruby/actions/workflows/tests.yml/badge.svg"></p>
-
-<p>This is a WIP gem for creating, manipulating and reading RO-Crates (conforming to version 1.1 of the specification).</p>
-<ul><li>
-<p>RO-Crate - <a href="https://researchobject.github.io/ro-crate">researchobject.github.io/ro-crate</a>/</p>
-</li><li>
-<p>RO-Crate spec (1.1) - <a href="https://researchobject.github.io/ro-crate/1.1">researchobject.github.io/ro-crate/1.1</a>/</p>
-</li></ul>
-
-<h2 id="label-Installation">Installation</h2>
-
+      <div id="content"><div id='filecontents'><h1 id="ro_crate_ruby">ro-crate-ruby</h1>
+<p><img src="https://github.com/ResearchObject/ro-crate-ruby/actions/workflows/tests.yml/badge.svg" alt="Tests" /></p>
+<p>This is a WIP gem for creating, manipulating and reading RO-Crates (conforming to version 1.2 of the specification). RO-Crates produced by older versions (1.0, 1.1) of the spec can still be read.</p>
+<ul>
+<li>RO-Crate - <a href="https://www.researchobject.org/ro-crate/">https://www.researchobject.org/ro-crate/</a></li>
+<li>RO-Crate spec (1.2) - <a href="https://www.researchobject.org/ro-crate/specification/1.2/">https://www.researchobject.org/ro-crate/specification/1.2/</a></li>
+</ul>
+<h2 id="Installation">Installation</h2>
 <p>Using bundler, add the following to your Gemfile:</p>
-
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ro-crate</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
-
 <p>and run <code>bundle install</code>.</p>
-
-<h2 id="label-Usage">Usage</h2>
-
-<p>This gem consists a hierarchy of classes to model RO-Crate “entities”: the crate itself, data entities (files and directory) and contextual entities (with a limited set of specializations, such as <code>ROCrate::Person</code>). They are all descendents of the <code>ROCrate::Entity</code> class, with the <code>ROCrate::Crate</code> class representing the crate itself.</p>
-
+<h2 id="Usage">Usage</h2>
+<p>This gem consists a hierarchy of classes to model RO-Crate &quot;entities&quot;: the crate itself, data entities
+(files and directory) and contextual entities (with a limited set of specializations, such as <code>ROCrate::Person</code>).
+They are all descendents of the <code>ROCrate::Entity</code> class, with the <code>ROCrate::Crate</code> class representing the crate itself.</p>
 <p>The <code>ROCrate::Reader</code> class handles reading of RO-Crates into the above model, from a Zip file or directory.</p>
-
 <p>The <code>ROCrate::Writer</code> class can write out an <code>ROCrate::Crate</code> instance into a Zip file or directory.</p>
-
-<p><strong>Note:</strong> for performance reasons, the gem is currently not linked-data aware and will allow you to set properties that are not semantically valid.</p>
-
-<h3 id="label-Entities">Entities</h3>
-
-<p>Entities correspond to entries in the <code>@graph</code> of the RO-Crate’s metadata JSON-LD file. Each entity class is basically a wrapper around a set of JSON properties, with some convenience methods for getting/setting some commonly used properties (<code>crate.name = &quot;My first crate&quot;</code>).</p>
-
-<p>These convenience getter/setter methods will automatically handle turning objects into references and adding them to the <code>@graph</code> if necessary.</p>
-
-<h5 id="label-Getting-2FSetting+Arbitrary+Properties+of+Entities">Getting/Setting Arbitrary Properties of Entities</h5>
-
+<p><strong>Note:</strong> for performance reasons, the gem is currently not linked-data aware and will allow you to set properties that
+are not semantically valid.</p>
+<h3 id="Entities">Entities</h3>
+<p>Entities correspond to entries in the <code>@graph</code> of the RO-Crate's metadata JSON-LD file. Each entity class is
+basically a wrapper around a set of JSON properties, with some convenience methods for getting/setting some
+commonly used properties (<code>crate.name = &quot;My first crate&quot;</code>).</p>
+<p>These convenience getter/setter methods will automatically handle turning objects into references and adding them to the
+<code>@graph</code> if necessary.</p>
+<h5 id="Getting_Setting_Arbitrary_Properties_of_Entities">Getting/Setting Arbitrary Properties of Entities</h5>
 <p>As well as using the pre-defined getter/setter methods, you can get/set arbitrary properties like so.</p>
-
-<p>To set the “creativeWorkStatus” property of the RO-Crate itself to a string literal:</p>
-
+<p>To set the &quot;creativeWorkStatus&quot; property of the RO-Crate itself to a string literal:</p>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_crate'>crate</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>creativeWorkStatus</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>work-in-progress</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
-
 <p>If you want to reference other entities in the crate, you can get a JSON-LD reference from an entity object by using the <code>reference</code> method:</p>
-
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_joe'>joe</span> <span class='op'>=</span> <span class='id identifier rubyid_crate'>crate</span><span class='period'>.</span><span class='id identifier rubyid_add_person'>add_person</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>joe</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Joe Bloggs</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'># Add the entity to the @graph
 </span><span class='id identifier rubyid_crate'>crate</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>copyrightHolder</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_joe'>joe</span><span class='period'>.</span><span class='id identifier rubyid_reference'>reference</span> <span class='comment'># Reference the entity from the &quot;copyrightHolder&quot; property
 </span></code></pre>
-
 <p>and to resolve those references back to the object, use the <code>dereference</code> method:</p>
-
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_joe'>joe</span> <span class='op'>=</span> <span class='id identifier rubyid_crate'>crate</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>copyrightHolder</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_dereference'>dereference</span>
 </code></pre>
-
-<h3 id="label-Documentation">Documentation</h3>
-
+<h3 id="Documentation">Documentation</h3>
 <p><a href="https://www.researchobject.org/ro-crate-ruby/">Click here for API documentation</a>.</p>
-
-<h3 id="label-Examples">Examples</h3>
-
+<h3 id="Examples">Examples</h3>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ro_crate</span><span class='tstring_end'>&#39;</span></span>
 
 <span class='comment'># Make a new crate
@@ -154,17 +134,13 @@
 <span class='comment'># Write it back
 </span><span class='const'><span class='object_link'><a href="ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ROCrate/Writer.html" title="ROCrate::Writer (class)">Writer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ROCrate/Writer.html#initialize-instance_method" title="ROCrate::Writer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_write'><span class='object_link'><a href="ROCrate/Writer.html#write-instance_method" title="ROCrate::Writer#write (method)">write</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>./an_ro_crate_directory</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 </code></pre>
-
-<h3 id="label-RO-Crate+Preview">RO-Crate Preview</h3>
-
-<p>A simple HTML preview page is generated when an RO-Crate is written, containing a list of the crate’s contents and some metadata. This preview is written to <code>ro-crate-preview.html</code> at the root of the RO-Crate.</p>
-
+<h3 id="RO_Crate_Preview">RO-Crate Preview</h3>
+<p>A simple HTML preview page is generated when an RO-Crate is written, containing a list of the crate's contents and some
+metadata. This preview is written to <code>ro-crate-preview.html</code> at the root of the RO-Crate.</p>
 <p>The default template can be seen here <a href="lib/ro_crate/ro-crate-preview.html.erb">here</a>.</p>
-
-<p>You can customize this preview by providing your own ERB file. The ERB file is evaluated using the <code>ROCrate::Crate</code> instance’s <code>binding</code>.</p>
-
-<h4 id="label-Example">Example</h4>
-
+<p>You can customize this preview by providing your own ERB file.
+The ERB file is evaluated using the <code>ROCrate::Crate</code> instance's <code>binding</code>.</p>
+<h4 id="Example">Example</h4>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_crate'>crate</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ROCrate/Crate.html" title="ROCrate::Crate (class)">Crate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ROCrate/Crate.html#initialize-instance_method" title="ROCrate::Crate#initialize (method)">new</a></span></span>
 
 <span class='comment'># ... add stuff to the crate
@@ -174,13 +150,12 @@
 
 <span class='comment'># Write it
 </span><span class='const'><span class='object_link'><a href="ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ROCrate/Writer.html" title="ROCrate::Writer (class)">Writer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ROCrate/Writer.html#initialize-instance_method" title="ROCrate::Writer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_crate'>crate</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_write'><span class='object_link'><a href="ROCrate/Writer.html#write-instance_method" title="ROCrate::Writer#write (method)">write</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>./an_ro_crate_directory</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-</code></pre>
-</div></div>
+</code></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Jan 30 15:45:38 2025 by
+  Generated on Thu May 21 10:56:27 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.2.5).
+  0.9.43 (ruby-3.4.9).
 </div>
 
     </div>

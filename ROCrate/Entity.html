@@ -6,13 +6,13 @@
 <title>
   Class: ROCrate::Entity
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "ROCrate::Entity";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/ro_crate/model/entity.rb</dd>
+    <dd>lib/ro_crate/model/entity.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>A generic “Entity” within an RO-Crate. It has an identifier and a set of properties, and will be referenced in the RO-Crate Metadata’s @graph.</p>
-
+    <p>A generic &quot;Entity&quot; within an RO-Crate. It has an identifier and a set of properties, and will be referenced in the
+RO-Crate Metadata's @graph.</p>
 
   </div>
 </div>
@@ -143,9 +145,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute crate.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute crate.</p></div></span>
   
 </li>
 
@@ -170,9 +170,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute properties.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute properties.</p></div></span>
   
 </li>
 
@@ -207,9 +205,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Format the given ID with rules appropriate for this type if it is local/relative, leave as-is if absolute.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Format the given ID with rules appropriate for this type if it is local/relative, leave as-is if absolute.</p></div></span>
   
 </li>
 
@@ -231,9 +227,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Format the given local ID with rules appropriate for this type.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Format the given local ID with rules appropriate for this type.</p></div></span>
   
 </li>
 
@@ -255,14 +249,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Define Ruby-style getters/setters for the given list of properties.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Define Ruby-style getters/setters for the given list of properties.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -354,9 +347,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Automatically replace references to entities (e.g. ‘{ ’@id’ : ‘#something’ }‘) with the Entity object itself.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Automatically replace references to entities (e.g. <code>{ '@id' : '#something' }</code>) with the Entity object itself.</p></div></span>
   
 </li>
 
@@ -378,9 +369,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Automatically replace an Entity or Array of Entities with a reference or Array of references.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Automatically replace an Entity or Array of Entities with a reference or Array of references.</p></div></span>
   
 </li>
 
@@ -402,9 +391,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The “canonical”, global ID of this entity relative to the canonical ID of the crate.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The &quot;canonical&quot;, global ID of this entity relative to the canonical ID of the crate.</p></div></span>
   
 </li>
 
@@ -426,9 +413,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Remove this entity from the RO-Crate.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Remove this entity from the RO-Crate.</p></div></span>
   
 </li>
 
@@ -452,9 +437,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Lookup an Entity using the given ID (in this Entity’s crate).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Lookup an Entity using the given ID (in this Entity's crate).</p></div></span>
   
 </li>
 
@@ -498,9 +481,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Is this entity local to the crate or an external reference?.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Is this entity local to the crate or an external reference?.</p></div></span>
   
 </li>
 
@@ -522,9 +503,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A safe way of checking if the Entity has the given type, regardless of whether the Entity has a single, or Array of types.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A safe way of checking if the Entity has the given type, regardless of whether the Entity has a single, or Array of types.</p></div></span>
   
 </li>
 
@@ -614,9 +593,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Create a new Entity.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Create a new Entity.</p></div></span>
   
 </li>
 
@@ -660,9 +637,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gather a list of entities linked to this one through its properties.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gather a list of entities linked to this one through its properties.</p></div></span>
   
 </li>
 
@@ -706,9 +681,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Return a JSON-LD style reference: { ‘@id’ : ‘#an-entity’ } for this Entity.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Return a JSON-LD style reference: { '@id' : '#an-entity' } for this Entity.</p></div></span>
   
 </li>
 
@@ -780,6 +753,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -796,9 +770,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Create a new Entity.</p>
-
+    <p>Create a new Entity.</p>
 
   </div>
 </div>
@@ -816,9 +788,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The crate that owns this Entity.</p>
-</div>
+        <div class='inline'><p>The crate that owns this Entity.</p></div>
       
     </li>
   
@@ -834,9 +804,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>An ID to identify this Entity, or blank to auto-generate an appropriate one, (or determine via the properties param)</p>
-</div>
+        <div class='inline'><p>An ID to identify this Entity, or blank to auto-generate an appropriate one,
+(or determine via the properties param)</p></div>
       
     </li>
   
@@ -852,9 +821,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>A hash of JSON-LD properties to associate with this entity.</p>
-</div>
+        <div class='inline'><p>A hash of JSON-LD properties to associate with this entity.</p></div>
       
     </li>
   
@@ -904,9 +871,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute crate.</p>
-
+    <p>Returns the value of attribute crate.</p>
 
   </div>
 </div>
@@ -947,9 +912,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute properties.</p>
-
+    <p>Returns the value of attribute properties.</p>
 
   </div>
 </div>
@@ -995,9 +958,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Format the given ID with rules appropriate for this type if it is local/relative, leave as-is if absolute.</p>
-
+    <p>Format the given ID with rules appropriate for this type if it is local/relative, leave as-is if absolute.</p>
 
   </div>
 </div>
@@ -1015,9 +976,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The candidate ID to be formatted.</p>
-</div>
+        <div class='inline'><p>The candidate ID to be formatted.</p></div>
       
     </li>
   
@@ -1034,9 +993,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The formatted ID.</p>
-</div>
+        <div class='inline'><p>The formatted ID.</p></div>
       
     </li>
   
@@ -1094,14 +1051,13 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Format the given local ID with rules appropriate for this type. For example:</p>
-
-<pre class="code ruby"><code class="ruby">* contextual entities MUST be absolute URIs, or begin with: #
-* files MUST NOT begin with ./
-* directories MUST NOT begin with ./ (except for the crate itself), and MUST end with /
-</code></pre>
-
+    <p>Format the given local ID with rules appropriate for this type.
+For example:</p>
+<ul>
+<li>contextual entities MUST be absolute URIs, or begin with: #</li>
+<li>files MUST NOT begin with ./</li>
+<li>directories MUST NOT begin with ./ (except for the crate itself), and MUST end with /</li>
+</ul>
 
   </div>
 </div>
@@ -1119,9 +1075,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The candidate local ID to be formatted.</p>
-</div>
+        <div class='inline'><p>The candidate local ID to be formatted.</p></div>
       
     </li>
   
@@ -1138,9 +1092,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The formatted local ID.</p>
-</div>
+        <div class='inline'><p>The formatted local ID.</p></div>
       
     </li>
   
@@ -1188,9 +1140,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Define Ruby-style getters/setters for the given list of properties. The getters/setters will have underscored names, and will automatically reference/dereference entities within the crate using their ‘@id`.</p>
-
+    <p>Define Ruby-style getters/setters for the given list of properties.
+The getters/setters will have underscored names, and will automatically reference/dereference entities within the
+crate using their <code>@id</code>.</p>
 
   </div>
 </div>
@@ -1355,9 +1307,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Automatically replace references to entities (e.g. ‘{ ’@id’ : ‘#something’ }‘) with the Entity object itself.</p>
-
+    <p>Automatically replace references to entities (e.g. <code>{ '@id' : '#something' }</code>) with the Entity object itself.</p>
 
   </div>
 </div>
@@ -1375,9 +1325,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>A value that may be reference or array of references.</p>
-</div>
+        <div class='inline'><p>A value that may be reference or array of references.</p></div>
       
     </li>
   
@@ -1394,9 +1342,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Return an Entity, Array of Entities, or just the object itself if it wasn’t a reference after all.</p>
-</div>
+        <div class='inline'><p>Return an Entity, Array of Entities, or just the object itself if
+it wasn't a reference after all.</p></div>
       
     </li>
   
@@ -1452,9 +1399,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Automatically replace an Entity or Array of Entities with a reference or Array of references. Also associates the Entity/Entities with the current crate. This is useful for maintaining the flat @graph of entities that the RO-Crate metadata file requires.</p>
-
+    <p>Automatically replace an Entity or Array of Entities with a reference or Array of references. Also associates
+the Entity/Entities with the current crate. This is useful for maintaining the flat @graph of entities that the
+RO-Crate metadata file requires.</p>
 
   </div>
 </div>
@@ -1472,9 +1419,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>A value that may be reference or array of references.</p>
-</div>
+        <div class='inline'><p>A value that may be reference or array of references.</p></div>
       
     </li>
   
@@ -1491,9 +1436,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Return a reference, Array of references, or just the object itself if it wasn’t an Entity after all.</p>
-</div>
+        <div class='inline'><p>Return a reference, Array of references, or just the object itself if
+it wasn't an Entity after all.</p></div>
       
     </li>
   
@@ -1553,26 +1497,17 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The “canonical”, global ID of this entity relative to the canonical ID of the crate.</p>
-
+    <p>The &quot;canonical&quot;, global ID of this entity relative to the canonical ID of the crate.</p>
 <p>In the case that the crate does not have an absolute URI as its ID, it will appear something like this:</p>
-
 <pre class="code ruby"><code class="ruby">arcp://uuid,b3d6fa2b-4e49-43ba-bd89-464e948b7f0c/foo - where `foo` is the local ID of this entity.
 </code></pre>
-
 <p>If the crate does have an absolute URI, it will appear relative to that e.g.:</p>
-
 <pre class="code ruby"><code class="ruby">http://mycoolcrate.info/foo - where `foo` is the local ID of this entity.
 </code></pre>
-
 <p>If the entity itself has an absolute URI, that will be used e.g.:</p>
-
 <pre class="code ruby"><code class="ruby">http://website.com/foo.txt - where `http://website.com/foo.txt ` is the local ID of this entity.
 </code></pre>
-
 <p>This is used, for example, to compare equality of two entities.</p>
-
 
   </div>
 </div>
@@ -1624,9 +1559,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Remove this entity from the RO-Crate.</p>
-
+    <p>Remove this entity from the RO-Crate.</p>
 
   </div>
 </div>
@@ -1646,9 +1579,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Should linked contextual entities also be removed from the crate (if nothing else is linked to them)?</p>
-</div>
+        <div class='inline'><p>Should linked contextual entities also be removed from the crate (if nothing else is linked to them)?</p></div>
       
     </li>
   
@@ -1665,9 +1596,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>This entity, or nil if nothing was deleted.</p>
-</div>
+        <div class='inline'><p>This entity, or nil if nothing was deleted.</p></div>
       
     </li>
   
@@ -1709,9 +1638,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Lookup an Entity using the given ID (in this Entity’s crate).</p>
-
+    <p>Lookup an Entity using the given ID (in this Entity's crate).</p>
 
   </div>
 </div>
@@ -1729,9 +1656,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The ID to query.</p>
-</div>
+        <div class='inline'><p>The ID to query.</p></div>
       
     </li>
   
@@ -1837,9 +1762,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Is this entity local to the crate or an external reference?</p>
-
+    <p>Is this entity local to the crate or an external reference?</p>
 
   </div>
 </div>
@@ -1891,9 +1814,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>A safe way of checking if the Entity has the given type, regardless of whether the Entity has a single, or Array of types. Does not check superclasses etc.</p>
-
+    <p>A safe way of checking if the Entity has the given type, regardless of whether the Entity has a single, or Array of types.
+Does not check superclasses etc.</p>
 
   </div>
 </div>
@@ -1911,9 +1833,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The type to check, e.g. “File”.</p>
-</div>
+        <div class='inline'><p>The type to check, e.g. &quot;File&quot;.</p></div>
       
     </li>
   
@@ -2091,9 +2011,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gather a list of entities linked to this one through its properties.</p>
-
+    <p>Gather a list of entities linked to this one through its properties.</p>
 
   </div>
 </div>
@@ -2113,9 +2031,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>If false, only consider direct links, otherwise consider transitive links.</p>
-</div>
+        <div class='inline'><p>If false, only consider direct links, otherwise consider transitive links.</p></div>
       
     </li>
   
@@ -2131,9 +2047,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Discovered entities, mapped by their ID, to avoid loops when recursing.</p>
-</div>
+        <div class='inline'><p>Discovered entities, mapped by their ID, to avoid loops when recursing.</p></div>
       
     </li>
   
@@ -2255,9 +2169,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Return a JSON-LD style reference: { ‘@id’ : ‘#an-entity’ } for this Entity.</p>
-
+    <p>Return a JSON-LD style reference: { '@id' : '#an-entity' } for this Entity.</p>
 
   </div>
 </div>
@@ -2393,9 +2305,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 30 15:45:39 2025 by
+  Generated on Thu May 21 10:56:28 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.2.5).
+  0.9.43 (ruby-3.4.9).
 </div>
 
     </div>

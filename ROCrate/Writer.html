@@ -6,13 +6,13 @@
 <title>
   Class: ROCrate::Writer
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "ROCrate::Writer";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/ro_crate/writer.rb</dd>
+    <dd>lib/ro_crate/writer.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>A class to handle writing of RO-Crates to Zip files or directories.</p>
-
+    <p>A class to handle writing of RO-Crates to Zip files or directories.</p>
 
   </div>
 </div>
@@ -144,9 +145,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Initialize a new Writer for the given Crate.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Initialize a new Writer for the given Crate.</p></div></span>
   
 </li>
 
@@ -168,9 +167,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Write the crate to a directory.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Write the crate to a directory.</p></div></span>
   
 </li>
 
@@ -192,14 +189,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Write the crate to a zip file.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Write the crate to a zip file.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -216,9 +212,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Initialize a new Writer for the given Crate.</p>
-
+    <p>Initialize a new Writer for the given Crate.</p>
 
   </div>
 </div>
@@ -236,9 +230,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The RO-Crate to be written.</p>
-</div>
+        <div class='inline'><p>The RO-Crate to be written.</p></div>
       
     </li>
   
@@ -284,9 +276,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Write the crate to a directory.</p>
-
+    <p>Write the crate to a directory.</p>
 
   </div>
 </div>
@@ -304,9 +294,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>A path for the directory for the crate to be written to. All parent directories will be created.</p>
-</div>
+        <div class='inline'><p>A path for the directory for the crate to be written to. All parent directories will be created.</p></div>
       
     </li>
   
@@ -322,9 +310,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Whether or not to overwrite existing files.</p>
-</div>
+        <div class='inline'><p>Whether or not to overwrite existing files.</p></div>
       
     </li>
   
@@ -340,9 +326,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Whether or not to skip generation of the RO-Crate preview HTML file.</p>
-</div>
+        <div class='inline'><p>Whether or not to skip generation of the RO-Crate preview HTML file.</p></div>
       
     </li>
   
@@ -419,9 +403,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Write the crate to a zip file.</p>
-
+    <p>Write the crate to a zip file.</p>
 
   </div>
 </div>
@@ -439,9 +421,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The destination where to write the RO-Crate zip.</p>
-</div>
+        <div class='inline'><p>The destination where to write the RO-Crate zip.</p></div>
       
     </li>
   
@@ -457,9 +437,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Whether or not to skip generation of the RO-Crate preview HTML file.</p>
-</div>
+        <div class='inline'><p>Whether or not to skip generation of the RO-Crate preview HTML file.</p></div>
       
     </li>
   
@@ -490,7 +468,7 @@
       <pre class="code"><span class="info file"># File 'lib/ro_crate/writer.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write_zip'>write_zip</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='label'>skip_preview:</span> <span class='kw'>false</span><span class='rparen'>)</span>
-  <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='op'>::</span><span class='const'>CREATE</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_zip'>zip</span><span class='op'>|</span>
+  <span class='const'>Zip</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='label'>create:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_zip'>zip</span><span class='op'>|</span>
     <span class='ivar'>@crate</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
       <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span>
       <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_skip_preview'>skip_preview</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_entry'>entry</span><span class='op'>&amp;.</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ROCrate.html" title="ROCrate (module)">ROCrate</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PreviewGenerator.html" title="ROCrate::PreviewGenerator (class)">PreviewGenerator</a></span></span><span class='rparen'>)</span>
@@ -512,9 +490,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 30 15:45:39 2025 by
+  Generated on Thu May 21 10:56:27 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.2.5).
+  0.9.43 (ruby-3.4.9).
 </div>
 
     </div>
