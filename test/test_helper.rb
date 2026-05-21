@@ -22,3 +22,16 @@ end
 def fixture_dir
   ::File.join(::File.dirname(__FILE__), 'fixtures')
 end
+
+def check_exception(exception_class)
+  e = nil
+  assert_raise(exception_class) do
+    begin
+      yield
+    rescue exception_class => e
+      raise e
+    end
+  end
+
+  e
+end

@@ -431,21 +431,6 @@ class ReaderTest < Test::Unit::TestCase
     end
   end
 
-  private
-
-  def check_exception(exception_class)
-    e = nil
-    assert_raise(exception_class) do
-      begin
-        yield
-      rescue exception_class => e
-        raise e
-      end
-    end
-
-    e
-  end
-
   test 'reads spec 1.1 RO-Crate and preserves version' do
     crate = ROCrate::Reader.read(fixture_file('crate-spec1.1').path)
 
