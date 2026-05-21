@@ -51,14 +51,8 @@ module ROCrate
       Zip::InputStream.open(source) do |input|
         while (entry = input.get_next_entry)
           next if entry.name_is_directory?
-
           dest = target.join(entry.name)
-
-          # Guard against zip slip attacks, even though Rubyzip should block them.
-          raise "Unsafe path in zip entry: #{entry.name}" unless dest.to_s.start_with?(::File.realpath(target) + ::File::SEPARATOR)
-
           next if dest.exist?
-
           FileUtils.mkdir_p(dest.dirname)
           ::File.binwrite(dest, input.read)
         end
@@ -74,13 +68,9 @@ module ROCrate
       target = Pathname(target)
       Zip::File.open(source) do |zipfile|
         zipfile.each do |entry|
+          next if entry.name_is_directory?
           dest = target.join(entry.name)
-
-          # Guard against zip slip attacks, even though Rubyzip should block them.
-          raise "Unsafe path in zip entry: #{entry.name}" unless dest.to_s.start_with?(::File.realpath(target) + ::File::SEPARATOR)
-
           next if dest.exist?
-
           FileUtils.mkdir_p(dest.dirname)
           LEGACY_EXTRACT ? entry.extract(dest) : entry.extract(entry.name, destination_directory: target)
         end
