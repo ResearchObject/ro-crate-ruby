@@ -6,8 +6,8 @@ module ROCrate
     IDENTIFIER_1_0 = 'ro-crate-metadata.jsonld'.freeze # 1.0 spec identifier
     RO_CRATE_BASE = 'https://w3id.org/ro/crate/'
 
-    SUPPORTED_VERSIONS = %w[1.0 1.0-DRAFT 1.1 1.1-DRAFT 1.2 1.2-DRAFT].freeze
-    DEFAULT_VERSION = '1.2'.freeze
+    SUPPORTED_VERSIONS = %w[1.0 1.0-DRAFT 1.1 1.1-DRAFT 1.2 1.2-DRAFT 1.3].freeze
+    DEFAULT_VERSION = '1.3'.freeze
 
     CONTEXT = "#{RO_CRATE_BASE}#{DEFAULT_VERSION}/context".freeze
     SPEC = "#{RO_CRATE_BASE}#{DEFAULT_VERSION}".freeze

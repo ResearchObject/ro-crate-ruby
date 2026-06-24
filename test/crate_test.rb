@@ -378,12 +378,12 @@ class CrateTest < Test::Unit::TestCase
     assert crate.get('#joehouse')
   end
 
-  test 'defaults to RO-Crate spec 1.2' do
+  test 'defaults to RO-Crate spec 1.3' do
     crate = ROCrate::Crate.new
-    assert_equal '1.2', crate.metadata.version
-    assert_equal 'https://w3id.org/ro/crate/1.2/context', crate.metadata.context
-    assert_equal 'https://w3id.org/ro/crate/1.2', crate.metadata.spec_url
-    assert_equal({ '@id' => 'https://w3id.org/ro/crate/1.2' }, crate.metadata.properties['conformsTo'])
+    assert_equal '1.3', crate.metadata.version
+    assert_equal 'https://w3id.org/ro/crate/1.3/context', crate.metadata.context
+    assert_equal 'https://w3id.org/ro/crate/1.3', crate.metadata.spec_url
+    assert_equal({ '@id' => 'https://w3id.org/ro/crate/1.3' }, crate.metadata.properties['conformsTo'])
   end
 
   test 'can write older spec version' do

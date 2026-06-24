@@ -188,6 +188,48 @@ class ReaderTest < Test::Unit::TestCase
     assert crate.preview.source.source.is_a?(ROCrate::PreviewGenerator)
   end
 
+  test 'can read a 1.2 spec crate' do
+    stub_request(:get, "http://example.com/external_ref.txt").to_return(status: 200, body: 'file contents')
+
+    crate = ROCrate::Reader.read_directory(fixture_file('crate-spec1.2').path)
+    file = crate.dereference('file with spaces.txt')
+    assert file
+    assert file.is_a?(ROCrate::File)
+    refute file.remote?
+    assert file.source.is_a?(ROCrate::Entry)
+    assert_equal 'file%20with%20spaces.txt', file.id
+
+    ext_file = crate.dereference('http://example.com/external_ref.txt')
+    assert ext_file
+    assert ext_file.is_a?(ROCrate::File)
+    assert ext_file.remote?
+    assert ext_file.source.is_a?(ROCrate::RemoteEntry)
+    assert_equal 'http://example.com/external_ref.txt', ext_file.id
+    assert_equal 'file contents', ext_file.source.read
+    assert crate.preview.source.source.is_a?(Pathname)
+  end
+
+  test 'can read a 1.3 spec crate' do
+    stub_request(:get, "http://example.com/external_ref.txt").to_return(status: 200, body: 'file contents')
+
+    crate = ROCrate::Reader.read_directory(fixture_file('crate-spec1.3').path)
+    file = crate.dereference('file with spaces.txt')
+    assert file
+    assert file.is_a?(ROCrate::File)
+    refute file.remote?
+    assert file.source.is_a?(ROCrate::Entry)
+    assert_equal 'file%20with%20spaces.txt', file.id
+
+    ext_file = crate.dereference('http://example.com/external_ref.txt')
+    assert ext_file
+    assert ext_file.is_a?(ROCrate::File)
+    assert ext_file.remote?
+    assert ext_file.source.is_a?(ROCrate::RemoteEntry)
+    assert_equal 'http://example.com/external_ref.txt', ext_file.id
+    assert_equal 'file contents', ext_file.source.read
+    assert crate.preview.source.source.is_a?(Pathname)
+  end
+
   test 'reading from directory with unlisted files' do
     crate = ROCrate::Reader.read_directory(fixture_file('sparse_directory_crate').path)
 
