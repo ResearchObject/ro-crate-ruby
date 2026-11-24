@@ -233,11 +233,23 @@ module ROCrate
 
       entity_hash.each do |id, entity_props|
         entity_class = ROCrate::ContextualEntity.specialize(entity_props)
-        entity = entity_class.new(crate, id, entity_props)
+        entity = entity_class.new(crate, decode_local_id(id), entity_props)
         entities << entity
       end
 
       entities
+    end
+
+    ##
+    # Decode a local (non-absolute) ID read from the metadata, so that it is not encoded a second time when it is
+    # formatted on assignment to an entity. Absolute IDs are returned unchanged.
+    # @param id [String] The ID as it appears in the metadata.
+    # @return [String] The decoded ID.
+    def self.decode_local_id(id)
+      uri = URI(id) rescue nil
+      return id if uri&.absolute?
+
+      Addressable::URI.unencode_component(id)
     end
 
     ##
@@ -250,7 +262,7 @@ module ROCrate
     def self.create_data_entity(crate, entity_class, source, entity_props)
       id = entity_props.delete('@id')
       raise ROCrate::ReadException, "Data Entity missing '@id': #{entity_props.inspect}" unless id
-      decoded_id = URI.decode_www_form_component(id)
+      decoded_id = decode_local_id(id)
       path = nil
       uri = URI(id) rescue nil
       if uri&.absolute?
