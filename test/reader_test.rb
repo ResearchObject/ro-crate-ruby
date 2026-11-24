@@ -167,6 +167,49 @@ class ReaderTest < Test::Unit::TestCase
     end
   end
 
+  test 'reading does not double-encode encoded contextual entity IDs' do
+    crate = ROCrate::Crate.new
+    jane = crate.add_person('Jane Bloggs', name: 'Jane Bloggs')
+    team = crate.add_contextual_entity(ROCrate::ContextualEntity.new(crate, 'C++ Team', name: 'C++ Team'))
+    crate.author = [jane, team]
+    assert_equal '#Jane%20Bloggs', jane.id
+    assert_equal '#C++%20Team', team.id
+
+    # Write/Read the crate 3 times to ensure!
+    3.times do
+      Tempfile.create do |file|
+        ROCrate::Writer.new(crate).write_zip(file)
+        crate = ROCrate::Reader.read_zip(file)
+      end
+    end
+
+    ids = crate.contextual_entities.map(&:id)
+    assert_includes ids, '#Jane%20Bloggs'
+    assert_includes ids, '#C++%20Team'
+    assert_equal ['#Jane%20Bloggs', '#C++%20Team'], crate['author'].map { |ref| ref['@id'] }
+    assert_equal ['Jane Bloggs', 'C++ Team'], crate.author.map { |a| a['name'] }
+  end
+
+  test 'reading preserves plus signs in data entity IDs' do
+    crate = ROCrate::Crate.new
+    file = crate.add_file(StringIO.new('notes'), 'C++ notes.txt')
+    assert_equal 'C++%20notes.txt', file.id
+
+    # Write/Read the crate 3 times to ensure!
+    3.times do
+      Tempfile.create do |f|
+        ROCrate::Writer.new(crate).write_zip(f)
+        crate = ROCrate::Reader.read_zip(f)
+      end
+    end
+
+    file = crate.dereference('C++%20notes.txt')
+    assert file
+    assert_equal 'C++%20notes.txt', file.id
+    assert_equal ['C++%20notes.txt'], crate['hasPart'].map { |ref| ref['@id'] }
+    assert_equal 'notes', file.source.read
+  end
+
   test 'can read a 1.1 spec crate' do
     stub_request(:get, "http://example.com/external_ref.txt").to_return(status: 200, body: 'file contents')
 
